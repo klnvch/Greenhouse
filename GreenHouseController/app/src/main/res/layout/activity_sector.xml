@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="24dp"
+            tools:context=".SectorActivity">
+
+            <Button
+                android:id="@+id/buttonStartWatering"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/button_start_watering"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/buttonGetWateringDefaults"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/button_get_watering_limits"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonStartWatering" />
+
+            <Button
+                android:id="@+id/buttonSetWateringDefaults"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/button_set_watering_limits"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonGetWateringDefaults" />
+
+            <Button
+                android:id="@+id/buttonCloseWindow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/button_close_window"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonSetWateringDefaults" />
+
+            <Button
+                android:id="@+id/buttonOpenWindow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/button_open_window"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonCloseWindow" />
+
+            <Button
+                android:id="@+id/buttonStartVentilation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/button_start_ventilation"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonOpenWindow" />
+
+            <Button
+                android:id="@+id/buttonGetClimateDefaults"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/button_get_watering_limits"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonStartVentilation" />
+
+            <Button
+                android:id="@+id/buttonSetClimateDefaults"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/button_set_watering_limits"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonGetClimateDefaults" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</layout>

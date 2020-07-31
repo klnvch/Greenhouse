@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">0 Green House Controller</string>
+    <string name="sector_id">Sector %1$d</string>
+    <string name="device_address">Device address</string>
+    <string name="device_address_hint">00:00:00:00:00:00</string>
+    <string name="submit">Submit</string>
+    <string name="exit">Exit</string>
+    <string name="exit_confirmation_msg">Are you sure to exit?</string>
+
+    <string name="button_get_data">Get data</string>
+    <string name="button_set_time">Set time</string>
+    <string name="button_get_global_limits">Get global limits</string>
+    <string name="button_set_global_limits">Set global limits</string>
+    <string name="button_start_ventilation">Start ventilation</string>
+    <string name="button_sector_0">Sector 0</string>
+    <string name="button_sector_1">Sector 1</string>
+    <string name="button_sector_2">Sector 2</string>
+
+    <string name="button_start_watering">Start watering</string>
+    <string name="button_get_watering_limits">Get watering limits</string>
+    <string name="button_set_watering_limits">Set watering limits</string>
+    <string name="button_open_window">Open window</string>
+    <string name="button_close_window">Close window</string>
+    <string name="button_start_sector_ventilation">Start ventilation</string>
+    <string name="button_get_climate_limits">Get climate limits</string>
+    <string name="button_set_climate_limits">Set climate limits</string>
+</resources>
