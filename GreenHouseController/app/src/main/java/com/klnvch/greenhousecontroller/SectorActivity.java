@@ -11,7 +11,7 @@ import androidx.databinding.DataBindingUtil;
 
 import com.klnvch.greenhousecontroller.databinding.ActivitySectorBinding;
 
-public class SectorActivity extends AppCompatActivity implements View.OnClickListener {
+public class SectorActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener {
     private static final String KEY_SECTOR_ID = "sector_id";
 
     static void startActivity(Context context, int sectorId) {
@@ -27,6 +27,7 @@ public class SectorActivity extends AppCompatActivity implements View.OnClickLis
         binding.buttonStartWatering.setOnClickListener(this);
         binding.buttonGetWateringDefaults.setOnClickListener(this);
         binding.buttonSetWateringDefaults.setOnClickListener(this);
+        binding.buttonSetWateringDefaults.setOnLongClickListener(this);
         binding.buttonStartVentilation.setOnClickListener(this);
         binding.buttonCloseWindow.setOnClickListener(this);
         binding.buttonOpenWindow.setOnClickListener(this);
@@ -70,6 +71,17 @@ public class SectorActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.buttonSetClimateDefaults:
                 Command.setClimateDefaults(sectorId);
                 break;
+        }
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        switch (v.getId()) {
+            case R.id.buttonSetWateringDefaults:
+                startActivity(CommandDetailsActivity.getLaunchIntent(this, 6, getSectorId()));
+                return true;
+            default:
+                return false;
         }
     }
 }

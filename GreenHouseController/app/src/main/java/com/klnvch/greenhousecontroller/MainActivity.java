@@ -89,6 +89,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.command_sector2:
                 SectorActivity.startActivity(this, 2);
                 break;
+            case R.id.command_custom:
+                String command = binding.customCommandValue.getText().toString().trim();
+                Command.sendCommand(command);
+                break;
         }
     }
 }

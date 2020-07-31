@@ -17,6 +17,8 @@
     <string name="button_sector_0">Sector 0</string>
     <string name="button_sector_1">Sector 1</string>
     <string name="button_sector_2">Sector 2</string>
+    <string name="button_custom_command">Custom command</string>
+    <string name="hint_custom_command">Custom command</string>
 
     <string name="button_start_watering">Start watering</string>
     <string name="button_get_watering_limits">Get watering limits</string>
