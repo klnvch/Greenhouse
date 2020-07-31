@@ -13,13 +13,14 @@ import java.util.Map;
  * << waterData.south1 << COMMA << waterData.north1 << COMMA
  * << waterData.south2 << COMMA << waterData.north2 << COMMA
  * << waterData.south3 << COMMA << waterData.north3 << COMMA
- * << climateData.t1 << COMMA << climateData.h1 << COMMA
- * << climateData.t2 << COMMA << climateData.h2 << COMMA
- * << climateData.t3 << COMMA << climateData.h3 << endl;
+ * << climateData.t1 << COMMA << climateData.h1 << COMMA << climateData.angle1 << COMMA
+ * << climateData.t2 << COMMA << climateData.h2 << COMMA << climateData.angle2 << COMMA
+ * << climateData.t3 << COMMA << climateData.h3 << COMMA << climateData.angle3 << COMMA
+ * << climateData.angleCommon << isWaterModuleActive << isClimateModuleActive << endl;
  * }
  */
 public class Data implements FireStoreData {
-    private static final int N = 23;
+    private static final int N = 25;
     private String dateTime;
     private String distance;
     private String temperature;
@@ -43,6 +44,8 @@ public class Data implements FireStoreData {
     private String h3;
     private String angle3;
     private String angleCommon;
+    private String isWaterModuleActive;
+    private String isClimateModuleActive;
 
     public Data(@NonNull String str) {
         str = str.replace("Data: ", "");
@@ -71,6 +74,8 @@ public class Data implements FireStoreData {
             h3 = parts[20];
             angle3 = parts[21];
             angleCommon = parts[22];
+            isWaterModuleActive = parts[23];
+            isClimateModuleActive = parts[24];
         }
     }
 
@@ -107,6 +112,8 @@ public class Data implements FireStoreData {
         result.put("h3", h3);
         result.put("angle3", angle3);
         result.put("angleCommon", angleCommon);
+        result.put("isWaterModuleActive", isWaterModuleActive);
+        result.put("isClimateModuleActive", isClimateModuleActive);
         return result;
     }
 }
