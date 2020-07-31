@@ -3,8 +3,10 @@
     <string name="sector_id">Sector %1$d</string>
     <string name="device_address">Device address</string>
     <string name="device_address_hint">00:00:00:00:00:00</string>
+    <string name="device_id_hint">Device Id</string>
     <string name="submit">Submit</string>
     <string name="exit">Exit</string>
+    <string name="info">Info</string>
     <string name="exit_confirmation_msg">Are you sure to exit?</string>
 
     <string name="button_get_data">Get data</string>
@@ -24,4 +26,9 @@
     <string name="button_start_sector_ventilation">Start ventilation</string>
     <string name="button_get_climate_limits">Get climate limits</string>
     <string name="button_set_climate_limits">Set climate limits</string>
+
+    <string name="info_time">Time: </string>
+    <string name="info_signal_strength">Signal strength:</string>
+    <string name="info_battery_charging">Battery charging:</string>
+    <string name="info_battery_level">Battery level:</string>
 </resources>

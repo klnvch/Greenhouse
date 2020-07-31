@@ -27,16 +27,19 @@ import com.klnvch.greenhousecontroller.models.Info;
 
 public class MainService extends Service implements OnMessageListener {
     private static final String KEY_DEVICE_ADDRESS = "KEY_DEVICE_ADDRESS";
+    private static final String KEY_DEVICE_ID = "KEY_DEVICE_ID";
     private static final String TAG = "MainService";
 
     private final Handler restartHandler = new Handler();
     private BluetoothConnectThread connectThread;
     private String deviceAddress;
+    private String deviceId;
     private Handler threadHandler;
 
-    static void start(Context context, String deviceAddress) {
+    static void start(Context context, String deviceAddress, String deviceId) {
         context.startService(new Intent(context, MainService.class)
-                .putExtra(KEY_DEVICE_ADDRESS, deviceAddress));
+                .putExtra(KEY_DEVICE_ADDRESS, deviceAddress)
+                .putExtra(KEY_DEVICE_ID, deviceId));
     }
 
     @Override
@@ -61,7 +64,7 @@ public class MainService extends Service implements OnMessageListener {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         if (task.getResult() != null) {
-                            FireStoreUtils.saveFirebaseToken(task.getResult().getToken());
+                            FireStoreUtils.saveFirebaseToken(deviceId, task.getResult().getToken());
                         }
                     } else {
                         Log.e(TAG, "getInstanceId failed", task.getException());
@@ -74,6 +77,7 @@ public class MainService extends Service implements OnMessageListener {
     @Override
     public int onStartCommand(@NonNull Intent intent, int flags, int startId) {
         deviceAddress = intent.getStringExtra(KEY_DEVICE_ADDRESS);
+        deviceId = intent.getStringExtra(KEY_DEVICE_ID);
         restartHandler.removeCallbacksAndMessages(null);
         startBluetooth();
         return START_STICKY;
@@ -139,9 +143,9 @@ public class MainService extends Service implements OnMessageListener {
         Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
         if (!TextUtils.isEmpty(msg)) {
             if (msg.startsWith("Data: ")) {
-                FireStoreUtils.saveToFireStore(new Data(msg));
+                FireStoreUtils.saveToFireStore(deviceId, new Data(msg));
             } else {
-                FireStoreUtils.saveToFireStore(new Info(msg));
+                FireStoreUtils.saveToFireStore(deviceId, new Info(msg));
             }
         }
     }

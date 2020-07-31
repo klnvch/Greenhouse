@@ -13,6 +13,7 @@ import com.klnvch.greenhousecontroller.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String KEY_DEVICE_ADDRESS = "KEY_DEVICE_ADDRESS";
+    private static final String KEY_DEVICE_ID = "KEY_DEVICE_ID";
     private static final String SHARED_PREFERENCES_NAME = "settings";
 
     private ActivityMainBinding binding;
@@ -21,15 +22,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES_NAME, MODE_PRIVATE);
         String deviceAddress = sharedPreferences.getString(KEY_DEVICE_ADDRESS, "98:D3:33:F5:A3:24");
-        MainService.start(this, deviceAddress);
+        String deviceId = sharedPreferences.getString(KEY_DEVICE_ID, "0");
+        MainService.start(this, deviceAddress, deviceId);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.deviceAddressInput.setText(deviceAddress);
+        binding.deviceIdInput.setText(deviceId);
         binding.buttonExit.setOnClickListener(this);
+        binding.buttonInfo.setOnClickListener(this);
         binding.deviceAddressSubmitButton.setOnClickListener(this);
         binding.commandGetData.setOnClickListener(this);
         binding.commandSetTime.setOnClickListener(this);
@@ -53,10 +56,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         })
                         .show();
                 break;
+            case R.id.buttonInfo:
+                startActivity(new Intent(this, InfoActivity.class));
+                break;
             case R.id.device_address_submit_button:
                 String deviceAddress = binding.deviceAddressInput.getText().toString().trim();
+                String deviceId = binding.deviceIdInput.getText().toString().trim();
                 sharedPreferences.edit().putString(KEY_DEVICE_ADDRESS, deviceAddress).apply();
-                MainService.start(this, deviceAddress);
+                MainService.start(this, deviceAddress, deviceId);
                 break;
             case R.id.command_get_data:
                 Command.getData();

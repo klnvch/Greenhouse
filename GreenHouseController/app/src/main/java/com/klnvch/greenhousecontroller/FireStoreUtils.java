@@ -16,23 +16,24 @@ import java.util.Map;
 class FireStoreUtils {
     private static final String TAG = "FireStoreUtils";
 
-    static void saveFirebaseToken(String token) {
+    static void saveFirebaseToken(String deviceId, String token) {
         Map<String, String> data = new HashMap<>();
         data.put("token", token);
         FirebaseFirestore.getInstance()
                 .collection("settings")
-                .document("firebase")
+                .document(deviceId)
                 .set(data)
                 .addOnSuccessListener(aVoid -> Log.d(TAG, "Token successfully written!"))
                 .addOnFailureListener(e -> Log.w(TAG, "Error writing token", e));
     }
 
-    static void saveToFireStore(@NonNull FireStoreData object) {
+    static void saveToFireStore(String deviceId, @NonNull FireStoreData object) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH/mm/ss", Locale.getDefault());
         String collectionPath = object.getCollectionPath();
         String documentPath = sdf.format(new Date());
-        Map<String, Object> data = object.toRow();
 
+        Map<String, Object> data = object.toRow();
+        data.put("deviceId", deviceId);
         PhoneStatusManager.addData(data);
 
         FirebaseFirestore.getInstance()
