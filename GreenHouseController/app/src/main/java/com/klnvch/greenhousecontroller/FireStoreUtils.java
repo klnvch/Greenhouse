@@ -15,6 +15,7 @@ import java.util.Map;
 
 class FireStoreUtils {
     private static final String TAG = "FireStoreUtils";
+    private static final String DOCUMENT_PATH_PATTERN = "yyyyMMddHHmmss";
 
     static void saveFirebaseToken(String deviceId, String token) {
         Map<String, String> data = new HashMap<>();
@@ -28,7 +29,7 @@ class FireStoreUtils {
     }
 
     static void saveToFireStore(String deviceId, @NonNull FireStoreData object) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH/mm/ss", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat(DOCUMENT_PATH_PATTERN, Locale.getDefault());
         String collectionPath = object.getCollectionPath();
         String documentPath = sdf.format(new Date());
 
