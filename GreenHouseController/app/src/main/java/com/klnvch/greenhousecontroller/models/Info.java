@@ -5,7 +5,7 @@ import androidx.annotation.NonNull;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Info implements FireStoreData {
+public class Info extends FireStoreData {
     private final String msg;
 
     public Info(@NonNull String msg) {
@@ -24,5 +24,11 @@ public class Info implements FireStoreData {
         Map<String, Object> result = new HashMap<>();
         result.put("msg", msg);
         return result;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return msg;
     }
 }

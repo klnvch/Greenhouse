@@ -7,10 +7,7 @@ import androidx.annotation.NonNull;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.klnvch.greenhousecontroller.models.FireStoreData;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 class FireStoreUtils {
@@ -28,9 +25,8 @@ class FireStoreUtils {
     }
 
     static void saveToFireStore(String deviceId, @NonNull FireStoreData object) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH/mm/ss", Locale.getDefault());
         String collectionPath = object.getCollectionPath();
-        String documentPath = sdf.format(new Date());
+        String documentPath = object.generateDocumentPath();
 
         Map<String, Object> data = object.toRow();
         data.put("deviceId", deviceId);

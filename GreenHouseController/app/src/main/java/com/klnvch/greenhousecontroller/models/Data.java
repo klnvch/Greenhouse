@@ -1,5 +1,7 @@
 package com.klnvch.greenhousecontroller.models;
 
+import android.text.TextUtils;
+
 import androidx.annotation.NonNull;
 
 import java.util.HashMap;
@@ -19,7 +21,7 @@ import java.util.Map;
  * << climateData.angleCommon << isWaterModuleActive << isClimateModuleActive << endl;
  * }
  */
-public class Data implements FireStoreData {
+public class Data extends FireStoreData {
     private static final int N = 25;
     private String dateTime;
     private String distance;
@@ -115,5 +117,11 @@ public class Data implements FireStoreData {
         result.put("isWaterModuleActive", isWaterModuleActive);
         result.put("isClimateModuleActive", isClimateModuleActive);
         return result;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return TextUtils.join(",", new String[]{dateTime, distance, temperature, humidity, light, solarVoltage, batteryVoltage, s1, n1, s2, n2, s3, n3, t1, h1, angle1, t2, h2, angle2, t3, h3, angle3, angleCommon, isWaterModuleActive, isClimateModuleActive});
     }
 }
