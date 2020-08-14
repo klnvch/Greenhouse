@@ -1,7 +1,6 @@
 package com.klnvch.greenhousecontroller;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
@@ -12,26 +11,23 @@ import androidx.databinding.DataBindingUtil;
 import com.klnvch.greenhousecontroller.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private static final String KEY_DEVICE_ADDRESS = "KEY_DEVICE_ADDRESS";
-    private static final String KEY_DEVICE_ID = "KEY_DEVICE_ID";
-    private static final String SHARED_PREFERENCES_NAME = "settings";
-
     private ActivityMainBinding binding;
-    private SharedPreferences sharedPreferences;
+    private AppSettings settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        sharedPreferences = getSharedPreferences(SHARED_PREFERENCES_NAME, MODE_PRIVATE);
-        String deviceAddress = sharedPreferences.getString(KEY_DEVICE_ADDRESS, "98:D3:33:F5:A3:24");
-        String deviceId = sharedPreferences.getString(KEY_DEVICE_ID, "0");
+        settings = AppSettings.getInstance(this);
+        String deviceAddress = settings.getDeviceAddress();
+        String deviceId = settings.getDeviceId();
         MainService.start(this, deviceAddress, deviceId);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.deviceAddressInput.setText(deviceAddress);
         binding.deviceIdInput.setText(deviceId);
         binding.buttonExit.setOnClickListener(this);
+        binding.buttonLogs.setOnClickListener(this);
         binding.buttonInfo.setOnClickListener(this);
         binding.deviceAddressSubmitButton.setOnClickListener(this);
         binding.commandGetData.setOnClickListener(this);
@@ -56,13 +52,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         })
                         .show();
                 break;
+            case R.id.buttonLogs:
+                startActivity(new Intent(this, LogsActivity.class));
+                break;
             case R.id.buttonInfo:
                 startActivity(new Intent(this, InfoActivity.class));
                 break;
             case R.id.device_address_submit_button:
                 String deviceAddress = binding.deviceAddressInput.getText().toString().trim();
                 String deviceId = binding.deviceIdInput.getText().toString().trim();
-                sharedPreferences.edit().putString(KEY_DEVICE_ADDRESS, deviceAddress).apply();
+                settings.setDeviceAddress(deviceAddress);
                 MainService.start(this, deviceAddress, deviceId);
                 break;
             case R.id.command_get_data:
