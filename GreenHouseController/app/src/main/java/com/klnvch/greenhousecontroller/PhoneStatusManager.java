@@ -43,8 +43,9 @@ class PhoneStatusManager {
             data.put("networkStrength", instance.getCellularNetworkStrength());
             data.put("isCharging", instance.isBatteryIsCharging());
             data.put("batteryLevel", instance.getBatteryLevel());
+        } else {
+            throw new IllegalStateException("PhoneStatusManager not initialized.");
         }
-        throw new IllegalStateException("PhoneStatusManager not initialized.");
     }
 
     @SuppressLint("MissingPermission")
