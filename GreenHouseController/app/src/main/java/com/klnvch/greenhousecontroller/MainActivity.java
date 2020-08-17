@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         binding.commandSector0.setOnClickListener(this);
         binding.commandSector1.setOnClickListener(this);
         binding.commandSector2.setOnClickListener(this);
+        binding.commandCustom.setOnClickListener(this);
     }
 
     @Override
