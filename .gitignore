@@ -85,3 +85,9 @@ lint/tmp/
 # lint/reports/
 
 GreenHouseController/.idea/
+
+GreenHouseController/app/.idea/
+
+GreenHouseController/build.gradle
+
+GreenHouseController/gradle/wrapper/gradle-wrapper.properties
