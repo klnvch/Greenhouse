@@ -8,7 +8,14 @@ import java.util.Locale;
 import java.util.Map;
 
 public abstract class FireStoreData {
+    @NonNull
     protected String id;
+
+    FireStoreData() {
+        SimpleDateFormat sdf =
+                new SimpleDateFormat("yyyy-MM-dd HH/mm/ss", Locale.getDefault());
+        id = sdf.format(new Date());
+    }
 
     @NonNull
     public abstract String getCollectionPath();
@@ -17,16 +24,12 @@ public abstract class FireStoreData {
     public abstract Map<String, Object> toRow();
 
     @NonNull
-    public String generateDocumentPath() {
-        if (id == null) {
-            SimpleDateFormat sdf =
-                    new SimpleDateFormat("yyyy-MM-dd HH/mm/ss", Locale.getDefault());
-            id = sdf.format(new Date());
-        }
+    public String getId() {
         return id;
     }
 
-    public String getId() {
+    @NonNull
+    public String generateDocumentPath() {
         return id;
     }
 }

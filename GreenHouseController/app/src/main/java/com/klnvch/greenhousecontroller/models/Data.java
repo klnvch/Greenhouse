@@ -3,6 +3,8 @@ package com.klnvch.greenhousecontroller.models;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.Ignore;
 
 import com.klnvch.greenhousecontroller.PhoneStatusManager;
 
@@ -23,6 +25,8 @@ import java.util.Map;
  * << climateData.angleCommon << isWaterModuleActive << isClimateModuleActive << endl;
  * }
  */
+@SuppressWarnings("unused")
+@Entity(primaryKeys = {"id"}, tableName = "data")
 public class Data extends FireStoreData {
     private static final int N = 25;
     private String dateTime;
@@ -50,12 +54,17 @@ public class Data extends FireStoreData {
     private String angleCommon;
     private String isWaterModuleActive;
     private String isClimateModuleActive;
-
     private String networkStrength;
     private String isCharging;
     private String batteryLevel;
 
+    public Data() {
+        super();
+    }
+
+    @Ignore
     public Data(@NonNull String str) {
+        super();
         str = str.replace("Data: ", "");
         String[] parts = str.split(",");
         if (parts.length == N) {
@@ -90,6 +99,234 @@ public class Data extends FireStoreData {
         networkStrength = Integer.toString(phoneStatusManager.getCellularNetworkStrength());
         isCharging = Boolean.toString(phoneStatusManager.isBatteryIsCharging());
         batteryLevel = Integer.toString(phoneStatusManager.getBatteryLevel());
+    }
+
+    public static int getN() {
+        return N;
+    }
+
+    public String getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(String dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public String getDistance() {
+        return distance;
+    }
+
+    public void setDistance(String distance) {
+        this.distance = distance;
+    }
+
+    public String getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(String temperature) {
+        this.temperature = temperature;
+    }
+
+    public String getHumidity() {
+        return humidity;
+    }
+
+    public void setHumidity(String humidity) {
+        this.humidity = humidity;
+    }
+
+    public String getLight() {
+        return light;
+    }
+
+    public void setLight(String light) {
+        this.light = light;
+    }
+
+    public String getSolarVoltage() {
+        return solarVoltage;
+    }
+
+    public void setSolarVoltage(String solarVoltage) {
+        this.solarVoltage = solarVoltage;
+    }
+
+    public String getBatteryVoltage() {
+        return batteryVoltage;
+    }
+
+    public void setBatteryVoltage(String batteryVoltage) {
+        this.batteryVoltage = batteryVoltage;
+    }
+
+    public String getS1() {
+        return s1;
+    }
+
+    public void setS1(String s1) {
+        this.s1 = s1;
+    }
+
+    public String getN1() {
+        return n1;
+    }
+
+    public void setN1(String n1) {
+        this.n1 = n1;
+    }
+
+    public String getS2() {
+        return s2;
+    }
+
+    public void setS2(String s2) {
+        this.s2 = s2;
+    }
+
+    public String getN2() {
+        return n2;
+    }
+
+    public void setN2(String n2) {
+        this.n2 = n2;
+    }
+
+    public String getS3() {
+        return s3;
+    }
+
+    public void setS3(String s3) {
+        this.s3 = s3;
+    }
+
+    public String getN3() {
+        return n3;
+    }
+
+    public void setN3(String n3) {
+        this.n3 = n3;
+    }
+
+    public String getT1() {
+        return t1;
+    }
+
+    public void setT1(String t1) {
+        this.t1 = t1;
+    }
+
+    public String getH1() {
+        return h1;
+    }
+
+    public void setH1(String h1) {
+        this.h1 = h1;
+    }
+
+    public String getAngle1() {
+        return angle1;
+    }
+
+    public void setAngle1(String angle1) {
+        this.angle1 = angle1;
+    }
+
+    public String getT2() {
+        return t2;
+    }
+
+    public void setT2(String t2) {
+        this.t2 = t2;
+    }
+
+    public String getH2() {
+        return h2;
+    }
+
+    public void setH2(String h2) {
+        this.h2 = h2;
+    }
+
+    public String getAngle2() {
+        return angle2;
+    }
+
+    public void setAngle2(String angle2) {
+        this.angle2 = angle2;
+    }
+
+    public String getT3() {
+        return t3;
+    }
+
+    public void setT3(String t3) {
+        this.t3 = t3;
+    }
+
+    public String getH3() {
+        return h3;
+    }
+
+    public void setH3(String h3) {
+        this.h3 = h3;
+    }
+
+    public String getAngle3() {
+        return angle3;
+    }
+
+    public void setAngle3(String angle3) {
+        this.angle3 = angle3;
+    }
+
+    public String getAngleCommon() {
+        return angleCommon;
+    }
+
+    public void setAngleCommon(String angleCommon) {
+        this.angleCommon = angleCommon;
+    }
+
+    public String getIsWaterModuleActive() {
+        return isWaterModuleActive;
+    }
+
+    public void setIsWaterModuleActive(String isWaterModuleActive) {
+        this.isWaterModuleActive = isWaterModuleActive;
+    }
+
+    public String getIsClimateModuleActive() {
+        return isClimateModuleActive;
+    }
+
+    public void setIsClimateModuleActive(String isClimateModuleActive) {
+        this.isClimateModuleActive = isClimateModuleActive;
+    }
+
+    public String getNetworkStrength() {
+        return networkStrength;
+    }
+
+    public void setNetworkStrength(String networkStrength) {
+        this.networkStrength = networkStrength;
+    }
+
+    public String getIsCharging() {
+        return isCharging;
+    }
+
+    public void setIsCharging(String isCharging) {
+        this.isCharging = isCharging;
+    }
+
+    public String getBatteryLevel() {
+        return batteryLevel;
+    }
+
+    public void setBatteryLevel(String batteryLevel) {
+        this.batteryLevel = batteryLevel;
     }
 
     @NonNull

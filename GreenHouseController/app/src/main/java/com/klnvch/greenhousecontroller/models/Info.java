@@ -1,15 +1,32 @@
 package com.klnvch.greenhousecontroller.models;
 
 import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.Ignore;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Entity(primaryKeys = {"id"}, tableName = "info")
 public class Info extends FireStoreData {
-    private final String msg;
+    private String msg;
 
+    public Info() {
+        super();
+    }
+
+    @Ignore
     public Info(@NonNull String msg) {
+        super();
         this.msg = msg.replace("Info: ", "");
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
     @NonNull

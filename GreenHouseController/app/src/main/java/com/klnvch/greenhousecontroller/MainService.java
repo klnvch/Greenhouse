@@ -22,6 +22,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.klnvch.greenhousecontroller.models.AppDatabase;
 import com.klnvch.greenhousecontroller.models.Data;
 import com.klnvch.greenhousecontroller.models.Info;
 
@@ -35,6 +36,7 @@ public class MainService extends Service implements OnMessageListener {
     private String deviceAddress;
     private String deviceId;
     private Handler threadHandler;
+    private AppDatabase db;
 
     static void start(Context context, String deviceAddress, String deviceId) {
         context.startService(new Intent(context, MainService.class)
@@ -72,6 +74,8 @@ public class MainService extends Service implements OnMessageListener {
                 });
 
         PhoneStatusManager.init(this.getApplicationContext());
+
+        db = AppDatabase.getInstance(this);
     }
 
     @Override
@@ -143,9 +147,13 @@ public class MainService extends Service implements OnMessageListener {
         Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
         if (!TextUtils.isEmpty(msg)) {
             if (msg.startsWith("Data: ")) {
-                FireStoreUtils.saveToFireStore(deviceId, new Data(msg));
+                Data data = new Data(msg);
+                FireStoreUtils.saveToFireStore(deviceId, data);
+                db.dataDao().insertAll(data);
             } else {
-                FireStoreUtils.saveToFireStore(deviceId, new Info(msg));
+                Info info = new Info(msg);
+                FireStoreUtils.saveToFireStore(deviceId, info);
+                db.infoDao().insertAll(info);
             }
         }
     }
