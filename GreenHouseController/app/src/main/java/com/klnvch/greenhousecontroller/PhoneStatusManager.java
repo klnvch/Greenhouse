@@ -17,16 +17,15 @@ import android.telephony.TelephonyManager;
 import androidx.core.content.ContextCompat;
 
 import java.util.List;
-import java.util.Map;
 
-class PhoneStatusManager {
+public class PhoneStatusManager {
     private final TelephonyManager telephonyManager;
     private final Context context;
 
     @SuppressLint("StaticFieldLeak")
     private static PhoneStatusManager instance;
 
-    PhoneStatusManager(Context context) {
+    private PhoneStatusManager(Context context) {
         this.context = context;
         telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
     }
@@ -38,18 +37,15 @@ class PhoneStatusManager {
         return instance;
     }
 
-    public static void addData(Map<String, Object> data) {
+    public static PhoneStatusManager require() {
         if (instance != null) {
-            data.put("networkStrength", instance.getCellularNetworkStrength());
-            data.put("isCharging", instance.isBatteryIsCharging());
-            data.put("batteryLevel", instance.getBatteryLevel());
-        } else {
-            throw new IllegalStateException("PhoneStatusManager not initialized.");
+            return instance;
         }
+        throw new IllegalStateException("PhoneStatusManager not initialized.");
     }
 
     @SuppressLint("MissingPermission")
-    Integer getCellularNetworkStrength() {
+    public int getCellularNetworkStrength() {
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             try {
@@ -71,25 +67,25 @@ class PhoneStatusManager {
                 e.printStackTrace();
             }
         }
-        return null;
+        return 0;
     }
 
-    Intent getBatteryStatus() {
+    private Intent getBatteryStatus() {
         IntentFilter intentFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         return context.registerReceiver(null, intentFilter);
     }
 
-    Boolean isBatteryIsCharging() {
+    public boolean isBatteryIsCharging() {
         Intent batteryStatus = getBatteryStatus();
         if (batteryStatus != null) {
             int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
             return status == BatteryManager.BATTERY_STATUS_CHARGING ||
                     status == BatteryManager.BATTERY_STATUS_FULL;
         }
-        return null;
+        return false;
     }
 
-    Integer getBatteryLevel() {
+    public int getBatteryLevel() {
         Intent batteryStatus = getBatteryStatus();
         if (batteryStatus != null) {
             int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
@@ -97,6 +93,6 @@ class PhoneStatusManager {
 
             return (int) (level * 100 / (float) scale);
         }
-        return null;
+        return 0;
     }
 }

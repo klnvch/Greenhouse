@@ -4,6 +4,8 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
+import com.klnvch.greenhousecontroller.PhoneStatusManager;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,6 +51,10 @@ public class Data extends FireStoreData {
     private String isWaterModuleActive;
     private String isClimateModuleActive;
 
+    private String networkStrength;
+    private String isCharging;
+    private String batteryLevel;
+
     public Data(@NonNull String str) {
         str = str.replace("Data: ", "");
         String[] parts = str.split(",");
@@ -79,6 +85,11 @@ public class Data extends FireStoreData {
             isWaterModuleActive = parts[23];
             isClimateModuleActive = parts[24];
         }
+
+        PhoneStatusManager phoneStatusManager = PhoneStatusManager.require();
+        networkStrength = Integer.toString(phoneStatusManager.getCellularNetworkStrength());
+        isCharging = Boolean.toString(phoneStatusManager.isBatteryIsCharging());
+        batteryLevel = Integer.toString(phoneStatusManager.getBatteryLevel());
     }
 
     @NonNull
@@ -116,12 +127,15 @@ public class Data extends FireStoreData {
         result.put("angleCommon", angleCommon);
         result.put("isWaterModuleActive", isWaterModuleActive);
         result.put("isClimateModuleActive", isClimateModuleActive);
+        result.put("networkStrength", networkStrength);
+        result.put("isCharging", isCharging);
+        result.put("batteryLevel", batteryLevel);
         return result;
     }
 
     @NonNull
     @Override
     public String toString() {
-        return TextUtils.join(",", new String[]{dateTime, distance, temperature, humidity, light, solarVoltage, batteryVoltage, s1, n1, s2, n2, s3, n3, t1, h1, angle1, t2, h2, angle2, t3, h3, angle3, angleCommon, isWaterModuleActive, isClimateModuleActive});
+        return TextUtils.join(",", new String[]{dateTime, distance, temperature, humidity, light, solarVoltage, batteryVoltage, s1, n1, s2, n2, s3, n3, t1, h1, angle1, t2, h2, angle2, t3, h3, angle3, angleCommon, isWaterModuleActive, isClimateModuleActive, networkStrength, isCharging, batteryLevel});
     }
 }

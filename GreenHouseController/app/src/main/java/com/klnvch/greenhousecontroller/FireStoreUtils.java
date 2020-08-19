@@ -30,7 +30,6 @@ class FireStoreUtils {
 
         Map<String, Object> data = object.toRow();
         data.put("deviceId", deviceId);
-        PhoneStatusManager.addData(data);
 
         FirebaseFirestore.getInstance()
                 .collection(collectionPath)
