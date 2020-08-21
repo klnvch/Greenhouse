@@ -4,7 +4,6 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.os.Handler;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -16,9 +15,9 @@ import java.io.OutputStreamWriter;
 import java.util.UUID;
 
 import io.reactivex.disposables.Disposable;
+import timber.log.Timber;
 
 class BluetoothConnectThread extends Thread {
-    private static final String TAG = "BluetoothConnectThread";
     private static final String SERVICE_ID = "00001101-0000-1000-8000-00805f9b34fb";
     private final BluetoothAdapter bluetoothAdapter;
     private final String deviceAddress;
@@ -85,7 +84,7 @@ class BluetoothConnectThread extends Thread {
                     try {
                         socket.close();
                     } catch (IOException closeException) {
-                        Log.e(TAG, "Can't close socket");
+                        Timber.e("Can't close socket");
                     }
                 }
             } else {
@@ -104,7 +103,7 @@ class BluetoothConnectThread extends Thread {
         if (handler != null) {
             handler.obtainMessage(0, throwable).sendToTarget();
         } else {
-            throwable.printStackTrace();
+            Timber.e("Could not close the connect socket: %s.", throwable.getMessage());
         }
     }
 
@@ -114,7 +113,7 @@ class BluetoothConnectThread extends Thread {
             try {
                 socket.close();
             } catch (IOException e) {
-                Log.e(TAG, "Could not close the connect socket", e);
+                Timber.e("Could not close the connect socket: %s.", e.getMessage());
             }
             socket = null;
         }

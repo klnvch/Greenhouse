@@ -1,4 +1,4 @@
-package com.klnvch.greenhousecontroller;
+package com.klnvch.greenhousecontroller.logs;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -6,14 +6,15 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.klnvch.greenhousecontroller.databinding.ItemLogBinding;
+import com.klnvch.greenhousecontroller.databinding.ItemLogInfoBinding;
 import com.klnvch.greenhousecontroller.models.FireStoreData;
+import com.klnvch.greenhousecontroller.models.Info;
 
 import java.util.ArrayList;
 import java.util.List;
 
 class LogsAdapter extends RecyclerView.Adapter<LogsAdapter.LogViewHolder> {
-    private List<FireStoreData> items = new ArrayList<>();
+    private List<Info> items = new ArrayList<>();
 
     LogsAdapter() {
         setHasStableIds(true);
@@ -22,15 +23,15 @@ class LogsAdapter extends RecyclerView.Adapter<LogsAdapter.LogViewHolder> {
     @NonNull
     @Override
     public LogViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ItemLogBinding binding = ItemLogBinding
+        ItemLogInfoBinding binding = ItemLogInfoBinding
                 .inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new LogViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull LogViewHolder holder, int position) {
-        FireStoreData log = items.get(position);
-        holder.binding.setData(log);
+        Info info = items.get(position);
+        holder.binding.setInfo(info);
     }
 
     @Override
@@ -44,15 +45,15 @@ class LogsAdapter extends RecyclerView.Adapter<LogsAdapter.LogViewHolder> {
         return log.getId().hashCode();
     }
 
-    void update(List<FireStoreData> items) {
+    void update(List<Info> items) {
         this.items = items;
         notifyDataSetChanged();
     }
 
     static class LogViewHolder extends RecyclerView.ViewHolder {
-        private ItemLogBinding binding;
+        private ItemLogInfoBinding binding;
 
-        private LogViewHolder(ItemLogBinding binding) {
+        private LogViewHolder(ItemLogInfoBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }

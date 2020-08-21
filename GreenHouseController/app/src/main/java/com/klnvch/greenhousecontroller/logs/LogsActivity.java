@@ -1,4 +1,4 @@
-package com.klnvch.greenhousecontroller;
+package com.klnvch.greenhousecontroller.logs;
 
 import android.os.Bundle;
 
@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 
+import com.klnvch.greenhousecontroller.R;
 import com.klnvch.greenhousecontroller.databinding.ActivityLogsBinding;
 
 public class LogsActivity extends AppCompatActivity {

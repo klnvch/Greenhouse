@@ -1,7 +1,5 @@
 package com.klnvch.greenhousecontroller;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -10,9 +8,9 @@ import com.klnvch.greenhousecontroller.models.FireStoreData;
 import java.util.HashMap;
 import java.util.Map;
 
-class FireStoreUtils {
-    private static final String TAG = "FireStoreUtils";
+import timber.log.Timber;
 
+class FireStoreUtils {
     static void saveFirebaseToken(String deviceId, String token) {
         Map<String, String> data = new HashMap<>();
         data.put("token", token);
@@ -20,8 +18,8 @@ class FireStoreUtils {
                 .collection("settings")
                 .document(deviceId)
                 .set(data)
-                .addOnSuccessListener(aVoid -> Log.d(TAG, "Token successfully written!"))
-                .addOnFailureListener(e -> Log.w(TAG, "Error writing token", e));
+                .addOnSuccessListener(aVoid -> Timber.d("Token successfully written!"))
+                .addOnFailureListener(e -> Timber.e("Error writing token: %s", e.getMessage()));
     }
 
     static void saveToFireStore(String deviceId, @NonNull FireStoreData object) {
@@ -35,7 +33,7 @@ class FireStoreUtils {
                 .collection(collectionPath)
                 .document(documentPath)
                 .set(data)
-                .addOnSuccessListener(aVoid -> Log.d(TAG, "Object successfully written!"))
-                .addOnFailureListener(e -> Log.w(TAG, "Error writing object", e));
+                .addOnSuccessListener(aVoid -> Timber.d("Object successfully written!"))
+                .addOnFailureListener(e -> Timber.e("Error writing object: %s", e.getMessage()));
     }
 }

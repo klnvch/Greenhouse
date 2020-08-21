@@ -1,5 +1,6 @@
 package com.klnvch.greenhousecontroller;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -13,6 +14,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class InfoActivity extends AppCompatActivity {
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,11 +25,11 @@ public class InfoActivity extends AppCompatActivity {
         binding.timeValue.setText(sdf.format(new Date()));
 
         PhoneStatusManager phoneStatusManager = PhoneStatusManager.init(this);
-        Integer signalStrength = phoneStatusManager.getCellularNetworkStrength();
-        binding.signalStrengthValue.setText(signalStrength != null ? Integer.toString(signalStrength) : null);
-        Boolean isCharging = phoneStatusManager.isBatteryIsCharging();
-        binding.batteryChargingValue.setText(isCharging != null ? Boolean.toString(isCharging) : null);
-        Integer batteryLevel = phoneStatusManager.getBatteryLevel();
-        binding.batteryLevelValue.setText(batteryLevel != null ? Integer.toString(batteryLevel) : null);
+        int signalStrength = phoneStatusManager.getCellularNetworkStrength();
+        binding.signalStrengthValue.setText(Integer.toString(signalStrength));
+        boolean isCharging = phoneStatusManager.isBatteryIsCharging();
+        binding.batteryChargingValue.setText(Boolean.toString(isCharging));
+        int batteryLevel = phoneStatusManager.getBatteryLevel();
+        binding.batteryLevelValue.setText(Integer.toString(batteryLevel));
     }
 }

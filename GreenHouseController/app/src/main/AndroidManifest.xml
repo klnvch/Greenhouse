@@ -28,7 +28,7 @@
         <activity android:name=".SectorActivity" />
         <activity android:name=".InfoActivity" />
         <activity android:name=".CommandDetailsActivity" />
-        <activity android:name=".LogsActivity" />
+        <activity android:name=".logs.LogsActivity" />
 
         <service
             android:name=".MainService"

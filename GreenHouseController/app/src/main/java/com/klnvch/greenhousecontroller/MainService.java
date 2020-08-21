@@ -14,7 +14,6 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,16 +21,17 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.klnvch.greenhousecontroller.logs.CustomTimberTree;
 import com.klnvch.greenhousecontroller.models.AppDatabase;
 import com.klnvch.greenhousecontroller.models.Data;
 import com.klnvch.greenhousecontroller.models.Info;
 
 import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 public class MainService extends Service implements OnMessageListener {
     private static final String KEY_DEVICE_ADDRESS = "KEY_DEVICE_ADDRESS";
     private static final String KEY_DEVICE_ID = "KEY_DEVICE_ID";
-    private static final String TAG = "MainService";
 
     private final Handler restartHandler = new Handler();
     private BluetoothConnectThread connectThread;
@@ -71,13 +71,16 @@ public class MainService extends Service implements OnMessageListener {
                             FireStoreUtils.saveFirebaseToken(deviceId, task.getResult().getToken());
                         }
                     } else {
-                        Log.e(TAG, "getInstanceId failed", task.getException());
+                        if (task.getException() != null) {
+                            Timber.e("getInstanceId failed: %s", task.getException().getMessage());
+                        }
                     }
                 });
 
         PhoneStatusManager.init(this.getApplicationContext());
 
         db = AppDatabase.getInstance(this);
+        CustomTimberTree.plant(this);
     }
 
     @Override

@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import com.klnvch.greenhousecontroller.databinding.ActivityMainBinding;
+import com.klnvch.greenhousecontroller.logs.LogsActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private ActivityMainBinding binding;

@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="data"
-            type="com.klnvch.greenhousecontroller.models.FireStoreData" />
+            name="info"
+            type="com.klnvch.greenhousecontroller.models.Info" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,14 +17,14 @@
             android:id="@+id/log_time"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="@{data.id}"
+            android:text="@{info.id}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{data.toString}"
+            android:text="@{info.msg}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/log_time"
             app:layout_constraintTop_toTopOf="parent" />
