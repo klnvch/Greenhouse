@@ -6,11 +6,13 @@ import androidx.room.Query;
 
 import java.util.List;
 
+import io.reactivex.Completable;
+
 @Dao
 public interface InfoDao {
     @Query("SELECT * FROM info")
     List<Info> getAll();
 
     @Insert
-    void insertAll(Info... info);
+    Completable insertAll(Info... info);
 }

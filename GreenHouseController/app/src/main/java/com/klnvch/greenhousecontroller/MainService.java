@@ -26,6 +26,8 @@ import com.klnvch.greenhousecontroller.models.AppDatabase;
 import com.klnvch.greenhousecontroller.models.Data;
 import com.klnvch.greenhousecontroller.models.Info;
 
+import io.reactivex.schedulers.Schedulers;
+
 public class MainService extends Service implements OnMessageListener {
     private static final String KEY_DEVICE_ADDRESS = "KEY_DEVICE_ADDRESS";
     private static final String KEY_DEVICE_ID = "KEY_DEVICE_ID";
@@ -149,11 +151,17 @@ public class MainService extends Service implements OnMessageListener {
             if (msg.startsWith("Data: ")) {
                 Data data = new Data(msg);
                 FireStoreUtils.saveToFireStore(deviceId, data);
-                db.dataDao().insertAll(data);
+                db.dataDao().insertAll(data)
+                        .subscribeOn(Schedulers.io())
+                        .onErrorComplete()
+                        .subscribe();
             } else {
                 Info info = new Info(msg);
                 FireStoreUtils.saveToFireStore(deviceId, info);
-                db.infoDao().insertAll(info);
+                db.infoDao().insertAll(info)
+                        .subscribeOn(Schedulers.io())
+                        .onErrorComplete()
+                        .subscribe();
             }
         }
     }
