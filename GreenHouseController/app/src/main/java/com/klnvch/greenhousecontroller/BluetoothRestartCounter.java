@@ -12,12 +12,16 @@ import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
 import timber.log.Timber;
 
-public class BluetoothRestartCounter {
+public final class BluetoothRestartCounter {
     private static final int REPEAT_TIMEOUT_SECONDS = 300;
     private static BluetoothRestartCounter instance = null;
+    private final BehaviorSubject<Long> counter = BehaviorSubject.create();
     private Disposable disposable;
-    private BehaviorSubject<Long> counter = BehaviorSubject.create();
-    private Action action = null;
+    private boolean completeNow = false;
+
+    private BluetoothRestartCounter() {
+        counter.onNext(0L);
+    }
 
     @NonNull
     public static BluetoothRestartCounter getInstance() {
@@ -33,11 +37,10 @@ public class BluetoothRestartCounter {
 
     public void start(@NonNull Action action) {
         reset();
-        this.action = action;
         disposable = Observable.interval(1, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .takeUntil(i -> i >= REPEAT_TIMEOUT_SECONDS)
+                .takeWhile(i -> i < REPEAT_TIMEOUT_SECONDS && !completeNow)
                 .subscribe(
                         i -> counter.onNext(REPEAT_TIMEOUT_SECONDS - i),
                         throwable -> Timber.e("Counter error: %s", throwable.getMessage()),
@@ -45,8 +48,13 @@ public class BluetoothRestartCounter {
                 );
     }
 
+    public void completeNow() {
+        completeNow = true;
+        counter.onNext(0L);
+    }
+
     public void reset() {
-        action = null;
+        completeNow = false;
         if (disposable != null && !disposable.isDisposed()) {
             disposable.dispose();
             disposable = null;

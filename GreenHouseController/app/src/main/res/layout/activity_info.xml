@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -80,23 +81,35 @@
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/guideline"
-            app:layout_constraintTop_toBottomOf="@+id/batteryChargingLabel" />
+            app:layout_constraintTop_toBottomOf="@+id/batteryChargingLabel"
+            tools:text="100" />
 
         <TextView
             android:id="@+id/restartBluetoothCounterLabel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/info_restart_bluetooth_counter"
+            app:layout_constraintBottom_toBottomOf="@+id/restart_now"
             app:layout_constraintEnd_toStartOf="@+id/guideline"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/batteryLevelLabel" />
+            app:layout_constraintTop_toTopOf="@+id/restart_now" />
 
         <TextView
             android:id="@+id/restartBluetoothCounterValue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/restart_now"
+            app:layout_constraintEnd_toStartOf="@+id/restart_now"
             app:layout_constraintStart_toEndOf="@+id/guideline"
+            app:layout_constraintTop_toTopOf="@+id/restart_now"
+            tools:text="300" />
+
+        <Button
+            android:id="@+id/restart_now"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/info_restart_now"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/batteryLevelValue" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,10 +15,9 @@ import java.util.Locale;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
-public class InfoActivity extends AppCompatActivity {
+public final class InfoActivity extends AppCompatActivity {
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @SuppressLint("SetTextI18n")
@@ -27,8 +26,7 @@ public class InfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ActivityInfoBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_info);
 
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH/mm/ss", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         binding.timeValue.setText(sdf.format(new Date()));
 
         PhoneStatusManager phoneStatusManager = PhoneStatusManager.init(this);
@@ -43,6 +41,8 @@ public class InfoActivity extends AppCompatActivity {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(i -> binding.restartBluetoothCounterValue.setText(Long.toString(i))));
+
+        binding.restartNow.setOnClickListener(v -> BluetoothRestartCounter.getInstance().completeNow());
     }
 
     @Override
