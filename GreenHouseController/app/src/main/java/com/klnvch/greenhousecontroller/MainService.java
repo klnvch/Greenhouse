@@ -171,7 +171,6 @@ public class MainService extends Service implements OnMessageListener {
 
     @Override
     public void onError(Throwable throwable) {
-        Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_LONG).show();
         restartHandler.postDelayed(this::startBluetooth, 10000);
     }
 }

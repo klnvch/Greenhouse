@@ -1,6 +1,7 @@
 package com.klnvch.greenhousecontroller.models;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -8,12 +9,14 @@ import java.util.Locale;
 import java.util.Map;
 
 public abstract class FireStoreData {
+    private static final String ID_PATTERN = "yyyyMMddHHmmss";
+    private static final String PATTERN_FOR_LOGS = "MM-dd HH:mm";
+
     @NonNull
     protected String id;
 
     FireStoreData() {
-        SimpleDateFormat sdf =
-                new SimpleDateFormat("yyyy-MM-dd HH/mm/ss", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat(ID_PATTERN, Locale.getDefault());
         id = sdf.format(new Date());
     }
 
@@ -31,5 +34,19 @@ public abstract class FireStoreData {
     @NonNull
     public String generateDocumentPath() {
         return id;
+    }
+
+    @Nullable
+    public String getTimeForLogs() {
+        SimpleDateFormat sdf = new SimpleDateFormat(ID_PATTERN, Locale.getDefault());
+        try {
+            Date date = sdf.parse(id);
+            if (date != null) {
+                return new SimpleDateFormat(PATTERN_FOR_LOGS, Locale.getDefault()).format(date);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

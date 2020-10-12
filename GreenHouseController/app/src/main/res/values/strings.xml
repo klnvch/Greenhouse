@@ -34,4 +34,7 @@
     <string name="info_signal_strength">Signal strength:</string>
     <string name="info_battery_charging">Battery charging:</string>
     <string name="info_battery_level">Battery level:</string>
+
+    <string name="logs_info_messages">Info messages</string>
+    <string name="logs_data_messages">Data messages</string>
 </resources>

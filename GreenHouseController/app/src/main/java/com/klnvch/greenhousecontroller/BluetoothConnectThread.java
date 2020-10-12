@@ -80,6 +80,7 @@ class BluetoothConnectThread extends Thread {
                         }
                     }
                 } catch (IOException connectException) {
+                    Timber.e("Connection error: %s", connectException.getMessage());
                     onError(connectException);
                     if (socket != null) {
                         try {

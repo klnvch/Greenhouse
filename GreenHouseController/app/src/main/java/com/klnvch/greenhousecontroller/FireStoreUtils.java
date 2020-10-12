@@ -18,7 +18,7 @@ class FireStoreUtils {
                 .collection("settings")
                 .document(deviceId)
                 .set(data)
-                .addOnSuccessListener(aVoid -> Timber.d("Token successfully written!"))
+                .addOnSuccessListener(aVoid -> Timber.d("Token successfully written to Firestore!"))
                 .addOnFailureListener(e -> Timber.e("Error writing token: %s", e.getMessage()));
     }
 

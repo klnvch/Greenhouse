@@ -9,6 +9,7 @@ import com.klnvch.greenhousecontroller.models.Info;
 
 import org.jetbrains.annotations.NotNull;
 
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 public class CustomTimberTree extends Timber.DebugTree {
@@ -26,9 +27,12 @@ public class CustomTimberTree extends Timber.DebugTree {
 
     @Override
     protected void log(int priority, String tag, @NotNull String message, Throwable t) {
-        Info info = new Info();
-        info.setMsg(message);
-        db.infoDao().insertAll(info);
+        Info info = Info.createFromMessage(message);
+        db.infoDao()
+                .insertAll(info)
+                .subscribeOn(Schedulers.io())
+                .onErrorComplete()
+                .subscribe();
         super.log(priority, tag, message, t);
     }
 }

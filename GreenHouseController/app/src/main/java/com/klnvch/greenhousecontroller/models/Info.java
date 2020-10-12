@@ -15,6 +15,13 @@ public class Info extends FireStoreData {
         super();
     }
 
+    @NonNull
+    public static Info createFromMessage(@NonNull String msg) {
+        Info info = new Info();
+        info.setMsg(msg);
+        return info;
+    }
+
     @Ignore
     public Info(@NonNull String msg) {
         super();

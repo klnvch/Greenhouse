@@ -22,5 +22,9 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract DataDao dataDao();
 
+    /**
+     *
+     * @return dao for info messages
+     */
     public abstract InfoDao infoDao();
 }
