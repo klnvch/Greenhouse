@@ -13,7 +13,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+
 public class InfoActivity extends AppCompatActivity {
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
+
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,5 +38,16 @@ public class InfoActivity extends AppCompatActivity {
         binding.batteryChargingValue.setText(Boolean.toString(isCharging));
         int batteryLevel = phoneStatusManager.getBatteryLevel();
         binding.batteryLevelValue.setText(Integer.toString(batteryLevel));
+
+        compositeDisposable.add(BluetoothRestartCounter.getInstance().getCounter()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(i -> binding.restartBluetoothCounterValue.setText(Long.toString(i))));
+    }
+
+    @Override
+    protected void onDestroy() {
+        compositeDisposable.clear();
+        super.onDestroy();
     }
 }

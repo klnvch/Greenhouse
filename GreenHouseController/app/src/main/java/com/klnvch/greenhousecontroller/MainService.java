@@ -33,12 +33,12 @@ public class MainService extends Service implements OnMessageListener {
     private static final String KEY_DEVICE_ADDRESS = "KEY_DEVICE_ADDRESS";
     private static final String KEY_DEVICE_ID = "KEY_DEVICE_ID";
 
-    private final Handler restartHandler = new Handler();
     private BluetoothConnectThread connectThread;
     private String deviceAddress;
     private String deviceId;
     private Handler threadHandler;
     private AppDatabase db;
+    private BluetoothRestartCounter restartCounter = BluetoothRestartCounter.getInstance();
 
     static void start(Context context, String deviceAddress, String deviceId) {
         context.startService(new Intent(context, MainService.class)
@@ -87,7 +87,7 @@ public class MainService extends Service implements OnMessageListener {
     public int onStartCommand(@NonNull Intent intent, int flags, int startId) {
         deviceAddress = intent.getStringExtra(KEY_DEVICE_ADDRESS);
         deviceId = intent.getStringExtra(KEY_DEVICE_ID);
-        restartHandler.removeCallbacksAndMessages(null);
+        restartCounter.reset();
         startBluetooth();
         return START_STICKY;
     }
@@ -100,7 +100,7 @@ public class MainService extends Service implements OnMessageListener {
 
     @Override
     public void onDestroy() {
-        restartHandler.removeCallbacksAndMessages(null);
+        restartCounter.reset();
         if (connectThread != null) {
             connectThread.cancel();
         }
@@ -171,6 +171,6 @@ public class MainService extends Service implements OnMessageListener {
 
     @Override
     public void onError(Throwable throwable) {
-        restartHandler.postDelayed(this::startBluetooth, 10000);
+        restartCounter.start(this::startBluetooth);
     }
 }

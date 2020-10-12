@@ -26,7 +26,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".SectorActivity" />
-        <activity android:name=".InfoActivity" />
+        <activity android:name=".InfoActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
         <activity android:name=".CommandDetailsActivity" />
         <activity android:name=".logs.LogsActivity">
             <meta-data
