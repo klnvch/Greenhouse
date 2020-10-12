@@ -81,10 +81,12 @@ class BluetoothConnectThread extends Thread {
                     }
                 } catch (IOException connectException) {
                     onError(connectException);
-                    try {
-                        socket.close();
-                    } catch (IOException closeException) {
-                        Timber.e("Can't close socket");
+                    if (socket != null) {
+                        try {
+                            socket.close();
+                        } catch (IOException closeException) {
+                            Timber.e("Can't close socket");
+                        }
                     }
                 }
             } else {

@@ -23,7 +23,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
-class LogsFragment extends Fragment {
+public class LogsFragment extends Fragment {
     private static final String KEY_POSITION = "KEY_POSITION";
     private static final int UPDATE_DELAY_SECONDS = 5;
     private AppDatabase db;
