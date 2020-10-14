@@ -15,7 +15,7 @@ import com.klnvch.greenhousecontroller.R;
 import com.klnvch.greenhousecontroller.databinding.ActivityLogsBinding;
 
 public class LogsActivity extends AppCompatActivity {
-    private static final int NUM_PAGES = 2;
+    private static final int NUM_PAGES = 3;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

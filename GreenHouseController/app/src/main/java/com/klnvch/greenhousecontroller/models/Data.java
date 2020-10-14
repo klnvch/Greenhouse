@@ -6,8 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 
-import com.klnvch.greenhousecontroller.PhoneStatusManager;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,7 +23,6 @@ import java.util.Map;
  * << climateData.angleCommon << isWaterModuleActive << isClimateModuleActive << endl;
  * }
  */
-@SuppressWarnings("unused")
 @Entity(primaryKeys = {"id"}, tableName = "data")
 public class Data extends FireStoreData {
     private static final int N = 25;
@@ -54,9 +51,6 @@ public class Data extends FireStoreData {
     private String angleCommon;
     private String isWaterModuleActive;
     private String isClimateModuleActive;
-    private String networkStrength;
-    private String isCharging;
-    private String batteryLevel;
 
     public Data() {
         super();
@@ -94,15 +88,6 @@ public class Data extends FireStoreData {
             isWaterModuleActive = parts[23];
             isClimateModuleActive = parts[24];
         }
-
-        PhoneStatusManager phoneStatusManager = PhoneStatusManager.require();
-        networkStrength = Integer.toString(phoneStatusManager.getCellularNetworkStrength());
-        isCharging = Boolean.toString(phoneStatusManager.isBatteryIsCharging());
-        batteryLevel = Integer.toString(phoneStatusManager.getBatteryLevel());
-    }
-
-    public static int getN() {
-        return N;
     }
 
     public String getDateTime() {
@@ -305,30 +290,6 @@ public class Data extends FireStoreData {
         this.isClimateModuleActive = isClimateModuleActive;
     }
 
-    public String getNetworkStrength() {
-        return networkStrength;
-    }
-
-    public void setNetworkStrength(String networkStrength) {
-        this.networkStrength = networkStrength;
-    }
-
-    public String getIsCharging() {
-        return isCharging;
-    }
-
-    public void setIsCharging(String isCharging) {
-        this.isCharging = isCharging;
-    }
-
-    public String getBatteryLevel() {
-        return batteryLevel;
-    }
-
-    public void setBatteryLevel(String batteryLevel) {
-        this.batteryLevel = batteryLevel;
-    }
-
     @NonNull
     @Override
     public String getCollectionPath() {
@@ -364,15 +325,12 @@ public class Data extends FireStoreData {
         result.put("angleCommon", angleCommon);
         result.put("isWaterModuleActive", isWaterModuleActive);
         result.put("isClimateModuleActive", isClimateModuleActive);
-        result.put("networkStrength", networkStrength);
-        result.put("isCharging", isCharging);
-        result.put("batteryLevel", batteryLevel);
         return result;
     }
 
     @NonNull
     @Override
     public String toString() {
-        return TextUtils.join(",", new String[]{dateTime, distance, temperature, humidity, light, solarVoltage, batteryVoltage, s1, n1, s2, n2, s3, n3, t1, h1, angle1, t2, h2, angle2, t3, h3, angle3, angleCommon, isWaterModuleActive, isClimateModuleActive, networkStrength, isCharging, batteryLevel});
+        return TextUtils.join(",", new String[]{dateTime, distance, temperature, humidity, light, solarVoltage, batteryVoltage, s1, n1, s2, n2, s3, n3, t1, h1, angle1, t2, h2, angle2, t3, h3, angle3, angleCommon, isWaterModuleActive, isClimateModuleActive});
     }
 }

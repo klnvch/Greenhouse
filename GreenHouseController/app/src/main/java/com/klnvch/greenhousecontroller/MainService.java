@@ -25,7 +25,13 @@ import com.klnvch.greenhousecontroller.logs.CustomTimberTree;
 import com.klnvch.greenhousecontroller.models.AppDatabase;
 import com.klnvch.greenhousecontroller.models.Data;
 import com.klnvch.greenhousecontroller.models.Info;
+import com.klnvch.greenhousecontroller.models.PhoneData;
 
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
@@ -38,7 +44,8 @@ public class MainService extends Service implements OnMessageListener {
     private String deviceId;
     private Handler threadHandler;
     private AppDatabase db;
-    private BluetoothRestartCounter restartCounter = BluetoothRestartCounter.getInstance();
+    private BluetoothRestartCounter restartCounter = null;
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     static void start(Context context, String deviceAddress, String deviceId) {
         context.startService(new Intent(context, MainService.class)
@@ -79,8 +86,19 @@ public class MainService extends Service implements OnMessageListener {
 
         PhoneStatusManager.init(this.getApplicationContext());
 
+        restartCounter = BluetoothRestartCounter.getInstance();
+
         db = AppDatabase.getInstance(this);
         CustomTimberTree.plant(this);
+
+        compositeDisposable.add(Observable.interval(1, 10, TimeUnit.MINUTES)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(aLong -> {
+                    PhoneData phoneData = PhoneData.create();
+                    db.insert(phoneData);
+                    FireStoreUtils.saveToFireStore(deviceId, phoneData);
+                }, throwable -> Timber.e("Phone data error: %s", throwable.getMessage())));
     }
 
     @Override
@@ -104,6 +122,7 @@ public class MainService extends Service implements OnMessageListener {
         if (connectThread != null) {
             connectThread.cancel();
         }
+        compositeDisposable.clear();
         super.onDestroy();
     }
 

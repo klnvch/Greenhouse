@@ -7,7 +7,9 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {Data.class, Info.class}, version = 1, exportSchema = false)
+import io.reactivex.schedulers.Schedulers;
+
+@Database(entities = {Data.class, Info.class, PhoneData.class}, version = 2, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase instance = null;
 
@@ -15,7 +17,9 @@ public abstract class AppDatabase extends RoomDatabase {
     public synchronized static AppDatabase getInstance(@NonNull Context context) {
         if (instance == null) {
             instance = Room.databaseBuilder(context.getApplicationContext(),
-                    AppDatabase.class, "db").build();
+                    AppDatabase.class, "db")
+                    .fallbackToDestructiveMigration()
+                    .build();
         }
         return instance;
     }
@@ -23,8 +27,23 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract DataDao dataDao();
 
     /**
-     *
      * @return dao for info messages
      */
     public abstract InfoDao infoDao();
+
+    public abstract PhoneDataDao phoneDataDao();
+
+    public void insert(PhoneData phoneData) {
+        phoneDataDao().insert(phoneData)
+                .subscribeOn(Schedulers.io())
+                .onErrorComplete()
+                .subscribe();
+    }
+
+    public void insert(Info info) {
+        infoDao().insertAll(info)
+                .subscribeOn(Schedulers.io())
+                .onErrorComplete()
+                .subscribe();
+    }
 }

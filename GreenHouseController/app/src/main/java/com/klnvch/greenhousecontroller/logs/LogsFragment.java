@@ -15,9 +15,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.klnvch.greenhousecontroller.R;
 import com.klnvch.greenhousecontroller.databinding.FragmentLogsBinding;
 import com.klnvch.greenhousecontroller.models.AppDatabase;
+import com.klnvch.greenhousecontroller.models.FireStoreData;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
@@ -26,6 +30,7 @@ import timber.log.Timber;
 public class LogsFragment extends Fragment {
     static final int INFO = 0;
     static final int DATA = 1;
+    static final int PHONE = 2;
     private static final String KEY_POSITION = "KEY_POSITION";
     private static final int UPDATE_DELAY_SECONDS = 5;
     private AppDatabase db;
@@ -67,17 +72,30 @@ public class LogsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         int position = getPosition();
-        if (position == DATA) {
-            binding.title.setText(R.string.logs_data_messages);
-        } else {
-            binding.title.setText(R.string.logs_info_messages);
+        switch (position) {
+            case INFO:
+                binding.title.setText(R.string.logs_info_messages);
+                break;
+            case DATA:
+                binding.title.setText(R.string.logs_data_messages);
+                break;
+            case PHONE:
+                binding.title.setText(R.string.logs_phone_data);
+                break;
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        disposable = db.infoDao().getAll()
+        final Flowable<List<FireStoreData>> data;
+        int position = getPosition();
+        if (position == PHONE) {
+            data = db.phoneDataDao().getAll().map(ArrayList::new);
+        } else {
+            data = db.infoDao().getAll().map(ArrayList::new);
+        }
+        disposable = data
                 .throttleLatest(UPDATE_DELAY_SECONDS, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

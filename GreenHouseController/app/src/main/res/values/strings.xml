@@ -39,4 +39,5 @@
 
     <string name="logs_info_messages">Info messages</string>
     <string name="logs_data_messages">Data messages</string>
+    <string name="logs_phone_data">Phone data</string>
 </resources>

@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="info"
+            name="item"
             type="com.klnvch.greenhousecontroller.models.Info" />
     </data>
 
@@ -19,16 +19,16 @@
             android:layout_width="96dp"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:text="@{info.timeForLogs}"
+            android:text="@{item.timeForLogs}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="01-02 03:04"/>
+            tools:text="01-02 03:04" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:singleLine="false"
-            android:text="@{info.msg}"
+            android:text="@{item.msg}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/log_time"
             app:layout_constraintTop_toTopOf="parent" />
