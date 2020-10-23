@@ -9,8 +9,10 @@ import android.content.pm.PackageManager;
 import android.os.BatteryManager;
 import android.telephony.CellInfo;
 import android.telephony.CellInfoGsm;
+import android.telephony.CellInfoLte;
 import android.telephony.CellInfoWcdma;
 import android.telephony.CellSignalStrengthGsm;
+import android.telephony.CellSignalStrengthLte;
 import android.telephony.CellSignalStrengthWcdma;
 import android.telephony.TelephonyManager;
 
@@ -59,6 +61,10 @@ public class PhoneStatusManager {
                         } else if (cellInfo instanceof CellInfoWcdma) {
                             CellInfoWcdma cellInfoWcdma = (CellInfoWcdma) cellInfo;
                             CellSignalStrengthWcdma signalStrength = cellInfoWcdma.getCellSignalStrength();
+                            return signalStrength.getDbm();
+                        } else if (cellInfo instanceof CellInfoLte) {
+                            CellInfoLte cellInfoLte = (CellInfoLte) cellInfo;
+                            CellSignalStrengthLte signalStrength = cellInfoLte.getCellSignalStrength();
                             return signalStrength.getDbm();
                         }
                     }
