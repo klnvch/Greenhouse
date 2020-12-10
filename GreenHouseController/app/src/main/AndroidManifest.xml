@@ -18,12 +18,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".ui.StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.StartActivity" />
+        </activity>
+        <activity android:name=".ui.ViewerActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.StartActivity" />
         </activity>
         <activity android:name=".SectorActivity" />
         <activity android:name=".InfoActivity">
@@ -32,11 +42,7 @@
                 android:value=".MainActivity" />
         </activity>
         <activity android:name=".CommandDetailsActivity" />
-        <activity android:name=".logs.LogsActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
+        <activity android:name=".logs.LogsActivity" />
 
         <service
             android:name=".MainService"

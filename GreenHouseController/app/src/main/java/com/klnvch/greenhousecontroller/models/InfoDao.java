@@ -11,9 +11,12 @@ import io.reactivex.Flowable;
 
 @Dao
 public interface InfoDao {
-    @Query("SELECT * FROM info ORDER BY id DESC LIMIT 1000")
+    @Query("SELECT * FROM info ORDER BY id DESC")
     Flowable<List<Info>> getAll();
 
     @Insert
     Completable insertAll(Info... info);
+
+    @Insert
+    Completable insertAll(List<Info> info);
 }

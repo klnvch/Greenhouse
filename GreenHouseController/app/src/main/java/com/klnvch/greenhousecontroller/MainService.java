@@ -26,6 +26,7 @@ import com.klnvch.greenhousecontroller.models.AppDatabase;
 import com.klnvch.greenhousecontroller.models.Data;
 import com.klnvch.greenhousecontroller.models.Info;
 import com.klnvch.greenhousecontroller.models.PhoneData;
+import com.klnvch.greenhousecontroller.utils.FireStoreUtils;
 
 import java.util.concurrent.TimeUnit;
 

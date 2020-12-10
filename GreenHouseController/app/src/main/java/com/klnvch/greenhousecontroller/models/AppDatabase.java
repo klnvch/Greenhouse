@@ -7,6 +7,8 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import java.util.List;
+
 import io.reactivex.schedulers.Schedulers;
 
 @Database(entities = {Data.class, Info.class, PhoneData.class}, version = 2, exportSchema = false)
@@ -41,6 +43,13 @@ public abstract class AppDatabase extends RoomDatabase {
     }
 
     public void insert(Info info) {
+        infoDao().insertAll(info)
+                .subscribeOn(Schedulers.io())
+                .onErrorComplete()
+                .subscribe();
+    }
+
+    public void insertAll(List<Info> info) {
         infoDao().insertAll(info)
                 .subscribeOn(Schedulers.io())
                 .onErrorComplete()
