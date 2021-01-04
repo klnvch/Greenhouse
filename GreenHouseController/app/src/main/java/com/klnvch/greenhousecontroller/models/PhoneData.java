@@ -40,12 +40,20 @@ public class PhoneData extends FireStoreData {
         return isCharging;
     }
 
+    public boolean isCharging() {
+        return Boolean.parseBoolean(isCharging);
+    }
+
     public void setIsCharging(String isCharging) {
         this.isCharging = isCharging;
     }
 
     public String getBatteryLevel() {
         return batteryLevel;
+    }
+
+    public int getBatteryLevelInt() {
+        return Integer.parseInt(batteryLevel);
     }
 
     public void setBatteryLevel(String batteryLevel) {

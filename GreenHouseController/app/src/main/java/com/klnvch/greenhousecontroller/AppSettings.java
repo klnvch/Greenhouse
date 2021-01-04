@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 
-class AppSettings {
+public class AppSettings {
     private static final String SHARED_PREFERENCES_NAME = "settings";
     private static final String KEY_DEVICE_ADDRESS = "KEY_DEVICE_ADDRESS";
     private static final String KEY_DEVICE_ID = "KEY_DEVICE_ID";
@@ -20,7 +20,7 @@ class AppSettings {
     }
 
     @NonNull
-    synchronized static AppSettings getInstance(@NonNull Context context) {
+    public synchronized static AppSettings getInstance(@NonNull Context context) {
         return new AppSettings(context.getApplicationContext());
     }
 
@@ -32,7 +32,7 @@ class AppSettings {
         sharedPreferences.edit().putString(KEY_DEVICE_ADDRESS, deviceAddress).apply();
     }
 
-    String getDeviceId() {
+    public String getDeviceId() {
         String id = FirebaseInstanceId.getInstance().getId();
         return sharedPreferences.getString(KEY_DEVICE_ID, id);
     }
