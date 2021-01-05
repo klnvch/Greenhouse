@@ -24,7 +24,8 @@ import java.util.Map;
 import timber.log.Timber;
 
 public class FireStoreUtils {
-    public static void saveFirebaseToken(String deviceId, String token) {
+
+    public static void saveFirebaseToken(@NonNull String deviceId, @NonNull String token) {
         Map<String, String> data = new HashMap<>();
         data.put("token", token);
         FirebaseFirestore.getInstance()

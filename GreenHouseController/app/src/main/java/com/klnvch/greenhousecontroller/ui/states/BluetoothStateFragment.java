@@ -9,33 +9,30 @@ import androidx.annotation.Nullable;
 import com.klnvch.greenhousecontroller.R;
 import com.klnvch.greenhousecontroller.models.PhoneState;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
-public class StateTimeAndDeviceIdFragment extends ItemStateFragment implements PhoneStateInterface {
-    private static final String TIME_PATTERN = "dd/mm HH:mm";
-    private SimpleDateFormat sdf = null;
+public class BluetoothStateFragment extends ItemStateFragment implements PhoneStateInterface {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setImage(R.drawable.ic_baseline_router_24);
-        sdf = new SimpleDateFormat(TIME_PATTERN, Locale.getDefault());
+        setMessage(null);
     }
 
     @Override
     public void update(List<PhoneState> states) {
         if (states == null || states.size() == 0) {
+            setImage(R.drawable.ic_baseline_bluetooth_disabled_24);
             setDataMissingMessage();
             setAlert();
         } else {
             PhoneState latest = states.get(0);
-            String deviceId = latest.getDeviceId();
-            String time = sdf.format(new Date(latest.getTime()));
-            String msg = time + "\t(" + deviceId + ")";
-            setMessage(msg);
+            boolean isBluetoothActive = latest.isBluetoothActive();
+            if (isBluetoothActive) {
+                setImage(R.drawable.ic_baseline_bluetooth_connected_24);
+            } else {
+                setImage(R.drawable.ic_baseline_bluetooth_disabled_24);
+            }
             setNormal();
         }
     }

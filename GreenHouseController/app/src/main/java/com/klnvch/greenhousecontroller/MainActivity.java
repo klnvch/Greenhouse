@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil;
 
 import com.klnvch.greenhousecontroller.databinding.ActivityMainBinding;
 import com.klnvch.greenhousecontroller.logs.LogsActivity;
+import com.klnvch.greenhousecontroller.ui.states.StateActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private ActivityMainBinding binding;
@@ -25,6 +26,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         MainService.start(this, deviceAddress, deviceId);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        binding.buttonState.setOnClickListener(
+                v -> startActivity(new Intent(this, StateActivity.class)));
         binding.deviceAddressInput.setText(deviceAddress);
         binding.deviceIdInput.setText(deviceId);
         binding.buttonExit.setOnClickListener(this);

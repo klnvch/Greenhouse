@@ -43,6 +43,7 @@
         </activity>
         <activity android:name=".CommandDetailsActivity" />
         <activity android:name=".logs.LogsActivity" />
+        <activity android:name=".ui.states.StateActivity" />
 
         <service
             android:name=".MainService"

@@ -26,6 +26,7 @@ import com.klnvch.greenhousecontroller.models.AppDatabase;
 import com.klnvch.greenhousecontroller.models.Data;
 import com.klnvch.greenhousecontroller.models.Info;
 import com.klnvch.greenhousecontroller.models.PhoneData;
+import com.klnvch.greenhousecontroller.models.PhoneState;
 import com.klnvch.greenhousecontroller.utils.FireStoreUtils;
 
 import java.util.concurrent.TimeUnit;
@@ -42,11 +43,12 @@ public class MainService extends Service implements OnMessageListener {
 
     private BluetoothConnectThread connectThread;
     private String deviceAddress;
-    private String deviceId;
+    private String deviceId = null;
     private Handler threadHandler;
     private AppDatabase db;
     private BluetoothRestartCounter restartCounter = null;
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private PhoneStatusManager phoneStatusManager;
 
     static void start(Context context, String deviceAddress, String deviceId) {
         context.startService(new Intent(context, MainService.class)
@@ -72,20 +74,22 @@ public class MainService extends Service implements OnMessageListener {
             }
         };
 
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        if (task.getResult() != null) {
-                            FireStoreUtils.saveFirebaseToken(deviceId, task.getResult().getToken());
+        if (deviceId != null) {
+            FirebaseInstanceId.getInstance().getInstanceId()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            if (task.getResult() != null) {
+                                FireStoreUtils.saveFirebaseToken(deviceId, task.getResult().getToken());
+                            }
+                        } else {
+                            if (task.getException() != null) {
+                                Timber.e("getInstanceId failed: %s", task.getException().getMessage());
+                            }
                         }
-                    } else {
-                        if (task.getException() != null) {
-                            Timber.e("getInstanceId failed: %s", task.getException().getMessage());
-                        }
-                    }
-                });
+                    });
+        }
 
-        PhoneStatusManager.init(this.getApplicationContext());
+        phoneStatusManager = PhoneStatusManager.init(this.getApplicationContext());
 
         restartCounter = BluetoothRestartCounter.getInstance();
 
@@ -100,12 +104,19 @@ public class MainService extends Service implements OnMessageListener {
                     db.insert(phoneData);
                     FireStoreUtils.saveToFireStore(deviceId, phoneData);
                 }, throwable -> Timber.e("Phone data error: %s", throwable.getMessage())));
+
+        compositeDisposable.add(Observable.interval(1, 5, TimeUnit.MINUTES)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(aLong -> getPhoneState(), Timber::e));
     }
 
     @Override
     public int onStartCommand(@NonNull Intent intent, int flags, int startId) {
-        deviceAddress = intent.getStringExtra(KEY_DEVICE_ADDRESS);
-        deviceId = intent.getStringExtra(KEY_DEVICE_ID);
+        if (intent != null) {
+            deviceAddress = intent.getStringExtra(KEY_DEVICE_ADDRESS);
+            deviceId = intent.getStringExtra(KEY_DEVICE_ID);
+        }
         restartCounter.reset();
         startBluetooth();
         return START_STICKY;
@@ -192,5 +203,16 @@ public class MainService extends Service implements OnMessageListener {
     @Override
     public void onError(Throwable throwable) {
         restartCounter.start(this::startBluetooth);
+    }
+
+    private void getPhoneState() {
+        PhoneState phoneState = new PhoneState();
+        phoneState.setDeviceId("test");
+        phoneState.setTime(System.currentTimeMillis());
+        phoneState.setCharging(phoneStatusManager.isBatteryIsCharging());
+        phoneState.setBatteryLevel(phoneStatusManager.getBatteryLevel());
+        phoneState.setNetworkStrength(phoneStatusManager.getCellularNetworkStrength());
+        phoneState.setBluetoothActive(connectThread.isAlive());
+        db.phoneStateDao().insert(phoneState).subscribeOn(Schedulers.io()).subscribe();
     }
 }

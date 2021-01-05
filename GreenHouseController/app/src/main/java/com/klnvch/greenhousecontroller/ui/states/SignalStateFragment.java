@@ -9,20 +9,14 @@ import androidx.annotation.Nullable;
 import com.klnvch.greenhousecontroller.R;
 import com.klnvch.greenhousecontroller.models.PhoneState;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
-public class StateTimeAndDeviceIdFragment extends ItemStateFragment implements PhoneStateInterface {
-    private static final String TIME_PATTERN = "dd/mm HH:mm";
-    private SimpleDateFormat sdf = null;
+public class SignalStateFragment extends ItemStateFragment implements PhoneStateInterface {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setImage(R.drawable.ic_baseline_router_24);
-        sdf = new SimpleDateFormat(TIME_PATTERN, Locale.getDefault());
+        setImage(R.drawable.ic_baseline_network_cell_24);
     }
 
     @Override
@@ -32,9 +26,8 @@ public class StateTimeAndDeviceIdFragment extends ItemStateFragment implements P
             setAlert();
         } else {
             PhoneState latest = states.get(0);
-            String deviceId = latest.getDeviceId();
-            String time = sdf.format(new Date(latest.getTime()));
-            String msg = time + "\t(" + deviceId + ")";
+            int signalStrength = latest.getNetworkStrength();
+            String msg = signalStrength + " db";
             setMessage(msg);
             setNormal();
         }
