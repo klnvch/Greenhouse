@@ -11,7 +11,7 @@ import java.util.List;
 
 import io.reactivex.schedulers.Schedulers;
 
-@Database(entities = {Data.class, Info.class, PhoneData.class, PhoneState.class}, version = 3, exportSchema = false)
+@Database(entities = {Data.class, Info.class, PhoneData.class, PhoneState.class}, version = 5, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase instance = null;
 

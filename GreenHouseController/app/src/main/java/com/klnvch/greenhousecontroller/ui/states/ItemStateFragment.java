@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 
 import com.klnvch.greenhousecontroller.R;
@@ -59,6 +60,10 @@ public abstract class ItemStateFragment extends Fragment {
     }
 
     protected void setMessage(@Nullable String message) {
+        binding.message.setText(message);
+    }
+
+    protected void setMessage(@StringRes int message) {
         binding.message.setText(message);
     }
 

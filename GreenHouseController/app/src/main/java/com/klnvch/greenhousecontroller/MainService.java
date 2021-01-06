@@ -21,6 +21,11 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.klnvch.greenhousecontroller.bluetooth.BluetoothConnectThread;
+import com.klnvch.greenhousecontroller.bluetooth.BluetoothException;
+import com.klnvch.greenhousecontroller.bluetooth.BluetoothRestartCounter;
+import com.klnvch.greenhousecontroller.bluetooth.BluetoothState;
+import com.klnvch.greenhousecontroller.bluetooth.OnMessageListener;
 import com.klnvch.greenhousecontroller.logs.CustomTimberTree;
 import com.klnvch.greenhousecontroller.models.AppDatabase;
 import com.klnvch.greenhousecontroller.models.Data;
@@ -47,6 +52,7 @@ public class MainService extends Service implements OnMessageListener {
     private Handler threadHandler;
     private AppDatabase db;
     private BluetoothRestartCounter restartCounter = null;
+    private BluetoothException bluetoothException = null;
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private PhoneStatusManager phoneStatusManager;
 
@@ -65,7 +71,7 @@ public class MainService extends Service implements OnMessageListener {
             public void handleMessage(@NonNull Message msg) {
                 switch (msg.what) {
                     case 0:
-                        onError((Throwable) msg.obj);
+                        onError((BluetoothException) msg.obj);
                         break;
                     case 1:
                         onMessage((String) msg.obj);
@@ -180,6 +186,7 @@ public class MainService extends Service implements OnMessageListener {
 
     @Override
     public void onMessage(String msg) {
+        this.bluetoothException = null;
         Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
         if (!TextUtils.isEmpty(msg)) {
             if (msg.startsWith("Data: ")) {
@@ -201,7 +208,8 @@ public class MainService extends Service implements OnMessageListener {
     }
 
     @Override
-    public void onError(Throwable throwable) {
+    public void onError(BluetoothException bluetoothException) {
+        this.bluetoothException = bluetoothException;
         restartCounter.start(this::startBluetooth);
     }
 
@@ -212,7 +220,12 @@ public class MainService extends Service implements OnMessageListener {
         phoneState.setCharging(phoneStatusManager.isBatteryIsCharging());
         phoneState.setBatteryLevel(phoneStatusManager.getBatteryLevel());
         phoneState.setNetworkStrength(phoneStatusManager.getCellularNetworkStrength());
-        phoneState.setBluetoothActive(connectThread.isAlive());
+        if (bluetoothException == null) {
+            phoneState.setBluetoothState(BluetoothState.CONNECTED);
+        } else {
+            phoneState.setBluetoothState(bluetoothException.getBluetoothState());
+            phoneState.setBluetoothError(bluetoothException.getMessage());
+        }
         db.phoneStateDao().insert(phoneState).subscribeOn(Schedulers.io()).subscribe();
     }
 }

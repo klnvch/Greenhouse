@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.klnvch.greenhousecontroller.R;
+import com.klnvch.greenhousecontroller.bluetooth.BluetoothState;
 import com.klnvch.greenhousecontroller.models.PhoneState;
 
 import java.util.List;
@@ -27,13 +28,39 @@ public class BluetoothStateFragment extends ItemStateFragment implements PhoneSt
             setAlert();
         } else {
             PhoneState latest = states.get(0);
-            boolean isBluetoothActive = latest.isBluetoothActive();
-            if (isBluetoothActive) {
-                setImage(R.drawable.ic_baseline_bluetooth_connected_24);
-            } else {
-                setImage(R.drawable.ic_baseline_bluetooth_disabled_24);
+            int bluetoothState = latest.getBluetoothState();
+            String error = latest.getBluetoothError();
+            switch (bluetoothState) {
+                case BluetoothState.CONNECTED:
+                    setImage(R.drawable.ic_baseline_bluetooth_connected_24);
+                    setNormal();
+                    break;
+                case BluetoothState.NOT_AVAILABLE:
+                    setImage(R.drawable.ic_baseline_bluetooth_disabled_24);
+                    setMessage(R.string.state_message_bluetooth_not_available);
+                    setAlert();
+                    break;
+                case BluetoothState.NOT_ENABLED:
+                    setImage(R.drawable.ic_baseline_bluetooth_disabled_24);
+                    setMessage(R.string.state_message_bluetooth_not_enabled);
+                    setAlert();
+                    break;
+                case BluetoothState.ADDRESS_NOT_VALID:
+                    setImage(R.drawable.ic_baseline_bluetooth_disabled_24);
+                    setMessage(error);
+                    setAlert();
+                    break;
+                case BluetoothState.READ_ERROR:
+                case BluetoothState.WRITE_ERROR:
+                case BluetoothState.SOCKET_ERROR:
+                    setImage(R.drawable.ic_baseline_bluetooth_searching_24);
+                    setMessage(error);
+                    setAlert();
+                    break;
+                default:
+                    setImage(R.drawable.ic_baseline_bluetooth_disabled_24);
+                    setAlert();
             }
-            setNormal();
         }
     }
 }

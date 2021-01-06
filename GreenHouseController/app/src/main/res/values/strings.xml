@@ -45,4 +45,6 @@
     <string name="logs_phone_data">Phone data</string>
 
     <string name="state_message_data_missing">Data missing</string>
+    <string name="state_message_bluetooth_not_available">Bluetooth not available</string>
+    <string name="state_message_bluetooth_not_enabled">Bluetooth not enabled</string>
 </resources>

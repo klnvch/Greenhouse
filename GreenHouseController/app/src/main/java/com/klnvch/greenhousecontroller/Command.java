@@ -26,7 +26,7 @@ import io.reactivex.subjects.PublishSubject;
   11,sectorId, windowTemperature, fanTemperature  - set climate defaults
   12                                              - help
  */
-class Command {
+public class Command {
     private static final PublishSubject<String> commandQueue = PublishSubject.create();
 
     static void getData() {
@@ -83,7 +83,7 @@ class Command {
     }
 
     @NonNull
-    static Observable<String> getCommandQueue() {
+    public static Observable<String> getCommandQueue() {
         return commandQueue.debounce(5, TimeUnit.SECONDS);
     }
 

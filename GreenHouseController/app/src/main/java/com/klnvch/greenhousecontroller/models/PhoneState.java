@@ -13,7 +13,8 @@ public class PhoneState {
     private boolean isCharging;
     private int batteryLevel;
     private int networkStrength;
-    private boolean isBluetoothActive;
+    private int bluetoothState;
+    private String bluetoothError;
 
     public PhoneState() {
     }
@@ -59,11 +60,19 @@ public class PhoneState {
         this.networkStrength = networkStrength;
     }
 
-    public boolean isBluetoothActive() {
-        return isBluetoothActive;
+    public int getBluetoothState() {
+        return bluetoothState;
     }
 
-    public void setBluetoothActive(boolean bluetoothActive) {
-        isBluetoothActive = bluetoothActive;
+    public void setBluetoothState(int bluetoothState) {
+        this.bluetoothState = bluetoothState;
+    }
+
+    public String getBluetoothError() {
+        return bluetoothError;
+    }
+
+    public void setBluetoothError(String bluetoothError) {
+        this.bluetoothError = bluetoothError;
     }
 }

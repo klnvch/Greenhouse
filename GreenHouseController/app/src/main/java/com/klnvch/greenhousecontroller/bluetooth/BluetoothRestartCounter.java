@@ -1,4 +1,4 @@
-package com.klnvch.greenhousecontroller;
+package com.klnvch.greenhousecontroller.bluetooth;
 
 import androidx.annotation.NonNull;
 

@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import com.klnvch.greenhousecontroller.bluetooth.BluetoothRestartCounter;
 import com.klnvch.greenhousecontroller.databinding.ActivityInfoBinding;
 
 import java.text.SimpleDateFormat;
