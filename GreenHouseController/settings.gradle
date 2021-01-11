@@ -1,2 +1,4 @@
+include ':greenhousecommon'
+include ':greenhouseviewer'
 rootProject.name='GreenHouseController'
-include ':app'
+include ':greenhousecontroller'
