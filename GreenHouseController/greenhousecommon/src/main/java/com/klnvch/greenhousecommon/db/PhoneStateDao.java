@@ -11,12 +11,19 @@ import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
+import io.reactivex.Single;
 
 @Dao
 public interface PhoneStateDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Completable insert(PhoneState phoneState);
 
-    @Query("SELECT * FROM phoneState WHERE deviceId=:arg0 ORDER BY time DESC LIMIT 100")
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    Completable insert(List<PhoneState> phoneStates);
+
+    @Query("SELECT * FROM phoneState WHERE deviceId=:arg0 ORDER BY time DESC LIMIT 1000")
     Flowable<List<PhoneState>> getLatestPhoneStates(String arg0);
+
+    @Query("SELECT * FROM phoneState WHERE deviceId=:arg0 ORDER BY time DESC LIMIT 1")
+    Single<List<PhoneState>> getLatestPhoneState(String arg0);
 }

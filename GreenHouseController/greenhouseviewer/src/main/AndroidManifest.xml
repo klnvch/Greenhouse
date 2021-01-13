@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GreenHouseController" >
 
-        <activity android:name="com.klnvch.greenhousecommon.ui.states.StateActivity">
+        <activity android:name=".ui.StateViewerActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
