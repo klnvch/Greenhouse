@@ -50,6 +50,11 @@ public class BluetoothStateFragment extends ItemStateFragment implements PhoneSt
                     setMessage(error);
                     setAlert();
                     break;
+                case BluetoothState.SOCKET_CONNECT_ERROR:
+                    setImage(R.drawable.ic_baseline_bluetooth_disabled_24);
+                    setMessage(R.string.state_message_socket_connect_error);
+                    setAlert();
+                    break;
                 case BluetoothState.READ_ERROR:
                 case BluetoothState.WRITE_ERROR:
                 case BluetoothState.SOCKET_ERROR:

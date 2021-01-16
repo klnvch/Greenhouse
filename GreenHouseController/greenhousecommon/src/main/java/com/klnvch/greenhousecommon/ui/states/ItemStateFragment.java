@@ -68,10 +68,16 @@ public abstract class ItemStateFragment extends Fragment {
         binding.message.setText(message);
     }
 
+    /**
+     * Sets red color for image.
+     */
     protected void setAlert() {
         binding.image.setColorFilter(Color.RED);
     }
 
+    /**
+     * Sets default color for image.
+     */
     protected void setNormal() {
         binding.image.setColorFilter(null);
     }

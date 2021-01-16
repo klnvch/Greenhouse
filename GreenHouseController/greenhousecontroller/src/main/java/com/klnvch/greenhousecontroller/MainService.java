@@ -52,6 +52,7 @@ public class MainService extends Service implements OnMessageListener {
     private String deviceId = null;
     private Handler threadHandler;
     private AppDatabase db;
+    private com.klnvch.greenhousecommon.db.AppDatabase newDb;
     private BluetoothRestartCounter restartCounter = null;
     private BluetoothException bluetoothException = null;
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
@@ -101,6 +102,7 @@ public class MainService extends Service implements OnMessageListener {
         restartCounter = BluetoothRestartCounter.getInstance();
 
         db = AppDatabase.getInstance(this);
+        newDb = com.klnvch.greenhousecommon.db.AppDatabase.getInstance(this);
         CustomTimberTree.plant(this);
 
         compositeDisposable.add(Observable.interval(1, 10, TimeUnit.MINUTES)
@@ -229,7 +231,7 @@ public class MainService extends Service implements OnMessageListener {
         }
 
         // save
-        db.phoneStateDao().insert(phoneState).subscribeOn(Schedulers.io()).subscribe();
+        newDb.phoneStateDao().insert(phoneState).subscribeOn(Schedulers.io()).subscribe();
         PhoneStateHelper.save(phoneState);
     }
 }

@@ -61,6 +61,17 @@ public class BluetoothConnectThread extends Thread {
 
         try {
             socket.connect();
+        } catch (IOException socketException) {
+            closeSocket();
+            if ("read failed, socket might closed or timeout, read ret: -1".equals(socketException.getMessage())) {
+                onError(new BluetoothException(BluetoothState.SOCKET_CONNECT_ERROR));
+            } else {
+                onError(new BluetoothException(BluetoothState.SOCKET_CONNECT_ERROR, socketException));
+            }
+            return;
+        }
+
+        try {
             outputStream = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             disposable = Command.getCommandQueue().subscribe(this::sendCommand);
 

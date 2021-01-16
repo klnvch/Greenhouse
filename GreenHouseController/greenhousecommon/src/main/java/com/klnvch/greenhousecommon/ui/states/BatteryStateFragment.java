@@ -17,6 +17,7 @@ public class BatteryStateFragment extends ItemStateFragment implements PhoneStat
             PhoneState latest = states.get(0);
             boolean isCharging = latest.isCharging();
             int batteryLevel = latest.getBatteryLevel();
+
             if (isCharging) {
                 setImage(R.drawable.ic_baseline_battery_charging_full_24);
             } else if (batteryLevel > 50) {
@@ -24,7 +25,11 @@ public class BatteryStateFragment extends ItemStateFragment implements PhoneStat
             } else {
                 setImage(R.drawable.ic_baseline_battery_alert_24);
             }
-            String msg = batteryLevel + "%";
+
+            final String isChargingStr = isCharging ?
+                    getString(R.string.state_message_battery_charging) :
+                    getString(R.string.state_message_battery_discharging);
+            final String msg = batteryLevel + "% " + isChargingStr;
             setMessage(msg);
             setNormal();
         }

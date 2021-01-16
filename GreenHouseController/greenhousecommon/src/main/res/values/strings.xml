@@ -3,4 +3,8 @@
     <string name="state_message_data_missing">Data missing</string>
     <string name="state_message_bluetooth_not_available">Bluetooth not available</string>
     <string name="state_message_bluetooth_not_enabled">Bluetooth not enabled</string>
+    <string name="state_message_socket_connect_error">Failed to connect</string>
+
+    <string name="state_message_battery_charging">Charging</string>
+    <string name="state_message_battery_discharging">Discharging</string>
 </resources>

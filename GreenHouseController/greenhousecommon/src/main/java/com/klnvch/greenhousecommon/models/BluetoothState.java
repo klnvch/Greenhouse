@@ -9,4 +9,5 @@ public class BluetoothState {
     public static final int READ_ERROR = 5;
     public static final int SOCKET_ERROR = 6;
     public static final int WRITE_ERROR = 7;
+    public static final int SOCKET_CONNECT_ERROR = 9;
 }

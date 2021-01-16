@@ -18,6 +18,7 @@ import java.util.Locale;
 public class StateTimeAndDeviceIdFragment extends ItemStateFragment implements PhoneStateInterface {
     private static final String TIME_PATTERN = "dd/mm HH:mm";
     private SimpleDateFormat sdf = null;
+    private static final long ALERT_TIME_DIFFERENCE = 30 * 60 * 1000;  // 30 minutes
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -34,10 +35,18 @@ public class StateTimeAndDeviceIdFragment extends ItemStateFragment implements P
         } else {
             PhoneState latest = states.get(0);
             String deviceId = latest.getDeviceId();
-            String time = sdf.format(new Date(latest.getTime()));
-            String msg = time + "\t(" + deviceId + ")";
+            long time = latest.getTime();
+            long currentTime = System.currentTimeMillis();
+
+            String timeStr = sdf.format(new Date(time));
+            String msg = timeStr + "\t(" + deviceId + ")";
             setMessage(msg);
-            setNormal();
+
+            if (currentTime - time > ALERT_TIME_DIFFERENCE) {
+                setAlert();
+            } else {
+                setNormal();
+            }
         }
     }
 }
