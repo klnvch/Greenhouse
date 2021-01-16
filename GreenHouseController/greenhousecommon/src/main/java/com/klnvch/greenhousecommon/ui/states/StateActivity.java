@@ -24,17 +24,19 @@ public class StateActivity extends AppCompatActivity implements StateHolderInter
     private final Collection<PhoneStateInterface> phoneStateInterfaces
             = Collections.synchronizedCollection(new HashSet<>());
     private Disposable disposable;
+    protected AppDatabase db = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DataBindingUtil.setContentView(this, R.layout.activity_state);
+        db = AppDatabase.getInstance(this);
     }
 
     @Override
     protected void onResume() {
         String deviceId = "test";
-        disposable = AppDatabase.getInstance(this).phoneStateDao().getLatestPhoneStates(deviceId)
+        disposable = db.phoneStateDao().getLatestPhoneStates(deviceId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::update, Timber::e);

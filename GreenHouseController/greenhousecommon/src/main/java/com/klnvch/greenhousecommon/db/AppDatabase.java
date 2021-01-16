@@ -11,8 +11,8 @@ import com.klnvch.greenhousecommon.models.PhoneState;
 
 import java.util.List;
 
-import io.reactivex.Completable;
 import io.reactivex.Single;
+import io.reactivex.schedulers.Schedulers;
 
 @Database(entities = {PhoneState.class}, version = 6, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
@@ -32,8 +32,10 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract PhoneStateDao phoneStateDao();
 
 
-    public Completable insert(@NonNull List<PhoneState> phoneStates) {
-        return phoneStateDao().insert(phoneStates);
+    public Single<Integer> insert(@NonNull List<PhoneState> phoneStates) {
+        return phoneStateDao().insert(phoneStates)
+                .toSingleDefault(phoneStates.size())
+                .subscribeOn(Schedulers.io());
     }
 
     public Single<Long> getLatestPhoneStateTime(String deviceId) {
