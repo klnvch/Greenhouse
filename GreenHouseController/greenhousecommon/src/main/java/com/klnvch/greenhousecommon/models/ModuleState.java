@@ -14,7 +14,7 @@ public class ModuleState {
     private int waterLevel;
     private float temperature;
     private float humidity;
-    private float lightLevel;
+    private int lightLevel;
 
     public ModuleState() {
     }
@@ -68,11 +68,11 @@ public class ModuleState {
         this.humidity = humidity;
     }
 
-    public float getLightLevel() {
+    public int getLightLevel() {
         return lightLevel;
     }
 
-    public void setLightLevel(float lightLevel) {
+    public void setLightLevel(int lightLevel) {
         this.lightLevel = lightLevel;
     }
 }

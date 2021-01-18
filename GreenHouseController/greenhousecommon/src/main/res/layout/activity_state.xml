@@ -42,6 +42,43 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/bluetoothState" />
 
+        <View
+            android:id="@+id/divider_1"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_margin="4dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/networkState" />
+
+        <fragment
+            android:id="@+id/moduleTime"
+            android:name="com.klnvch.greenhousecommon.ui.states.ModuleTimeFragment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider_1" />
+
+        <fragment
+            android:id="@+id/moduleOutsideWeather"
+            android:name="com.klnvch.greenhousecommon.ui.states.ModuleOutsideWeatherFragment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/moduleTime" />
+
+        <fragment
+            android:id="@+id/moduleWaterLevel"
+            android:name="com.klnvch.greenhousecommon.ui.states.ModuleWaterLevel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/moduleOutsideWeather" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
