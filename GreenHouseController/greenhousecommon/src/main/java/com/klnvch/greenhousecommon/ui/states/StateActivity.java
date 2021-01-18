@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil;
 
 import com.klnvch.greenhousecommon.R;
 import com.klnvch.greenhousecommon.db.AppDatabase;
+import com.klnvch.greenhousecommon.models.ModuleState;
 import com.klnvch.greenhousecommon.models.PhoneState;
 
 import java.util.Collection;
@@ -16,14 +17,16 @@ import java.util.HashSet;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 public class StateActivity extends AppCompatActivity implements StateHolderInterface {
     private final Collection<PhoneStateInterface> phoneStateInterfaces
             = Collections.synchronizedCollection(new HashSet<>());
-    private Disposable disposable;
+    private final Collection<ModuleStateInterface> moduleStateInterfaces
+            = Collections.synchronizedCollection(new HashSet<>());
+    private final CompositeDisposable disposable = new CompositeDisposable();
     protected AppDatabase db = null;
 
     @Override
@@ -36,16 +39,20 @@ public class StateActivity extends AppCompatActivity implements StateHolderInter
     @Override
     protected void onResume() {
         String deviceId = "test";
-        disposable = db.phoneStateDao().getLatestPhoneStates(deviceId)
+        disposable.add(db.phoneStateDao().getLatestStates(deviceId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::update, Timber::e);
+                .subscribe(this::updatePhoneStates, Timber::e));
+        disposable.add(db.moduleStateDao().getLatestStates(deviceId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::updateModuleStates, Timber::e));
         super.onResume();
     }
 
     @Override
     protected void onPause() {
-        disposable.dispose();
+        disposable.clear();
         super.onPause();
     }
 
@@ -56,18 +63,34 @@ public class StateActivity extends AppCompatActivity implements StateHolderInter
     }
 
     @Override
-    public void addPhoneStateInterface(PhoneStateInterface phoneStateInterface) {
-        phoneStateInterfaces.add(phoneStateInterface);
+    public void addInterface(PhoneStateInterface stateInterface) {
+        phoneStateInterfaces.add(stateInterface);
     }
 
     @Override
-    public void removePhoneStateInterface(PhoneStateInterface phoneStateInterface) {
-        phoneStateInterfaces.remove(phoneStateInterface);
+    public void removeInterface(PhoneStateInterface stateInterface) {
+        phoneStateInterfaces.remove(stateInterface);
     }
 
-    private void update(List<PhoneState> states) {
+    @Override
+    public void addInterface(ModuleStateInterface stateInterface) {
+        moduleStateInterfaces.add(stateInterface);
+    }
+
+    @Override
+    public void removeInterface(ModuleStateInterface stateInterface) {
+        moduleStateInterfaces.remove(stateInterface);
+    }
+
+    private void updatePhoneStates(List<PhoneState> states) {
         for (PhoneStateInterface phoneStateInterface : phoneStateInterfaces) {
             phoneStateInterface.update(states);
+        }
+    }
+
+    private void updateModuleStates(List<ModuleState> states) {
+        for (ModuleStateInterface moduleStateInterfaces : moduleStateInterfaces) {
+            moduleStateInterfaces.update(states);
         }
     }
 }

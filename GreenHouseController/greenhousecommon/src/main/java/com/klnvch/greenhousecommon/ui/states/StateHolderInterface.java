@@ -1,7 +1,11 @@
 package com.klnvch.greenhousecommon.ui.states;
 
 public interface StateHolderInterface {
-    void addPhoneStateInterface(PhoneStateInterface phoneStateInterface);
+    void addInterface(PhoneStateInterface stateInterface);
 
-    void removePhoneStateInterface(PhoneStateInterface phoneStateInterface);
+    void removeInterface(PhoneStateInterface stateInterface);
+
+    void addInterface(ModuleStateInterface stateInterface);
+
+    void removeInterface(ModuleStateInterface stateInterface);
 }

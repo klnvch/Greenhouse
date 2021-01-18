@@ -11,15 +11,16 @@ import androidx.annotation.Nullable;
 import com.google.firebase.FirebaseApp;
 import com.klnvch.greenhousecommon.ui.states.StateActivity;
 import com.klnvch.greenhouseviewer.R;
-import com.klnvch.greenhouseviewer.firestore.PhoneStateHelper;
+import com.klnvch.greenhouseviewer.firestore.StateReader;
 
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class StateViewerActivity extends StateActivity {
     private static final String DEFAULT_DEVICE_ID = "test";
-    private Disposable disposable = null;
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,15 +45,21 @@ public class StateViewerActivity extends StateActivity {
     }
 
     private void refresh() {
-        if (disposable != null) {
-            disposable.dispose();
-        }
-        disposable = db.getLatestPhoneStateTime(DEFAULT_DEVICE_ID)
-                .flatMap(PhoneStateHelper::read)
-                .flatMap(states -> db.insert(states))
+        compositeDisposable.clear();
+        Single<Integer> phoneStates = db.getLatestPhoneStateTime(DEFAULT_DEVICE_ID)
+                .flatMap(StateReader::readPhoneStates)
+                .flatMap(states -> db.insertPhoneStates(states));
+        Single<Integer> moduleStates = db.getLatestModuleStateTime(DEFAULT_DEVICE_ID)
+                .flatMap(StateReader::readModuleStates)
+                .flatMap(states -> db.insertModuleStates(states));
+        compositeDisposable.add(Single.zip(phoneStates, moduleStates, this::sum)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onSuccess, this::onError);
+                .subscribe(this::onSuccess, this::onError));
+    }
+
+    private Integer sum(Integer i1, Integer i2) {
+        return i1 + i2;
     }
 
     private void onSuccess(Integer size) {

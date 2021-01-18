@@ -27,7 +27,10 @@ public abstract class ItemStateFragment extends Fragment {
         if (context instanceof StateHolderInterface) {
             stateHolder = ((StateHolderInterface) context);
             if (this instanceof PhoneStateInterface) {
-                stateHolder.addPhoneStateInterface((PhoneStateInterface) this);
+                stateHolder.addInterface((PhoneStateInterface) this);
+            }
+            if (this instanceof ModuleStateInterface) {
+                stateHolder.addInterface((ModuleStateInterface) this);
             }
         }
     }
@@ -45,7 +48,10 @@ public abstract class ItemStateFragment extends Fragment {
     public void onDetach() {
         if (stateHolder != null) {
             if (this instanceof PhoneStateInterface) {
-                stateHolder.removePhoneStateInterface((PhoneStateInterface) this);
+                stateHolder.removeInterface((PhoneStateInterface) this);
+            }
+            if (this instanceof ModuleStateInterface) {
+                stateHolder.removeInterface((ModuleStateInterface) this);
             }
             stateHolder = null;
         }

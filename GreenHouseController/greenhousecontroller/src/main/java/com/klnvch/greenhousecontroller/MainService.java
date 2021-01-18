@@ -27,7 +27,7 @@ import com.klnvch.greenhousecontroller.bluetooth.BluetoothConnectThread;
 import com.klnvch.greenhousecontroller.bluetooth.BluetoothException;
 import com.klnvch.greenhousecontroller.bluetooth.BluetoothRestartCounter;
 import com.klnvch.greenhousecontroller.bluetooth.OnMessageListener;
-import com.klnvch.greenhousecontroller.firestore.PhoneStateHelper;
+import com.klnvch.greenhousecontroller.firestore.StateWriter;
 import com.klnvch.greenhousecontroller.logs.CustomTimberTree;
 import com.klnvch.greenhousecontroller.models.AppDatabase;
 import com.klnvch.greenhousecontroller.models.Data;
@@ -232,6 +232,6 @@ public class MainService extends Service implements OnMessageListener {
 
         // save
         newDb.phoneStateDao().insert(phoneState).subscribeOn(Schedulers.io()).subscribe();
-        PhoneStateHelper.save(phoneState);
+        StateWriter.save(phoneState);
     }
 }

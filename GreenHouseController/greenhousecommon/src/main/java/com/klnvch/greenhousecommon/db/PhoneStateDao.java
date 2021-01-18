@@ -16,14 +16,14 @@ import io.reactivex.Single;
 @Dao
 public interface PhoneStateDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Completable insert(PhoneState phoneState);
+    Completable insert(PhoneState state);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Completable insert(List<PhoneState> phoneStates);
+    Completable insert(List<PhoneState> states);
 
     @Query("SELECT * FROM phoneState WHERE deviceId=:arg0 ORDER BY time DESC LIMIT 1000")
-    Flowable<List<PhoneState>> getLatestPhoneStates(String arg0);
+    Flowable<List<PhoneState>> getLatestStates(String arg0);
 
     @Query("SELECT * FROM phoneState WHERE deviceId=:arg0 ORDER BY time DESC LIMIT 1")
-    Single<List<PhoneState>> getLatestPhoneState(String arg0);
+    Single<List<PhoneState>> getLatestState(String arg0);
 }
