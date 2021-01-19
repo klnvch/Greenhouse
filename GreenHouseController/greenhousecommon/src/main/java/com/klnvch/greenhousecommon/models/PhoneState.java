@@ -3,6 +3,8 @@ package com.klnvch.greenhousecommon.models;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import org.jetbrains.annotations.NotNull;
 
 @Entity(primaryKeys = {"deviceId", "time"}, tableName = "phoneState")
@@ -36,6 +38,7 @@ public class PhoneState {
         this.time = time;
     }
 
+    @JsonProperty(value="isCharging")
     public boolean isCharging() {
         return isCharging;
     }

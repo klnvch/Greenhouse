@@ -1,11 +1,9 @@
 package com.klnvch.greenhousecommon.firestore;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.klnvch.greenhousecommon.models.PhoneState;
 
 import java.util.Map;
 
@@ -16,6 +14,7 @@ public abstract class StateHelper {
 
     public StateHelper() {
         mapper = new ObjectMapper();
+        //mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     @NonNull

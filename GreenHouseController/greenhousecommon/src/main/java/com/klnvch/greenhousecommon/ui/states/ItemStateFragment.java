@@ -13,7 +13,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 
-
 import com.klnvch.greenhousecommon.R;
 import com.klnvch.greenhousecommon.databinding.FragmentItemStateBinding;
 
@@ -68,6 +67,7 @@ public abstract class ItemStateFragment extends Fragment {
 
     protected void setMessage(@Nullable String message) {
         binding.message.setText(message);
+        binding.invalidateAll();
     }
 
     protected void setMessage(@StringRes int message) {

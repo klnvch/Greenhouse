@@ -10,7 +10,9 @@ public class ModuleState {
     @NonNull
     private String deviceId = "test";
     private long time;
-    private long moduleTime;
+    private long mainModuleTime;
+    private long waterModuleLastAccess;
+    private long climateModuleLastAccess;
     private int waterLevel;
     private float temperature;
     private float humidity;
@@ -36,14 +38,30 @@ public class ModuleState {
         this.time = time;
     }
 
-    public long getModuleTime() {
-        return moduleTime;
+    public long getMainModuleTime() {
+        return mainModuleTime;
     }
 
-    public void setModuleTime(long moduleTime) {
-        this.moduleTime = moduleTime;
+    public void setMainModuleTime(long mainModuleTime) {
+        this.mainModuleTime = mainModuleTime;
     }
 
+    public long getWaterModuleLastAccess() {
+        return waterModuleLastAccess;
+    }
+
+    public void setWaterModuleLastAccess(long waterModuleLastAccess) {
+        this.waterModuleLastAccess = waterModuleLastAccess;
+    }
+
+    public long getClimateModuleLastAccess() {
+        return climateModuleLastAccess;
+    }
+
+    public void setClimateModuleLastAccess(long climateModuleLastAccess) {
+        this.climateModuleLastAccess = climateModuleLastAccess;
+    }
+    
     public int getWaterLevel() {
         return waterLevel;
     }

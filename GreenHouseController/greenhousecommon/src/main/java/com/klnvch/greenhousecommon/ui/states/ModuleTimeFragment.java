@@ -33,8 +33,15 @@ public class ModuleTimeFragment extends ItemStateFragment implements ModuleState
         } else {
             ModuleState latest = states.get(0);
             long time = latest.getTime();
+            long mainModuleTime = latest.getMainModuleTime();
+            long waterModuleLastAccess = latest.getWaterModuleLastAccess();
+            long climateModuleLastAccess = latest.getClimateModuleLastAccess();
             String timeStr = sdf.format(new Date(time));
-            setMessage(timeStr);
+            String mainModuleTimeStr = sdf.format(new Date(mainModuleTime));
+            String waterModuleLastAccessStr = sdf.format(new Date(waterModuleLastAccess));
+            String climateModuleLastAccessStr = sdf.format(new Date(climateModuleLastAccess));
+            setMessage(timeStr + "\t" + waterModuleLastAccessStr
+                    + "\n" + mainModuleTimeStr + "\t" + climateModuleLastAccessStr);
             setNormal();
         }
     }

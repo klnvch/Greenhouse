@@ -79,6 +79,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/moduleOutsideWeather" />
 
+        <View
+            android:id="@+id/divider_2"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_margin="4dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/moduleWaterLevel" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
