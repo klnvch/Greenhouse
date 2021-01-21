@@ -1,5 +1,6 @@
 package com.klnvch.greenhousecommon.ui.states;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -7,9 +8,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import com.klnvch.greenhousecommon.R;
+import com.klnvch.greenhousecommon.databinding.ActivityStateBinding;
 import com.klnvch.greenhousecommon.db.AppDatabase;
 import com.klnvch.greenhousecommon.models.ModuleState;
 import com.klnvch.greenhousecommon.models.PhoneState;
+import com.klnvch.greenhousecommon.ui.chart.ChartActivity;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -21,7 +24,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
-public class StateActivity extends AppCompatActivity implements StateHolderInterface {
+public class StateActivity extends AppCompatActivity implements StateHolderInterface, OnActionListener {
     private final Collection<PhoneStateInterface> phoneStateInterfaces
             = Collections.synchronizedCollection(new HashSet<>());
     private final Collection<ModuleStateInterface> moduleStateInterfaces
@@ -32,7 +35,8 @@ public class StateActivity extends AppCompatActivity implements StateHolderInter
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DataBindingUtil.setContentView(this, R.layout.activity_state);
+        ActivityStateBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_state);
+        binding.setListener(this);
         db = AppDatabase.getInstance(this);
     }
 
@@ -92,5 +96,10 @@ public class StateActivity extends AppCompatActivity implements StateHolderInter
         for (ModuleStateInterface moduleStateInterfaces : moduleStateInterfaces) {
             moduleStateInterfaces.update(states);
         }
+    }
+
+    @Override
+    public void onPhoneStemItemClicked() {
+        startActivity(new Intent(this, ChartActivity.class));
     }
 }

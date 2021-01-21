@@ -45,6 +45,12 @@
         <activity android:name=".logs.LogsActivity" />
         <activity android:name="com.klnvch.greenhousecommon.ui.states.StateActivity" />
 
+        <activity android:name="com.klnvch.greenhousecommon.ui.chart.ChartActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.klnvch.greenhousecommon.ui.states.StateActivity" />
+        </activity>
+
         <service
             android:name=".MainService"
             android:exported="false" />
