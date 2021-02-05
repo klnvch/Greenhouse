@@ -19,6 +19,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
@@ -31,6 +33,8 @@ public class StateActivity extends AppCompatActivity implements StateHolderInter
             = Collections.synchronizedCollection(new HashSet<>());
     private final CompositeDisposable disposable = new CompositeDisposable();
     protected AppDatabase db = null;
+    @Inject
+    protected AppDatabase injectedDb;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
