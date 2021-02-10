@@ -21,6 +21,7 @@ public class StateViewModel extends ViewModel {
 
     @Inject
     public StateViewModel(@NonNull AppDatabase db) {
+        //AppDatabase db = AppDatabase.requireInstance();
         disposable.add(Flowable
                 .combineLatest(
                         db.phoneStateDao().getLatestStates(DEVICE_ID),

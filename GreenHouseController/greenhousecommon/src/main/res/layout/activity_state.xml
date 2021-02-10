@@ -90,7 +90,7 @@
 
         <fragment
             android:id="@+id/moduleWaterLevel"
-            android:name="com.klnvch.greenhousecommon.ui.states.ModuleWaterLevel"
+            android:name="com.klnvch.greenhousecommon.ui.states.ModuleWaterLevelFragment"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"

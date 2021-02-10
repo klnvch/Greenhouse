@@ -15,7 +15,7 @@ import java.util.List;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 
-@Database(entities = {PhoneState.class, ModuleState.class}, version = 7, exportSchema = false)
+@Database(entities = {PhoneState.class, ModuleState.class}, version = 8, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase instance = null;
 
@@ -27,6 +27,11 @@ public abstract class AppDatabase extends RoomDatabase {
                     .fallbackToDestructiveMigration()
                     .build();
         }
+        return instance;
+    }
+
+    @NonNull
+    public static AppDatabase requireInstance() {
         return instance;
     }
 

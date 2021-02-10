@@ -6,8 +6,15 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 
 import com.klnvch.greenhousecommon.App;
+
+import dagger.android.AndroidInjection;
+import dagger.android.support.AndroidSupportInjection;
+import dagger.android.support.HasSupportFragmentInjector;
 
 public class AppInjector {
     public static void init(App app) {
@@ -52,6 +59,18 @@ public class AppInjector {
     }
 
     private static void handleActivity(Activity activity) {
-
+        if (activity instanceof HasSupportFragmentInjector) {
+            AndroidInjection.inject(activity);
+        }
+        if (activity instanceof FragmentActivity) {
+            ((FragmentActivity) activity).getSupportFragmentManager().registerFragmentLifecycleCallbacks(new FragmentManager.FragmentLifecycleCallbacks() {
+                @Override
+                public void onFragmentCreated(@NonNull FragmentManager fm, @NonNull Fragment f, @Nullable Bundle savedInstanceState) {
+                    if (f instanceof Injectable) {
+                        AndroidSupportInjection.inject(f);
+                    }
+                }
+            }, true);
+        }
     }
 }

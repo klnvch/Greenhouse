@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import com.google.firebase.FirebaseApp;
+import com.klnvch.greenhousecommon.db.AppDatabase;
 import com.klnvch.greenhousecommon.ui.states.StateActivity;
 import com.klnvch.greenhouseviewer.R;
 import com.klnvch.greenhouseviewer.firestore.StateReader;
@@ -46,12 +47,13 @@ public class StateViewerActivity extends StateActivity {
 
     private void refresh() {
         compositeDisposable.clear();
+        AppDatabase db = AppDatabase.getInstance(this);
         Single<Integer> phoneStates = db.getLatestPhoneStateTime(DEFAULT_DEVICE_ID)
                 .flatMap(StateReader::readPhoneStates)
-                .flatMap(states -> db.insertPhoneStates(states));
+                .flatMap(db::insertPhoneStates);
         Single<Integer> moduleStates = db.getLatestModuleStateTime(DEFAULT_DEVICE_ID)
                 .flatMap(StateReader::readModuleStates)
-                .flatMap(states -> db.insertModuleStates(states));
+                .flatMap(db::insertModuleStates);
         compositeDisposable.add(Single.zip(phoneStates, moduleStates, this::sum)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

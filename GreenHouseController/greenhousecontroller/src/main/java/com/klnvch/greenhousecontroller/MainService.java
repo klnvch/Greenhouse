@@ -21,7 +21,9 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.gson.Gson;
 import com.klnvch.greenhousecommon.models.BluetoothState;
+import com.klnvch.greenhousecommon.models.ModuleState;
 import com.klnvch.greenhousecommon.models.PhoneState;
 import com.klnvch.greenhousecontroller.bluetooth.BluetoothConnectThread;
 import com.klnvch.greenhousecontroller.bluetooth.BluetoothException;
@@ -191,6 +193,14 @@ public class MainService extends Service implements OnMessageListener {
     public void onMessage(String msg) {
         this.bluetoothException = null;
         Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+        try {
+            ModuleState moduleState = new Gson().fromJson(msg, ModuleState.class);
+            newDb.moduleStateDao().insert(moduleState).subscribeOn(Schedulers.io()).subscribe();
+            StateWriter.save(moduleState);
+            return;
+        } catch (Exception e) {
+            Timber.d("onMessage: %s", e.getMessage());
+        }
         if (!TextUtils.isEmpty(msg)) {
             if (msg.startsWith("Data: ")) {
                 Data data = new Data(msg);

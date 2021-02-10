@@ -14,8 +14,8 @@ public class ModuleState {
     private long waterModuleLastAccess;
     private long climateModuleLastAccess;
     private int waterLevel;
-    private float temperature;
-    private float humidity;
+    private Float temperature;
+    private Float humidity;
     private int lightLevel;
 
     public ModuleState() {
@@ -61,7 +61,7 @@ public class ModuleState {
     public void setClimateModuleLastAccess(long climateModuleLastAccess) {
         this.climateModuleLastAccess = climateModuleLastAccess;
     }
-    
+
     public int getWaterLevel() {
         return waterLevel;
     }
@@ -70,19 +70,19 @@ public class ModuleState {
         this.waterLevel = waterLevel;
     }
 
-    public float getTemperature() {
+    public Float getTemperature() {
         return temperature;
     }
 
-    public void setTemperature(float temperature) {
+    public void setTemperature(Float temperature) {
         this.temperature = temperature;
     }
 
-    public float getHumidity() {
+    public Float getHumidity() {
         return humidity;
     }
 
-    public void setHumidity(float humidity) {
+    public void setHumidity(Float humidity) {
         this.humidity = humidity;
     }
 

@@ -26,10 +26,13 @@ public class ModuleOutsideWeatherFragment extends ItemStateFragment implements M
             setAlert();
         } else {
             ModuleState latest = states.get(0);
-            float temperature = latest.getTemperature();
-            float humidity = latest.getHumidity();
+            Float temperature = latest.getTemperature();
+            Float humidity = latest.getHumidity();
             int lightLevel = latest.getLightLevel();
-            String msg = temperature + "°C " + humidity + "% " + lightLevel;
+
+            String temperatureStr = temperature != null ? temperature.toString() : "-";
+            String humidityStr = humidity != null ? humidity.toString() : "-";
+            String msg = temperatureStr + "°C " + humidityStr + "% " + lightLevel;
             setMessage(msg);
             setNormal();
         }

@@ -1,6 +1,5 @@
 package com.klnvch.greenhousecommon.ui.states;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,27 +11,20 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.klnvch.greenhousecommon.R;
 import com.klnvch.greenhousecommon.databinding.FragmentItemStateBinding;
+import com.klnvch.greenhousecommon.di.Injectable;
+import com.klnvch.greenhousecommon.di.ViewModelFactory;
 
-public abstract class ItemStateFragment extends Fragment {
+import javax.inject.Inject;
+
+public abstract class ItemStateFragment extends Fragment implements Injectable {
+    @Inject
+    protected ViewModelFactory viewModelFactory;
     private FragmentItemStateBinding binding;
-    private StateHolderInterface stateHolder;
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        if (context instanceof StateHolderInterface) {
-            stateHolder = ((StateHolderInterface) context);
-            if (this instanceof PhoneStateInterface) {
-                stateHolder.addInterface((PhoneStateInterface) this);
-            }
-            if (this instanceof ModuleStateInterface) {
-                stateHolder.addInterface((ModuleStateInterface) this);
-            }
-        }
-    }
+    private StateViewModel viewModel;
 
     @Nullable
     @Override
@@ -44,17 +36,19 @@ public abstract class ItemStateFragment extends Fragment {
     }
 
     @Override
-    public void onDetach() {
-        if (stateHolder != null) {
-            if (this instanceof PhoneStateInterface) {
-                stateHolder.removeInterface((PhoneStateInterface) this);
-            }
-            if (this instanceof ModuleStateInterface) {
-                stateHolder.removeInterface((ModuleStateInterface) this);
-            }
-            stateHolder = null;
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        viewModel = new ViewModelProvider(requireActivity(), viewModelFactory).get(StateViewModel.class);
+        viewModel.getViewState().observe(getViewLifecycleOwner(), this::onStateChanged);
+    }
+
+    private void onStateChanged(ViewState viewState) {
+        if (this instanceof PhoneStateInterface) {
+            ((PhoneStateInterface) this).update(viewState.getPhoneStates());
         }
-        super.onDetach();
+        if (this instanceof ModuleStateInterface) {
+            ((ModuleStateInterface) this).update(viewState.getModuleStates());
+        }
     }
 
     protected void setImage(@DrawableRes int drawableRes) {

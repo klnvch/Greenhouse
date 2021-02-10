@@ -11,7 +11,7 @@ import com.klnvch.greenhousecommon.models.ModuleState;
 
 import java.util.List;
 
-public class ModuleWaterLevel extends ItemStateFragment implements ModuleStateInterface {
+public class ModuleWaterLevelFragment extends ItemStateFragment implements ModuleStateInterface {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
