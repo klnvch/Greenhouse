@@ -8,11 +8,12 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
-import com.google.firebase.FirebaseApp;
 import com.klnvch.greenhousecommon.db.AppDatabase;
 import com.klnvch.greenhousecommon.ui.states.StateActivity;
 import com.klnvch.greenhouseviewer.R;
 import com.klnvch.greenhouseviewer.firestore.StateReader;
+
+import javax.inject.Inject;
 
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -23,11 +24,8 @@ public class StateViewerActivity extends StateActivity {
     private static final String DEFAULT_DEVICE_ID = "test";
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        FirebaseApp.initializeApp(this);
-    }
+    @Inject
+    protected AppDatabase db;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -47,7 +45,6 @@ public class StateViewerActivity extends StateActivity {
 
     private void refresh() {
         compositeDisposable.clear();
-        AppDatabase db = AppDatabase.getInstance(this);
         Single<Integer> phoneStates = db.getLatestPhoneStateTime(DEFAULT_DEVICE_ID)
                 .flatMap(StateReader::readPhoneStates)
                 .flatMap(db::insertPhoneStates);
