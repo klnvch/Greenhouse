@@ -30,11 +30,6 @@ public abstract class AppDatabase extends RoomDatabase {
         return instance;
     }
 
-    @NonNull
-    public static AppDatabase requireInstance() {
-        return instance;
-    }
-
     public abstract PhoneStateDao phoneStateDao();
 
     public abstract ModuleStateDao moduleStateDao();

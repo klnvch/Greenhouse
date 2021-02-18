@@ -27,7 +27,7 @@ public class ModuleWaterLevelFragment extends ItemStateFragment implements Modul
         } else {
             ModuleState latest = states.get(0);
             int waterLevel = latest.getWaterLevel();
-            String msg = waterLevel + "cm.";
+            String msg = waterLevel + " cm.";
             setMessage(msg);
             setNormal();
         }

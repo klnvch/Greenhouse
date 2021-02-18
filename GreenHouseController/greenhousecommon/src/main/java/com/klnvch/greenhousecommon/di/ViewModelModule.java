@@ -3,6 +3,7 @@ package com.klnvch.greenhousecommon.di;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.klnvch.greenhousecommon.ui.chart.ChartViewModel;
 import com.klnvch.greenhousecommon.ui.states.StateViewModel;
 
 import dagger.Binds;
@@ -17,5 +18,10 @@ public abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(StateViewModel.class)
-    abstract ViewModel provideVideoListViewModel(StateViewModel videoListViewModel);
+    abstract ViewModel provideStateViewModel(StateViewModel videoListViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ChartViewModel.class)
+    abstract ViewModel provideChartViewModel(ChartViewModel videoListViewModel);
 }

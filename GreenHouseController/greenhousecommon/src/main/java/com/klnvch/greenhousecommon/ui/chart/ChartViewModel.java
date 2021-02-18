@@ -1,4 +1,4 @@
-package com.klnvch.greenhousecommon.ui.states;
+package com.klnvch.greenhousecommon.ui.chart;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -9,28 +9,27 @@ import com.klnvch.greenhousecommon.db.AppDatabase;
 
 import javax.inject.Inject;
 
-import io.reactivex.Flowable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
-public class StateViewModel extends ViewModel {
+public class ChartViewModel extends ViewModel {
     private static final String DEVICE_ID = "test";
     private final CompositeDisposable disposable = new CompositeDisposable();
-    private final MutableLiveData<ViewState> viewState = new MutableLiveData<>();
+    private final MutableLiveData<ChartViewState> viewState = new MutableLiveData<>();
 
     @Inject
-    public StateViewModel(@NonNull AppDatabase db) {
-        disposable.add(Flowable
-                .combineLatest(
-                        db.phoneStateDao().getLatestStates(DEVICE_ID),
-                        db.moduleStateDao().getLatestStates(DEVICE_ID),
-                        ViewState::new)
+    public ChartViewModel(@NonNull AppDatabase db) {
+        disposable.add(db.phoneStateDao()
+                .getStatesAscending(DEVICE_ID)
+                .map(ChartViewState::new)
                 .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(viewState::postValue, Timber::e));
     }
 
-    public LiveData<ViewState> getViewState() {
+    public LiveData<ChartViewState> getViewState() {
         return viewState;
     }
 

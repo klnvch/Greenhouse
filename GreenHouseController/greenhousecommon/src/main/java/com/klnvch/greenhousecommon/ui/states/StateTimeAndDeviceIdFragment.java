@@ -5,8 +5,6 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProvider;
-
 
 import com.klnvch.greenhousecommon.R;
 import com.klnvch.greenhousecommon.models.PhoneState;
@@ -18,8 +16,8 @@ import java.util.Locale;
 
 public class StateTimeAndDeviceIdFragment extends ItemStateFragment implements PhoneStateInterface {
     private static final String TIME_PATTERN = "dd/mm HH:mm";
-    private SimpleDateFormat sdf = null;
     private static final long ALERT_TIME_DIFFERENCE = 30 * 60 * 1000;  // 30 minutes
+    private SimpleDateFormat sdf = null;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

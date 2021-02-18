@@ -39,6 +39,9 @@ import com.klnvch.greenhousecontroller.utils.FireStoreUtils;
 
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -54,7 +57,8 @@ public class MainService extends Service implements OnMessageListener {
     private String deviceId = null;
     private Handler threadHandler;
     private AppDatabase db;
-    private com.klnvch.greenhousecommon.db.AppDatabase newDb;
+    @Inject
+    protected com.klnvch.greenhousecommon.db.AppDatabase newDb;
     private BluetoothRestartCounter restartCounter = null;
     private BluetoothException bluetoothException = null;
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
@@ -69,6 +73,7 @@ public class MainService extends Service implements OnMessageListener {
     @Override
     public void onCreate() {
         super.onCreate();
+        AndroidInjection.inject(this);
         showNotification();
         threadHandler = new Handler(Looper.getMainLooper()) {
             @Override
@@ -104,7 +109,6 @@ public class MainService extends Service implements OnMessageListener {
         restartCounter = BluetoothRestartCounter.getInstance();
 
         db = AppDatabase.getInstance(this);
-        newDb = com.klnvch.greenhousecommon.db.AppDatabase.getInstance(this);
         CustomTimberTree.plant(this);
 
         compositeDisposable.add(Observable.interval(1, 10, TimeUnit.MINUTES)
