@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.room.Room;
 
 import com.klnvch.greenhousecommon.db.AppDatabase;
+import com.klnvch.greenhousecommon.db.AppSettings;
 import com.klnvch.greenhousecommon.db.ModuleStateDao;
 import com.klnvch.greenhousecommon.db.PhoneStateDao;
 
@@ -34,5 +35,11 @@ public class AppModule {
     @Provides
     public ModuleStateDao provideModuleStateDao(AppDatabase db) {
         return db.moduleStateDao();
+    }
+
+    @Singleton
+    @Provides
+    public AppSettings provideSettings(Application application) {
+        return new AppSettings(application);
     }
 }

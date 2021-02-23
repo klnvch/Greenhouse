@@ -37,7 +37,7 @@ android {
 dependencies {
     implementation project(":greenhousecommon")
 
-    implementation 'com.google.firebase:firebase-firestore:22.0.2'
+    implementation 'com.google.firebase:firebase-firestore:22.1.0'
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.12.1'

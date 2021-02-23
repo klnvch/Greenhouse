@@ -1,14 +1,12 @@
 package com.klnvch.greenhouseviewer.ui;
 
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-
 import com.klnvch.greenhousecommon.db.AppDatabase;
+import com.klnvch.greenhousecommon.db.AppSettings;
 import com.klnvch.greenhousecommon.ui.states.StateActivity;
 import com.klnvch.greenhouseviewer.R;
 import com.klnvch.greenhouseviewer.firestore.StateReader;
@@ -21,11 +19,12 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class StateViewerActivity extends StateActivity {
-    private static final String DEFAULT_DEVICE_ID = "test";
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Inject
     protected AppDatabase db;
+    @Inject
+    protected AppSettings settings;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -45,11 +44,14 @@ public class StateViewerActivity extends StateActivity {
 
     private void refresh() {
         compositeDisposable.clear();
-        Single<Integer> phoneStates = db.getLatestPhoneStateTime(DEFAULT_DEVICE_ID)
-                .flatMap(StateReader::readPhoneStates)
+
+        final String deviceId = settings.getDeviceId();
+
+        Single<Integer> phoneStates = db.getLatestPhoneStateTime(deviceId)
+                .flatMap(time -> StateReader.readPhoneStates(deviceId, time))
                 .flatMap(db::insertPhoneStates);
-        Single<Integer> moduleStates = db.getLatestModuleStateTime(DEFAULT_DEVICE_ID)
-                .flatMap(StateReader::readModuleStates)
+        Single<Integer> moduleStates = db.getLatestModuleStateTime(deviceId)
+                .flatMap(time -> StateReader.readModuleStates(deviceId, time))
                 .flatMap(db::insertModuleStates);
         compositeDisposable.add(Single.zip(phoneStates, moduleStates, this::sum)
                 .subscribeOn(Schedulers.io())

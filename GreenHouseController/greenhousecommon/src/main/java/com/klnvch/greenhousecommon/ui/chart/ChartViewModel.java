@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.klnvch.greenhousecommon.db.AppDatabase;
+import com.klnvch.greenhousecommon.db.AppSettings;
 
 import javax.inject.Inject;
 
@@ -15,14 +16,14 @@ import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 public class ChartViewModel extends ViewModel {
-    private static final String DEVICE_ID = "test";
     private final CompositeDisposable disposable = new CompositeDisposable();
     private final MutableLiveData<ChartViewState> viewState = new MutableLiveData<>();
 
     @Inject
-    public ChartViewModel(@NonNull AppDatabase db) {
+    public ChartViewModel(@NonNull AppDatabase db, @NonNull AppSettings settings) {
+        final String deviceId = settings.getDeviceId();
         disposable.add(db.phoneStateDao()
-                .getStatesAscending(DEVICE_ID)
+                .getStatesAscending(deviceId)
                 .map(ChartViewState::new)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

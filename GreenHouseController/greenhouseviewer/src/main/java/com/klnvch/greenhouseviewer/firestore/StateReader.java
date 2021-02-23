@@ -18,24 +18,23 @@ import timber.log.Timber;
 
 public class StateReader {
     private static final int LIMIT = 1000;
-    private static final String DEVICE_ID = "test";
 
     private static final PhoneStateHelper phoneStateHelper = new PhoneStateHelper();
     private static final ModuleStateHelper moduleStateHelper = new ModuleStateHelper();
 
-    public static Single<List<PhoneState>> readPhoneStates(long startTime) {
-        return read(startTime, phoneStateHelper, PhoneState.class);
+    public static Single<List<PhoneState>> readPhoneStates(String deviceId, long startTime) {
+        return read(deviceId, startTime, phoneStateHelper, PhoneState.class);
     }
 
-    public static Single<List<ModuleState>> readModuleStates(long startTime) {
-        return read(startTime, moduleStateHelper, ModuleState.class);
+    public static Single<List<ModuleState>> readModuleStates(String deviceId, long startTime) {
+        return read(deviceId, startTime, moduleStateHelper, ModuleState.class);
     }
 
-    public static <T> Single<List<T>> read(long startTime, StateHelper helper, Class<T> classOfT) {
+    public static <T> Single<List<T>> read(String deviceId, long startTime, StateHelper helper, Class<T> classOfT) {
         return Single.create(emitter -> FirebaseFirestore.getInstance()
                 .collection(helper.getCollectionPath())
                 .orderBy(StateHelper.FIELD_TIME)
-                .whereEqualTo(StateHelper.FIELD_DEVICE_ID, DEVICE_ID)
+                .whereEqualTo(StateHelper.FIELD_DEVICE_ID, deviceId)
                 .whereGreaterThan(StateHelper.FIELD_TIME, startTime)
                 .limit(LIMIT)
                 .get()

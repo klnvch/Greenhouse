@@ -22,6 +22,7 @@ import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
+import com.klnvch.greenhousecommon.db.AppSettings;
 import com.klnvch.greenhousecommon.models.BluetoothState;
 import com.klnvch.greenhousecommon.models.ModuleState;
 import com.klnvch.greenhousecommon.models.PhoneState;
@@ -59,6 +60,8 @@ public class MainService extends Service implements OnMessageListener {
     private AppDatabase db;
     @Inject
     protected com.klnvch.greenhousecommon.db.AppDatabase newDb;
+    @Inject
+    protected AppSettings settings;
     private BluetoothRestartCounter restartCounter = null;
     private BluetoothException bluetoothException = null;
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
@@ -231,8 +234,10 @@ public class MainService extends Service implements OnMessageListener {
     }
 
     private void getPhoneState() {
+        final String deviceId = settings.getDeviceId();
+
         PhoneState phoneState = new PhoneState();
-        phoneState.setDeviceId("test");
+        phoneState.setDeviceId(deviceId);
         phoneState.setTime(System.currentTimeMillis());
         phoneState.setCharging(phoneStatusManager.isBatteryIsCharging());
         phoneState.setBatteryLevel(phoneStatusManager.getBatteryLevel());

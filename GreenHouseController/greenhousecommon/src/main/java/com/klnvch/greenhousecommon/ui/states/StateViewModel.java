@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.klnvch.greenhousecommon.db.AppDatabase;
+import com.klnvch.greenhousecommon.db.AppSettings;
 
 import javax.inject.Inject;
 
@@ -15,16 +16,16 @@ import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 public class StateViewModel extends ViewModel {
-    private static final String DEVICE_ID = "test";
     private final CompositeDisposable disposable = new CompositeDisposable();
     private final MutableLiveData<ViewState> viewState = new MutableLiveData<>();
 
     @Inject
-    public StateViewModel(@NonNull AppDatabase db) {
+    public StateViewModel(@NonNull AppDatabase db, @NonNull AppSettings settings) {
+        final String deviceId = settings.getDeviceId();
         disposable.add(Flowable
                 .combineLatest(
-                        db.phoneStateDao().getLatestStates(DEVICE_ID),
-                        db.moduleStateDao().getLatestStates(DEVICE_ID),
+                        db.phoneStateDao().getLatestStates(deviceId),
+                        db.moduleStateDao().getLatestStates(deviceId),
                         ViewState::new)
                 .subscribeOn(Schedulers.io())
                 .subscribe(viewState::postValue, Timber::e));
