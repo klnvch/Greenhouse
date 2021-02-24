@@ -8,14 +8,26 @@ import com.klnvch.greenhousecontroller.utils.FireStoreUtils;
 
 import java.util.Map;
 
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
 import timber.log.Timber;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
+    @Inject
+    protected com.klnvch.greenhousecommon.db.AppSettings settings;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        AndroidInjection.inject(this);
+    }
+
     @Override
     public void onNewToken(@NonNull String token) {
         Timber.d("Refreshed token: %s", token);
-        String deviceId = AppSettings.getInstance(this).getDeviceId();
+        String deviceId = settings.getDeviceId();
         FireStoreUtils.saveFirebaseToken(deviceId, token);
     }
 

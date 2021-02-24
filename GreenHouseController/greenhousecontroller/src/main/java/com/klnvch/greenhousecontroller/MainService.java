@@ -51,11 +51,9 @@ import timber.log.Timber;
 
 public class MainService extends Service implements OnMessageListener {
     private static final String KEY_DEVICE_ADDRESS = "KEY_DEVICE_ADDRESS";
-    private static final String KEY_DEVICE_ID = "KEY_DEVICE_ID";
 
     private BluetoothConnectThread connectThread;
     private String deviceAddress;
-    private String deviceId = null;
     private Handler threadHandler;
     private AppDatabase db;
     @Inject
@@ -67,10 +65,9 @@ public class MainService extends Service implements OnMessageListener {
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private PhoneStatusManager phoneStatusManager;
 
-    static void start(Context context, String deviceAddress, String deviceId) {
+    static void start(Context context, String deviceAddress) {
         context.startService(new Intent(context, MainService.class)
-                .putExtra(KEY_DEVICE_ADDRESS, deviceAddress)
-                .putExtra(KEY_DEVICE_ID, deviceId));
+                .putExtra(KEY_DEVICE_ADDRESS, deviceAddress));
     }
 
     @Override
@@ -92,20 +89,19 @@ public class MainService extends Service implements OnMessageListener {
             }
         };
 
-        if (deviceId != null) {
-            FirebaseInstanceId.getInstance().getInstanceId()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            if (task.getResult() != null) {
-                                FireStoreUtils.saveFirebaseToken(deviceId, task.getResult().getToken());
-                            }
-                        } else {
-                            if (task.getException() != null) {
-                                Timber.e("getInstanceId failed: %s", task.getException().getMessage());
-                            }
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        if (task.getResult() != null) {
+                            String deviceId = settings.getDeviceId();
+                            FireStoreUtils.saveFirebaseToken(deviceId, task.getResult().getToken());
                         }
-                    });
-        }
+                    } else {
+                        if (task.getException() != null) {
+                            Timber.e("getInstanceId failed: %s", task.getException().getMessage());
+                        }
+                    }
+                });
 
         phoneStatusManager = PhoneStatusManager.init(this.getApplicationContext());
 
@@ -120,6 +116,7 @@ public class MainService extends Service implements OnMessageListener {
                 .subscribe(aLong -> {
                     PhoneData phoneData = PhoneData.create();
                     db.insert(phoneData);
+                    String deviceId = settings.getDeviceId();
                     FireStoreUtils.saveToFireStore(deviceId, phoneData);
                 }, throwable -> Timber.e("Phone data error: %s", throwable.getMessage())));
 
@@ -133,7 +130,6 @@ public class MainService extends Service implements OnMessageListener {
     public int onStartCommand(@NonNull Intent intent, int flags, int startId) {
         if (intent != null) {
             deviceAddress = intent.getStringExtra(KEY_DEVICE_ADDRESS);
-            deviceId = intent.getStringExtra(KEY_DEVICE_ID);
         }
         restartCounter.reset();
         startBluetooth();
@@ -209,6 +205,7 @@ public class MainService extends Service implements OnMessageListener {
             Timber.d("onMessage: %s", e.getMessage());
         }
         if (!TextUtils.isEmpty(msg)) {
+            String deviceId = settings.getDeviceId();
             if (msg.startsWith("Data: ")) {
                 Data data = new Data(msg);
                 FireStoreUtils.saveToFireStore(deviceId, data);

@@ -36,14 +36,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         settings = AppSettings.getInstance(this);
         String deviceAddress = settings.getDeviceAddress();
-        String deviceId = settings.getDeviceId();
-        MainService.start(this, deviceAddress, deviceId);
+        MainService.start(this, deviceAddress);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.buttonState.setOnClickListener(
                 v -> startActivity(new Intent(this, StateActivity.class)));
         binding.deviceAddressInput.setText(deviceAddress);
-        binding.deviceIdInput.setText(deviceId);
         binding.buttonExit.setOnClickListener(this);
         binding.buttonLogs.setOnClickListener(this);
         binding.buttonInfo.setOnClickListener(this);
@@ -79,9 +77,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.device_address_submit_button:
                 String deviceAddress = binding.deviceAddressInput.getText().toString().trim();
-                String deviceId = binding.deviceIdInput.getText().toString().trim();
                 settings.setDeviceAddress(deviceAddress);
-                MainService.start(this, deviceAddress, deviceId);
+                MainService.start(this, deviceAddress);
                 break;
             case R.id.command_get_data:
                 Command.getData();

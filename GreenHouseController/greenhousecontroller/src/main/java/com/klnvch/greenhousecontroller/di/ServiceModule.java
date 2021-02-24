@@ -1,6 +1,7 @@
 package com.klnvch.greenhousecontroller.di;
 
 import com.klnvch.greenhousecontroller.MainService;
+import com.klnvch.greenhousecontroller.MyFirebaseMessagingService;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -9,4 +10,7 @@ import dagger.android.ContributesAndroidInjector;
 public abstract class ServiceModule {
     @ContributesAndroidInjector
     abstract MainService contributeMainService();
+
+    @ContributesAndroidInjector
+    abstract MyFirebaseMessagingService contributeMyFirebaseMessagingService();
 }
