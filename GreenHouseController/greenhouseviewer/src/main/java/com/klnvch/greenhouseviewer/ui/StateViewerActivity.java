@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.klnvch.greenhousecommon.db.AppDatabase;
 import com.klnvch.greenhousecommon.db.AppSettings;
+import com.klnvch.greenhousecommon.ui.settings.DeviceIdDialog;
 import com.klnvch.greenhousecommon.ui.states.StateActivity;
 import com.klnvch.greenhouseviewer.R;
 import com.klnvch.greenhouseviewer.firestore.StateReader;
@@ -37,6 +38,9 @@ public class StateViewerActivity extends StateActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_refresh) {
             refresh();
+            return true;
+        } else if (item.getItemId() == R.id.action_device_id) {
+            new DeviceIdDialog().show(getSupportFragmentManager(), null);
             return true;
         }
         return super.onOptionsItemSelected(item);

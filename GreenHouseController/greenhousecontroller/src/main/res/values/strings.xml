@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">0 Green House Controller</string>
+    <string name="app_name">Green House Controller</string>
     <string name="sector_id">Sector %1$d</string>
     <string name="device_address">Device address</string>
     <string name="device_address_hint">00:00:00:00:00:00</string>

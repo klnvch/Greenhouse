@@ -2,17 +2,31 @@ package com.klnvch.greenhousecontroller;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
 
+import com.klnvch.greenhousecommon.ui.settings.DeviceIdDialog;
 import com.klnvch.greenhousecommon.ui.states.StateActivity;
 import com.klnvch.greenhousecontroller.databinding.ActivityMainBinding;
 import com.klnvch.greenhousecontroller.logs.LogsActivity;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, HasSupportFragmentInjector {
+    @Inject
+    public DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
+
     private ActivityMainBinding binding;
     private AppSettings settings;
 
@@ -98,5 +112,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Command.sendCommand(command);
                 break;
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_device_id) {
+            new DeviceIdDialog().show(getSupportFragmentManager(), null);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return dispatchingAndroidInjector;
     }
 }

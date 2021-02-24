@@ -2,7 +2,6 @@ package com.klnvch.greenhousecontroller.di;
 
 import android.app.Application;
 
-import com.klnvch.greenhousecommon.di.ActivityModule;
 import com.klnvch.greenhousecommon.di.AppModule;
 import com.klnvch.greenhousecontroller.ControllerApp;
 
@@ -14,7 +13,7 @@ import dagger.android.AndroidInjectionModule;
 
 @Singleton
 @Component(
-        modules = {AndroidInjectionModule.class, AppModule.class, ServiceModule.class, ActivityModule.class}
+        modules = {AndroidInjectionModule.class, AppModule.class, ServiceModule.class, ControllerActivityModule.class}
 )
 public interface ControllerAppComponent {
     void inject(ControllerApp app);

@@ -7,4 +7,8 @@
 
     <string name="state_message_battery_charging">Charging</string>
     <string name="state_message_battery_discharging">Discharging</string>
+
+
+    <string name="device_id_label">Device ID</string>
+    <string name="device_id_hint">Device Id</string>
 </resources>

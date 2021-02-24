@@ -1,6 +1,7 @@
 package com.klnvch.greenhousecommon.di;
 
 import com.klnvch.greenhousecommon.ui.chart.PhoneChartFragment;
+import com.klnvch.greenhousecommon.ui.settings.DeviceIdDialog;
 import com.klnvch.greenhousecommon.ui.states.BatteryStateFragment;
 import com.klnvch.greenhousecommon.ui.states.BluetoothStateFragment;
 import com.klnvch.greenhousecommon.ui.states.ModuleOutsideWeatherFragment;
@@ -37,4 +38,7 @@ public abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract PhoneChartFragment contributePhoneChartFragment();
+
+    @ContributesAndroidInjector
+    abstract DeviceIdDialog contributeDeviceIdDialog();
 }
