@@ -1,5 +1,6 @@
 package com.klnvch.greenhouseviewer.ui;
 
+import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -7,6 +8,7 @@ import android.widget.Toast;
 
 import com.klnvch.greenhousecommon.db.AppDatabase;
 import com.klnvch.greenhousecommon.db.AppSettings;
+import com.klnvch.greenhousecommon.ui.action.ActionActivity;
 import com.klnvch.greenhousecommon.ui.settings.DeviceIdDialog;
 import com.klnvch.greenhousecommon.ui.states.StateActivity;
 import com.klnvch.greenhouseviewer.R;
@@ -41,6 +43,9 @@ public class StateViewerActivity extends StateActivity {
             return true;
         } else if (item.getItemId() == R.id.action_device_id) {
             new DeviceIdDialog().show(getSupportFragmentManager(), null);
+            return true;
+        } else if (item.getItemId() == R.id.action_actions) {
+            startActivity(new Intent(this, ActionActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);

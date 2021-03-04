@@ -1,5 +1,6 @@
 package com.klnvch.greenhousecommon.di;
 
+import com.klnvch.greenhousecommon.ui.action.ActionFragment;
 import com.klnvch.greenhousecommon.ui.chart.PhoneChartFragment;
 import com.klnvch.greenhousecommon.ui.settings.DeviceIdDialog;
 import com.klnvch.greenhousecommon.ui.states.BatteryStateFragment;
@@ -41,4 +42,7 @@ public abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract DeviceIdDialog contributeDeviceIdDialog();
+
+    @ContributesAndroidInjector
+    abstract ActionFragment contributeActionFragment();
 }

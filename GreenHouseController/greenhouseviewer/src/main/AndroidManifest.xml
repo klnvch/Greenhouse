@@ -23,6 +23,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.StateViewerActivity" />
         </activity>
+
+        <activity android:name="com.klnvch.greenhousecommon.ui.action.ActionActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.StateViewerActivity" />
+        </activity>
     </application>
 
 </manifest>

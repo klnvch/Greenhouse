@@ -1,5 +1,6 @@
 package com.klnvch.greenhousecommon.di;
 
+import com.klnvch.greenhousecommon.ui.action.ActionActivity;
 import com.klnvch.greenhousecommon.ui.chart.ChartActivity;
 import com.klnvch.greenhousecommon.ui.states.StateActivity;
 
@@ -13,4 +14,7 @@ public abstract class ActivityModule {
 
     @ContributesAndroidInjector(modules = {FragmentBuildersModule.class})
     abstract ChartActivity contributeChartActivity();
+
+    @ContributesAndroidInjector(modules = {FragmentBuildersModule.class})
+    abstract ActionActivity contributeActionActivity();
 }

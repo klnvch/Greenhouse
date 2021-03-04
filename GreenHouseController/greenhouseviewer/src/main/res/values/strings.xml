@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Greenhouse Viewer</string>
     <string name="menu_refresh">Refresh</string>
+    <string name="menu_actions">Actions</string>
 </resources>

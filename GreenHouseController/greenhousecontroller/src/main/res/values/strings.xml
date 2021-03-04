@@ -9,6 +9,8 @@
     <string name="info">Info</string>
     <string name="logs">Logs</string>
     <string name="exit_confirmation_msg">Are you sure to exit?</string>
+    <string name="button_state">State</string>
+    <string name="button_actions">Actions</string>
 
     <string name="start_button_controller">Controller</string>
     <string name="start_button_viewer">Viewer</string>

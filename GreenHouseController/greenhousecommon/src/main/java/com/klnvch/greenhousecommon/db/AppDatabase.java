@@ -7,6 +7,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import com.klnvch.greenhousecommon.models.Action;
 import com.klnvch.greenhousecommon.models.ModuleState;
 import com.klnvch.greenhousecommon.models.PhoneState;
 
@@ -15,7 +16,7 @@ import java.util.List;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 
-@Database(entities = {PhoneState.class, ModuleState.class}, version = 8, exportSchema = false)
+@Database(entities = {PhoneState.class, ModuleState.class, Action.class}, version = 9, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase instance = null;
 
@@ -33,6 +34,8 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract PhoneStateDao phoneStateDao();
 
     public abstract ModuleStateDao moduleStateDao();
+
+    public abstract ActionDao actionDao();
 
     public Single<Integer> insertPhoneStates(@NonNull List<PhoneState> states) {
         return phoneStateDao().insert(states)

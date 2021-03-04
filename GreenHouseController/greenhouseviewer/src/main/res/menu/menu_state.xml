@@ -11,4 +11,9 @@
         android:icon="@drawable/ic_baseline_settings_24"
         android:title="@string/device_id_label"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_actions"
+        android:icon="@drawable/ic_baseline_send_24"
+        android:title="@string/menu_actions"
+        app:showAsAction="ifRoom" />
 </menu>

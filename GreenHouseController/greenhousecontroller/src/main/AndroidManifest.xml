@@ -52,6 +52,12 @@
                 android:value="com.klnvch.greenhousecommon.ui.states.StateActivity" />
         </activity>
 
+        <activity android:name="com.klnvch.greenhousecommon.ui.action.ActionActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+
         <service
             android:name=".MainService"
             android:exported="false" />

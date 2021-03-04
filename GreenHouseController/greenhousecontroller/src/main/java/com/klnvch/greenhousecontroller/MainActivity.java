@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
+import com.klnvch.greenhousecommon.ui.action.ActionActivity;
 import com.klnvch.greenhousecommon.ui.settings.DeviceIdDialog;
 import com.klnvch.greenhousecommon.ui.states.StateActivity;
 import com.klnvch.greenhousecontroller.databinding.ActivityMainBinding;
@@ -41,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.buttonState.setOnClickListener(
                 v -> startActivity(new Intent(this, StateActivity.class)));
+        binding.buttonActions.setOnClickListener(
+                v -> startActivity(new Intent(this, ActionActivity.class)));
         binding.deviceAddressInput.setText(deviceAddress);
         binding.buttonExit.setOnClickListener(this);
         binding.buttonLogs.setOnClickListener(this);
