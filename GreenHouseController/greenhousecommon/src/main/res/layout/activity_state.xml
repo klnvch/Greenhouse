@@ -2,16 +2,55 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-
-        <variable
-            name="listener"
-            type="com.klnvch.greenhousecommon.ui.states.OnActionListener" />
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="64dp"
+            android:layout_marginLeft="64dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="@{v->listener.onPhoneStemItemClicked()}"
+            app:layout_constraintBottom_toBottomOf="@id/networkState"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/timeAndDeviceId" />
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="64dp"
+            android:layout_marginLeft="64dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="@{v->listener.onModuleStateItemClicked()}"
+            app:layout_constraintBottom_toBottomOf="@id/moduleWaterLevel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/moduleTime" />
+
+        <View
+            android:id="@+id/divider_1"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_margin="4dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/networkState" />
+
+        <View
+            android:id="@+id/divider_2"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_margin="4dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/moduleWaterLevel" />
 
         <fragment
             android:id="@+id/timeAndDeviceId"
@@ -49,27 +88,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/bluetoothState" />
 
-        <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:onClick="@{v->listener.onPhoneStemItemClicked()}"
-            app:layout_constraintBottom_toBottomOf="@id/networkState"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/timeAndDeviceId" />
-
-        <View
-            android:id="@+id/divider_1"
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:layout_margin="4dp"
-            android:background="@android:color/darker_gray"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/networkState" />
-
         <fragment
             android:id="@+id/moduleTime"
             android:name="com.klnvch.greenhousecommon.ui.states.ModuleTimeFragment"
@@ -97,16 +115,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/moduleOutsideWeather" />
 
-        <View
-            android:id="@+id/divider_2"
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:layout_margin="4dp"
-            android:background="@android:color/darker_gray"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/moduleWaterLevel" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <data>
+
+        <variable
+            name="listener"
+            type="com.klnvch.greenhousecommon.ui.states.OnActionListener" />
+    </data>
 
 </layout>

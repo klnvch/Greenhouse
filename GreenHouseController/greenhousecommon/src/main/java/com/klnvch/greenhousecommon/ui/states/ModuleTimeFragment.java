@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class ModuleTimeFragment extends ItemStateFragment implements ModuleStateInterface {
-    private static final String TIME_PATTERN = "dd/mm HH:mm";
+    private static final String TIME_PATTERN = "dd/MM HH:mm";
     private SimpleDateFormat sdf = null;
 
     @Override
@@ -23,6 +23,7 @@ public class ModuleTimeFragment extends ItemStateFragment implements ModuleState
         super.onViewCreated(view, savedInstanceState);
         sdf = new SimpleDateFormat(TIME_PATTERN, Locale.getDefault());
         setImage(R.drawable.ic_baseline_access_time_24);
+        setMonospace();
     }
 
     @Override
@@ -33,16 +34,21 @@ public class ModuleTimeFragment extends ItemStateFragment implements ModuleState
         } else {
             ModuleState latest = states.get(0);
             long time = latest.getTime();
-            long mainModuleTime = latest.getMainModuleTime();
-            long waterModuleLastAccess = latest.getWaterModuleLastAccess();
-            long climateModuleLastAccess = latest.getClimateModuleLastAccess();
+            long mainModuleTime = latest.getMainModuleTime() * 1000;
+            long waterModuleLastAccess = latest.getWaterModuleLastAccess() * 1000;
+            long climateModuleLastAccess = latest.getClimateModuleLastAccess() * 1000;
             String timeStr = sdf.format(new Date(time));
             String mainModuleTimeStr = sdf.format(new Date(mainModuleTime));
             String waterModuleLastAccessStr = sdf.format(new Date(waterModuleLastAccess));
             String climateModuleLastAccessStr = sdf.format(new Date(climateModuleLastAccess));
-            setMessage(timeStr + "\t" + waterModuleLastAccessStr
-                    + "\n" + mainModuleTimeStr + "\t" + climateModuleLastAccessStr);
+            setMessage("P: " + timeStr + "    W: " + waterModuleLastAccessStr
+                    + "\nM: " + mainModuleTimeStr + "    C: " + climateModuleLastAccessStr);
             setNormal();
         }
+    }
+
+    @Override
+    protected String getDescription() {
+        return "Phone Time\tWater module time\nModule time\tClimate module time";
     }
 }

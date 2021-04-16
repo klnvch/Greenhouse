@@ -33,6 +33,7 @@ public class BluetoothStateFragment extends ItemStateFragment implements PhoneSt
             switch (bluetoothState) {
                 case BluetoothState.CONNECTED:
                     setImage(R.drawable.ic_baseline_bluetooth_connected_24);
+                    setMessage(R.string.state_message_bluetooth_connected);
                     setNormal();
                     break;
                 case BluetoothState.NOT_AVAILABLE:
@@ -64,6 +65,7 @@ public class BluetoothStateFragment extends ItemStateFragment implements PhoneSt
                     break;
                 default:
                     setImage(R.drawable.ic_baseline_bluetooth_disabled_24);
+                    setMessage(R.string.state_message_bluetooth_unknown_error);
                     setAlert();
             }
         }

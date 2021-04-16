@@ -33,7 +33,7 @@ public class Command {
         sendCommand("0");
     }
 
-    static void setTime() {
+    public static void setTime() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yy,M,d,H,m,s", Locale.getDefault());
         sendCommand("1," + dateFormat.format(new Date()));
     }

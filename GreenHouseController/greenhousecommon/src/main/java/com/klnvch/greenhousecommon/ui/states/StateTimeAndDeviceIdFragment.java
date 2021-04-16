@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class StateTimeAndDeviceIdFragment extends ItemStateFragment implements PhoneStateInterface {
-    private static final String TIME_PATTERN = "dd/mm HH:mm";
+    private static final String TIME_PATTERN = "dd/MM HH:mm";
     private static final long ALERT_TIME_DIFFERENCE = 30 * 60 * 1000;  // 30 minutes
     private SimpleDateFormat sdf = null;
 
@@ -47,5 +47,10 @@ public class StateTimeAndDeviceIdFragment extends ItemStateFragment implements P
                 setNormal();
             }
         }
+    }
+
+    @Override
+    protected String getDescription() {
+        return "Last time phone data is updated with device id.";
     }
 }

@@ -14,7 +14,6 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -195,9 +194,9 @@ public class MainService extends Service implements OnMessageListener {
     @Override
     public void onMessage(String msg) {
         this.bluetoothException = null;
-        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
         try {
             ModuleState moduleState = new Gson().fromJson(msg, ModuleState.class);
+            moduleState.setTime(System.currentTimeMillis());
             newDb.moduleStateDao().insert(moduleState).subscribeOn(Schedulers.io()).subscribe();
             StateWriter.save(moduleState);
             return;

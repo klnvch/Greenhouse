@@ -46,7 +46,6 @@ public class PhoneStatusManager {
         throw new IllegalStateException("PhoneStatusManager not initialized.");
     }
 
-    @SuppressLint("MissingPermission")
     public int getCellularNetworkStrength() {
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {

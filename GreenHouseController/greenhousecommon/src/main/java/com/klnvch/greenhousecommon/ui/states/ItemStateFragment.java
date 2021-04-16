@@ -1,6 +1,8 @@
 package com.klnvch.greenhousecommon.ui.states;
 
+import android.app.AlertDialog;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +42,14 @@ public abstract class ItemStateFragment extends Fragment implements Injectable {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(requireActivity(), viewModelFactory).get(StateViewModel.class);
         viewModel.getViewState().observe(getViewLifecycleOwner(), this::onStateChanged);
+        binding.image.setOnClickListener(view1 -> {
+            if (getDescription() != null) {
+                new AlertDialog.Builder(view1.getContext())
+                        .setMessage(getDescription())
+                        .setPositiveButton(android.R.string.ok, null)
+                        .show();
+            }
+        });
     }
 
     private void onStateChanged(ViewState viewState) {
@@ -81,4 +91,13 @@ public abstract class ItemStateFragment extends Fragment implements Injectable {
     protected void setNormal() {
         binding.image.setColorFilter(null);
     }
+
+    protected void setMonospace() {
+        binding.message.setTypeface(Typeface.MONOSPACE);
+    }
+
+    protected String getDescription() {
+        return null;
+    }
+
 }

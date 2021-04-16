@@ -36,6 +36,11 @@ public class StateActivity extends AppCompatActivity implements OnActionListener
     }
 
     @Override
+    public void onModuleStateItemClicked() {
+
+    }
+
+    @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return dispatchingAndroidInjector;
     }

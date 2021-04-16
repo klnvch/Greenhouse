@@ -74,6 +74,7 @@ public class BluetoothConnectThread extends Thread {
         try {
             outputStream = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             disposable = Command.getCommandQueue().subscribe(this::sendCommand);
+            Command.setTime();
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             while (true) {
