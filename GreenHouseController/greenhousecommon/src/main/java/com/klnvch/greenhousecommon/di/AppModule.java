@@ -9,6 +9,7 @@ import com.klnvch.greenhousecommon.db.AppDatabase;
 import com.klnvch.greenhousecommon.db.AppSettings;
 import com.klnvch.greenhousecommon.db.ModuleStateDao;
 import com.klnvch.greenhousecommon.db.PhoneStateDao;
+import com.klnvch.greenhousecommon.ui.action.ActionManager;
 
 import javax.inject.Singleton;
 
@@ -48,5 +49,14 @@ public class AppModule {
     @Provides
     public AppSettings provideSettings(Application application) {
         return new AppSettings(application);
+    }
+
+    @Provides
+    public ActionManager provideActionManager() {
+        return createActionManager();
+    }
+
+    public ActionManager createActionManager() {
+        return null;
     }
 }

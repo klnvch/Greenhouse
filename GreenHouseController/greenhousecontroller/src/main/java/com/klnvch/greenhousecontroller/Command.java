@@ -87,7 +87,7 @@ public class Command {
         return commandQueue.debounce(5, TimeUnit.SECONDS);
     }
 
-    static void sendCommand(@Nullable String command) {
+    public static void sendCommand(@Nullable String command) {
         if (command != null) {
             commandQueue.onNext(command);
         }

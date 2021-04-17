@@ -12,7 +12,11 @@ import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
 
-class ActionViewModel @Inject constructor(val db: AppDatabase, val settings: AppSettings) : ViewModel() {
+class ActionViewModel @Inject constructor(
+    val db: AppDatabase,
+    val settings: AppSettings,
+    val actionManager: ActionManager
+) : ViewModel() {
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     private val viewState: MutableLiveData<ActionViewState> = MutableLiveData()
@@ -20,11 +24,11 @@ class ActionViewModel @Inject constructor(val db: AppDatabase, val settings: App
     init {
         val deviceId: String = settings.getDeviceId()
         compositeDisposable.add(db.actionDao()
-                .getActions(deviceId)
-                .map { ActionViewState(it) }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(viewState::postValue, Timber::e))
+            .getActions(deviceId)
+            .map { ActionViewState(it) }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(viewState::postValue, Timber::e))
     }
 
     fun getViewState(): LiveData<ActionViewState> {
@@ -33,10 +37,14 @@ class ActionViewModel @Inject constructor(val db: AppDatabase, val settings: App
 
     fun sendCommand(command: String) {
         val action = Action(settings.getDeviceId(), System.currentTimeMillis(), command, 0)
-        compositeDisposable.add(db.actionDao().insert(action)
+        compositeDisposable.add(
+            db.actionDao().insert(action)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({}, Timber::e))
+                .subscribe({}, Timber::e)
+        )
+
+        actionManager.processCommand(command)
     }
 
     override fun onCleared() {

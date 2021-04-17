@@ -54,7 +54,7 @@
                 android:id="@+id/buttonActions"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/button_state"
+                android:text="@string/button_actions"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/buttonState" />
