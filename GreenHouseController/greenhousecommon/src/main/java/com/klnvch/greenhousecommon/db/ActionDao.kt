@@ -18,4 +18,7 @@ interface ActionDao {
 
     @Query("SELECT * FROM actions WHERE deviceId=:arg0 ORDER BY time DESC LIMIT 1000")
     fun getActions(arg0: String): Flowable<List<Action>>
+
+    @Query("UPDATE actions SET state=:arg2 WHERE deviceId=:arg0 AND time=:arg1")
+    fun updateState(arg0: String, arg1: Long, arg2: Int): Completable
 }

@@ -11,6 +11,8 @@ public class ModuleState {
     private String deviceId = "test";
     private long time;
     private long mainModuleTime;
+    private int waterModuleSuccessCount;
+    private int waterModuleFailCount;
     private long waterModuleLastAccess;
     private long climateModuleLastAccess;
     private int waterLevel;
@@ -44,6 +46,22 @@ public class ModuleState {
 
     public void setMainModuleTime(long mainModuleTime) {
         this.mainModuleTime = mainModuleTime;
+    }
+
+    public int getWaterModuleSuccessCount() {
+        return waterModuleSuccessCount;
+    }
+
+    public void setWaterModuleSuccessCount(int waterModuleSuccessCount) {
+        this.waterModuleSuccessCount = waterModuleSuccessCount;
+    }
+
+    public int getWaterModuleFailCount() {
+        return waterModuleFailCount;
+    }
+
+    public void setWaterModuleFailCount(int waterModuleFailCount) {
+        this.waterModuleFailCount = waterModuleFailCount;
     }
 
     public long getWaterModuleLastAccess() {

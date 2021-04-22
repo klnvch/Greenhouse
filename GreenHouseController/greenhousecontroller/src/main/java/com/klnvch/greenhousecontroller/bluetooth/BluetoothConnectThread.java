@@ -94,11 +94,11 @@ public class BluetoothConnectThread extends Thread {
         }
     }
 
-    private void onError(@NonNull BluetoothException throwable) {
+    private void onError(@NonNull BluetoothException e) {
         if (handler != null) {
-            handler.obtainMessage(0, throwable).sendToTarget();
+            handler.obtainMessage(0, e).sendToTarget();
         } else {
-            Timber.e("Could not close the connect socket: %s.", throwable.getMessage());
+            Timber.e("Handler is null: %s.", e.getMessage());
         }
     }
 

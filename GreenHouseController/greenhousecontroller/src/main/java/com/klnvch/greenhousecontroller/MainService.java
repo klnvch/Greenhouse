@@ -22,6 +22,7 @@ import androidx.core.app.NotificationCompat;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.klnvch.greenhousecommon.db.AppSettings;
+import com.klnvch.greenhousecommon.models.Action;
 import com.klnvch.greenhousecommon.models.BluetoothState;
 import com.klnvch.greenhousecommon.models.ModuleState;
 import com.klnvch.greenhousecommon.models.PhoneState;
@@ -212,6 +213,23 @@ public class MainService extends Service implements OnMessageListener {
                         .subscribeOn(Schedulers.io())
                         .onErrorComplete()
                         .subscribe();
+            } else if (msg.startsWith("Command: ")) {
+                msg = msg.replace("Command: ", "");
+                String[] answer = msg.split(",");
+                if (answer.length == 2) {
+                    try {
+                        int result = Integer.parseInt(answer[0]);
+                        int state = result == 1 ? Action.SUCCESS : Action.FAIL;
+                        long time = Long.parseLong(answer[1]);
+                        newDb.actionDao().updateState(deviceId, time, state)
+                                .subscribeOn(Schedulers.io())
+                                .onErrorComplete()
+                                .subscribe();
+                    } catch (Exception e) {
+                        Timber.e("%s", e.getMessage());
+                    }
+                }
+
             } else {
                 Info info = new Info(msg);
                 FireStoreUtils.saveToFireStore(deviceId, info);

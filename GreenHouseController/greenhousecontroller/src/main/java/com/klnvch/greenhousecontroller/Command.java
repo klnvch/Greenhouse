@@ -3,6 +3,8 @@ package com.klnvch.greenhousecontroller;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.klnvch.greenhousecommon.models.Action;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -90,6 +92,12 @@ public class Command {
     public static void sendCommand(@Nullable String command) {
         if (command != null) {
             commandQueue.onNext(command);
+        }
+    }
+
+    public static void sendCommand(@Nullable Action action) {
+        if (action != null) {
+            commandQueue.onNext(action.getCommand() + "," + action.getTime());
         }
     }
 }

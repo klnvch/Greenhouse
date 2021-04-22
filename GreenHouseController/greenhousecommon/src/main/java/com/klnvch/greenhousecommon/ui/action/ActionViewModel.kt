@@ -36,7 +36,8 @@ class ActionViewModel @Inject constructor(
     }
 
     fun sendCommand(command: String) {
-        val action = Action(settings.getDeviceId(), System.currentTimeMillis(), command, 0)
+        val action =
+            Action(settings.getDeviceId(), System.currentTimeMillis(), command, Action.SENT)
         compositeDisposable.add(
             db.actionDao().insert(action)
                 .subscribeOn(Schedulers.io())
@@ -44,7 +45,7 @@ class ActionViewModel @Inject constructor(
                 .subscribe({}, Timber::e)
         )
 
-        actionManager.processCommand(command)
+        actionManager.processCommand(action)
     }
 
     override fun onCleared() {

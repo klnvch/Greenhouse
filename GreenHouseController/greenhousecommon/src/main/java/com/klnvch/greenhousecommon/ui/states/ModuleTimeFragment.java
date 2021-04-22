@@ -16,6 +16,7 @@ import java.util.Locale;
 
 public class ModuleTimeFragment extends ItemStateFragment implements ModuleStateInterface {
     private static final String TIME_PATTERN = "dd/MM HH:mm";
+    private static final long THREE_HOURS_IN_SECONDS = 60 * 60 * 3;
     private SimpleDateFormat sdf = null;
 
     @Override
@@ -34,14 +35,16 @@ public class ModuleTimeFragment extends ItemStateFragment implements ModuleState
         } else {
             ModuleState latest = states.get(0);
             long time = latest.getTime();
-            long mainModuleTime = latest.getMainModuleTime() * 1000;
-            long waterModuleLastAccess = latest.getWaterModuleLastAccess() * 1000;
-            long climateModuleLastAccess = latest.getClimateModuleLastAccess() * 1000;
+            long mainModuleTime = (latest.getMainModuleTime() - THREE_HOURS_IN_SECONDS) * 1000;
+            int waterModuleSuccessCount = latest.getWaterModuleSuccessCount();
+            int waterModuleFailCount = latest.getWaterModuleFailCount();
+            long waterModuleLastAccess = (latest.getWaterModuleLastAccess() - THREE_HOURS_IN_SECONDS) * 1000;
+            long climateModuleLastAccess = (latest.getClimateModuleLastAccess() - THREE_HOURS_IN_SECONDS) * 1000;
             String timeStr = sdf.format(new Date(time));
             String mainModuleTimeStr = sdf.format(new Date(mainModuleTime));
             String waterModuleLastAccessStr = sdf.format(new Date(waterModuleLastAccess));
             String climateModuleLastAccessStr = sdf.format(new Date(climateModuleLastAccess));
-            setMessage("P: " + timeStr + "    W: " + waterModuleLastAccessStr
+            setMessage("P: " + timeStr + "    W: " + waterModuleLastAccessStr + " (" + waterModuleSuccessCount + "/" + waterModuleFailCount + ")"
                     + "\nM: " + mainModuleTimeStr + "    C: " + climateModuleLastAccessStr);
             setNormal();
         }
@@ -49,6 +52,6 @@ public class ModuleTimeFragment extends ItemStateFragment implements ModuleState
 
     @Override
     protected String getDescription() {
-        return "Phone Time\tWater module time\nModule time\tClimate module time";
+        return "Phone Time \\ Water module time\nModule time \\ Climate module time";
     }
 }
