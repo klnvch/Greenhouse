@@ -52,11 +52,11 @@ public class AppModule {
     }
 
     @Provides
-    public ActionManager provideActionManager() {
-        return createActionManager();
+    public ActionManager provideActionManager(ActionDao actionDao) {
+        return createActionManager(actionDao);
     }
 
-    public ActionManager createActionManager() {
+    public ActionManager createActionManager(ActionDao actionDao) {
         return null;
     }
 }

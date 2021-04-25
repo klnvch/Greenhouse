@@ -15,7 +15,7 @@ import javax.inject.Inject
 class ActionViewModel @Inject constructor(
     val db: AppDatabase,
     val settings: AppSettings,
-    val actionManager: ActionManager
+    private val actionManager: ActionManager
 ) : ViewModel() {
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
@@ -23,12 +23,15 @@ class ActionViewModel @Inject constructor(
 
     init {
         val deviceId: String = settings.getDeviceId()
+
         compositeDisposable.add(db.actionDao()
             .getActions(deviceId)
             .map { ActionViewState(it) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(viewState::postValue, Timber::e))
+
+        actionManager.init()
     }
 
     fun getViewState(): LiveData<ActionViewState> {
@@ -38,6 +41,7 @@ class ActionViewModel @Inject constructor(
     fun sendCommand(command: String) {
         val action =
             Action(settings.getDeviceId(), System.currentTimeMillis(), command, Action.SENT)
+
         compositeDisposable.add(
             db.actionDao().insert(action)
                 .subscribeOn(Schedulers.io())
@@ -49,6 +53,7 @@ class ActionViewModel @Inject constructor(
     }
 
     override fun onCleared() {
+        actionManager.clear()
         compositeDisposable.clear()
         super.onCleared()
     }
