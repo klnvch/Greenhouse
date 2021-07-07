@@ -2,11 +2,16 @@ package com.klnvch.greenhousecontroller;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.usage.NetworkStats;
+import android.app.usage.NetworkStatsManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
 import android.os.BatteryManager;
+import android.os.RemoteException;
 import android.telephony.CellInfo;
 import android.telephony.CellInfoGsm;
 import android.telephony.CellInfoLte;
@@ -22,14 +27,35 @@ import java.util.List;
 
 public class PhoneStatusManager {
     private final TelephonyManager telephonyManager;
+    private final NetworkStatsManager networkStatsManager;
     private final Context context;
+    private final String subscriberId;
+    private int uid;
 
     @SuppressLint("StaticFieldLeak")
     private static PhoneStatusManager instance;
 
+    @SuppressLint("HardwareIds")
     private PhoneStatusManager(Context context) {
         this.context = context;
         telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        networkStatsManager = (NetworkStatsManager) context.getSystemService(Context.NETWORK_STATS_SERVICE);
+
+        PackageManager packageManager = context.getPackageManager();
+        try {
+            PackageInfo packageInfo = packageManager
+                    .getPackageInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+            uid = packageInfo.applicationInfo.uid;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            uid = -1;
+        }
+
+        if (telephonyManager != null) {
+            subscriberId = telephonyManager.getSubscriberId();
+        } else {
+            subscriberId = null;
+        }
     }
 
     public static PhoneStatusManager init(Context context) {
@@ -99,5 +125,87 @@ public class PhoneStatusManager {
             return (int) (level * 100 / (float) scale);
         }
         return 0;
+    }
+
+    public NetworkUsage getDeviceNetworkUsage() {
+        try {
+            NetworkStats.Bucket bucketMobile = networkStatsManager.querySummaryForDevice(
+                    ConnectivityManager.TYPE_MOBILE,
+                    subscriberId,
+                    0,
+                    System.currentTimeMillis());
+            long rxMobile = bucketMobile.getRxBytes();
+            long txMobile = bucketMobile.getTxBytes();
+
+            NetworkStats.Bucket bucketWifi = networkStatsManager.querySummaryForDevice(
+                    ConnectivityManager.TYPE_WIFI,
+                    "",
+                    0,
+                    System.currentTimeMillis());
+            long rxWifi = bucketWifi.getRxBytes();
+            long txWifi = bucketWifi.getTxBytes();
+
+            return new NetworkUsage(rxMobile, txMobile, rxWifi, txWifi);
+        } catch (RemoteException | SecurityException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public NetworkUsage getPackageNetworkUsage() {
+        try {
+            NetworkStats networkStatsMobile = networkStatsManager.queryDetailsForUid(
+                    ConnectivityManager.TYPE_MOBILE,
+                    subscriberId,
+                    0,
+                    System.currentTimeMillis(),
+                    uid);
+
+            long rxMobileBytes = 0L;
+            long txMobileBytes = 0L;
+            NetworkStats.Bucket bucketMobile = new NetworkStats.Bucket();
+            while (networkStatsMobile.hasNextBucket()) {
+                networkStatsMobile.getNextBucket(bucketMobile);
+                rxMobileBytes += bucketMobile.getRxBytes();
+                txMobileBytes += bucketMobile.getTxBytes();
+            }
+            networkStatsMobile.close();
+
+            NetworkStats networkStatsWifi = networkStatsManager.queryDetailsForUid(
+                    ConnectivityManager.TYPE_WIFI,
+                    "",
+                    0,
+                    System.currentTimeMillis(),
+                    uid);
+
+            long rxWifiBytes = 0L;
+            long txWifiBytes = 0L;
+            NetworkStats.Bucket bucketWifi = new NetworkStats.Bucket();
+            while (networkStatsWifi.hasNextBucket()) {
+                networkStatsWifi.getNextBucket(bucketWifi);
+                rxWifiBytes += bucketWifi.getRxBytes();
+                txWifiBytes += bucketWifi.getTxBytes();
+            }
+            networkStatsWifi.close();
+
+            return new NetworkUsage(rxMobileBytes, txMobileBytes, rxWifiBytes, txWifiBytes);
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static class NetworkUsage {
+        public final long rxMobile;
+        public final long txMobile;
+        public final long rxWifi;
+        public final long txWifi;
+
+        public NetworkUsage(long rxMobile, long txMobile, long rxWifi, long txWifi) {
+            this.rxMobile = rxMobile;
+            this.txMobile = txMobile;
+            this.rxWifi = rxWifi;
+            this.txWifi = txWifi;
+        }
     }
 }

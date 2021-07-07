@@ -45,4 +45,13 @@
     <string name="logs_info_messages">Info messages</string>
     <string name="logs_data_messages">Data messages</string>
     <string name="logs_phone_data">Phone data</string>
+
+    <string name="network_mobile_device_received">Mobile device received: %1$d bytes</string>
+    <string name="network_mobile_device_transmitted">Mobile device transmitted: %1$d bytes</string>
+    <string name="network_wifi_device_received">Wi-Fi device received: %1$d bytes</string>
+    <string name="network_wifi_device_transmitted">Wi-Fi device transmitted: %1$d bytes</string>
+    <string name="network_mobile_app_received">Mobile app received: %1$d bytes</string>
+    <string name="network_mobile_app_transmitted">Mobile app transmitted: %1$d bytes</string>
+    <string name="network_wifi_app_received">Wi-Fi app received: %1$d bytes</string>
+    <string name="network_wifi_app_transmitted">Wi-Fi app transmitted: %1$d bytes</string>
 </resources>

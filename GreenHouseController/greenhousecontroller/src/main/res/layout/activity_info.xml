@@ -85,6 +85,78 @@
             tools:text="100" />
 
         <TextView
+            android:id="@+id/network_mobile_device_received"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/network_mobile_device_received"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/batteryLevelLabel" />
+
+        <TextView
+            android:id="@+id/network_mobile_device_transmitted"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/network_mobile_device_transmitted"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/network_mobile_device_received" />
+
+        <TextView
+            android:id="@+id/network_wifi_device_received"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/network_wifi_device_received"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/network_mobile_device_transmitted" />
+
+        <TextView
+            android:id="@+id/network_wifi_device_transmitted"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/network_wifi_device_transmitted"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/network_wifi_device_received" />
+
+        <TextView
+            android:id="@+id/network_mobile_app_received"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/network_mobile_app_received"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/network_wifi_device_transmitted" />
+
+        <TextView
+            android:id="@+id/network_mobile_app_transmitted"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/network_mobile_app_transmitted"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/network_mobile_app_received" />
+
+        <TextView
+            android:id="@+id/network_wifi_app_received"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/network_wifi_app_received"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/network_mobile_app_transmitted" />
+
+        <TextView
+            android:id="@+id/network_wifi_app_transmitted"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/network_wifi_app_transmitted"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/network_wifi_app_received" />
+
+        <TextView
             android:id="@+id/restartBluetoothCounterLabel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -110,7 +182,7 @@
             android:layout_height="wrap_content"
             android:text="@string/info_restart_now"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/batteryLevelValue" />
+            app:layout_constraintTop_toBottomOf="@+id/network_wifi_app_transmitted" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

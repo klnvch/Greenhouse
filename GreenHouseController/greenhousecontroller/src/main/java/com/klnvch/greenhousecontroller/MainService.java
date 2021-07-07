@@ -19,7 +19,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.klnvch.greenhousecommon.db.AppSettings;
 import com.klnvch.greenhousecommon.models.Action;
@@ -51,18 +50,17 @@ import timber.log.Timber;
 
 public class MainService extends Service implements OnMessageListener {
     private static final String KEY_DEVICE_ADDRESS = "KEY_DEVICE_ADDRESS";
-
-    private BluetoothConnectThread connectThread;
-    private String deviceAddress;
-    private Handler threadHandler;
-    private AppDatabase db;
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     @Inject
     protected com.klnvch.greenhousecommon.db.AppDatabase newDb;
     @Inject
     protected AppSettings settings;
+    private BluetoothConnectThread connectThread;
+    private String deviceAddress;
+    private Handler threadHandler;
+    private AppDatabase db;
     private BluetoothRestartCounter restartCounter = null;
     private BluetoothException bluetoothException = null;
-    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private PhoneStatusManager phoneStatusManager;
 
     static void start(Context context, String deviceAddress) {
@@ -88,20 +86,6 @@ public class MainService extends Service implements OnMessageListener {
                 }
             }
         };
-
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        if (task.getResult() != null) {
-                            String deviceId = settings.getDeviceId();
-                            FireStoreUtils.saveFirebaseToken(deviceId, task.getResult().getToken());
-                        }
-                    } else {
-                        if (task.getException() != null) {
-                            Timber.e("getInstanceId failed: %s", task.getException().getMessage());
-                        }
-                    }
-                });
 
         phoneStatusManager = PhoneStatusManager.init(this.getApplicationContext());
 
@@ -256,6 +240,22 @@ public class MainService extends Service implements OnMessageListener {
         phoneState.setCharging(phoneStatusManager.isBatteryIsCharging());
         phoneState.setBatteryLevel(phoneStatusManager.getBatteryLevel());
         phoneState.setNetworkStrength(phoneStatusManager.getCellularNetworkStrength());
+
+        PhoneStatusManager.NetworkUsage deviceNetworkUsage = phoneStatusManager.getDeviceNetworkUsage();
+        if (deviceNetworkUsage != null) {
+            phoneState.setRxDeviceMobile(deviceNetworkUsage.rxMobile);
+            phoneState.setTxDeviceMobile(deviceNetworkUsage.txMobile);
+            phoneState.setRxDeviceWifi(deviceNetworkUsage.rxWifi);
+            phoneState.setTxDeviceWifi(deviceNetworkUsage.txWifi);
+        }
+        PhoneStatusManager.NetworkUsage packageNetworkUsage = phoneStatusManager.getPackageNetworkUsage();
+        if (packageNetworkUsage != null) {
+            phoneState.setRxAppMobile(packageNetworkUsage.rxMobile);
+            phoneState.setTxAppMobile(packageNetworkUsage.txMobile);
+            phoneState.setRxAppWifi(packageNetworkUsage.rxWifi);
+            phoneState.setTxAppWifi(packageNetworkUsage.txWifi);
+        }
+
         if (bluetoothException == null) {
             phoneState.setBluetoothState(BluetoothState.CONNECTED);
         } else {
