@@ -26,6 +26,7 @@ import androidx.core.content.ContextCompat;
 import java.util.List;
 
 public class PhoneStatusManager {
+    private static final long ONE_DAY_MILLIS = 24 * 60 * 60 * 1000;
     private final TelephonyManager telephonyManager;
     private final NetworkStatsManager networkStatsManager;
     private final Context context;
@@ -129,19 +130,21 @@ public class PhoneStatusManager {
 
     public NetworkUsage getDeviceNetworkUsage() {
         try {
+            long now = System.currentTimeMillis();
+
             NetworkStats.Bucket bucketMobile = networkStatsManager.querySummaryForDevice(
                     ConnectivityManager.TYPE_MOBILE,
                     subscriberId,
-                    0,
-                    System.currentTimeMillis());
+                    now - ONE_DAY_MILLIS,
+                    now);
             long rxMobile = bucketMobile.getRxBytes();
             long txMobile = bucketMobile.getTxBytes();
 
             NetworkStats.Bucket bucketWifi = networkStatsManager.querySummaryForDevice(
                     ConnectivityManager.TYPE_WIFI,
                     "",
-                    0,
-                    System.currentTimeMillis());
+                    now - ONE_DAY_MILLIS,
+                    now);
             long rxWifi = bucketWifi.getRxBytes();
             long txWifi = bucketWifi.getTxBytes();
 
@@ -154,11 +157,13 @@ public class PhoneStatusManager {
 
     public NetworkUsage getPackageNetworkUsage() {
         try {
+            long now = System.currentTimeMillis();
+
             NetworkStats networkStatsMobile = networkStatsManager.queryDetailsForUid(
                     ConnectivityManager.TYPE_MOBILE,
                     subscriberId,
-                    0,
-                    System.currentTimeMillis(),
+                    now - ONE_DAY_MILLIS,
+                    now,
                     uid);
 
             long rxMobileBytes = 0L;
@@ -174,8 +179,8 @@ public class PhoneStatusManager {
             NetworkStats networkStatsWifi = networkStatsManager.queryDetailsForUid(
                     ConnectivityManager.TYPE_WIFI,
                     "",
-                    0,
-                    System.currentTimeMillis(),
+                    now - ONE_DAY_MILLIS,
+                    now,
                     uid);
 
             long rxWifiBytes = 0L;

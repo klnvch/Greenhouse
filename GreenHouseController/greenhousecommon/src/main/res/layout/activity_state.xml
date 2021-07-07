@@ -14,7 +14,7 @@
             android:clickable="true"
             android:focusable="true"
             android:onClick="@{v->listener.onPhoneStemItemClicked()}"
-            app:layout_constraintBottom_toBottomOf="@id/networkState"
+            app:layout_constraintBottom_toBottomOf="@id/networkUsage"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/timeAndDeviceId" />
@@ -40,7 +40,7 @@
             android:background="@android:color/darker_gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/networkState" />
+            app:layout_constraintTop_toBottomOf="@+id/networkUsage" />
 
         <View
             android:id="@+id/divider_2"
@@ -87,6 +87,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/bluetoothState" />
+
+        <fragment
+            android:id="@+id/networkUsage"
+            android:name="com.klnvch.greenhousecommon.ui.states.NetworkUsageStateFragment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/networkState" />
 
         <fragment
             android:id="@+id/moduleTime"

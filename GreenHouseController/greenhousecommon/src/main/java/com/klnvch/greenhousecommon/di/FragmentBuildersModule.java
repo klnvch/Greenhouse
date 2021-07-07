@@ -8,6 +8,7 @@ import com.klnvch.greenhousecommon.ui.states.BluetoothStateFragment;
 import com.klnvch.greenhousecommon.ui.states.ModuleOutsideWeatherFragment;
 import com.klnvch.greenhousecommon.ui.states.ModuleTimeFragment;
 import com.klnvch.greenhousecommon.ui.states.ModuleWaterLevelFragment;
+import com.klnvch.greenhousecommon.ui.states.NetworkUsageStateFragment;
 import com.klnvch.greenhousecommon.ui.states.SignalStateFragment;
 import com.klnvch.greenhousecommon.ui.states.StateTimeAndDeviceIdFragment;
 
@@ -27,6 +28,9 @@ public abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract SignalStateFragment contributeSignalStateFragment();
+
+    @ContributesAndroidInjector
+    abstract NetworkUsageStateFragment contributeNetworkUsageStateFragment();
 
     @ContributesAndroidInjector
     abstract ModuleTimeFragment contributeModuleTimeFragment();
