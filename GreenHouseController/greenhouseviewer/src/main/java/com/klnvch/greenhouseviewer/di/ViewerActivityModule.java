@@ -1,8 +1,7 @@
 package com.klnvch.greenhouseviewer.di;
 
 import com.klnvch.greenhousecommon.di.ActivityModule;
-import com.klnvch.greenhousecommon.di.FragmentBuildersModule;
-import com.klnvch.greenhouseviewer.ui.StateViewerActivity;
+import com.klnvch.greenhouseviewer.ui.states.StateViewerActivity;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;

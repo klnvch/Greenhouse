@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".ui.StateViewerActivity">
+        <activity android:name=".ui.states.StateViewerActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,13 +21,13 @@
         <activity android:name="com.klnvch.greenhousecommon.ui.chart.ChartActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.StateViewerActivity" />
+                android:value=".ui.states.StateViewerActivity" />
         </activity>
 
         <activity android:name="com.klnvch.greenhousecommon.ui.action.ActionActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.StateViewerActivity" />
+                android:value=".ui.states.StateViewerActivity" />
         </activity>
     </application>
 

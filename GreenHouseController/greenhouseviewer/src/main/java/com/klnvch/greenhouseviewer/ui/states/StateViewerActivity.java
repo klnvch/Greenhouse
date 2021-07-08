@@ -1,4 +1,4 @@
-package com.klnvch.greenhouseviewer.ui;
+package com.klnvch.greenhouseviewer.ui.states;
 
 import android.content.Intent;
 import android.view.Menu;
@@ -54,18 +54,26 @@ public class StateViewerActivity extends StateActivity {
     private void refresh() {
         compositeDisposable.clear();
 
-        final String deviceId = settings.getDeviceId();
+        final long startTime = settings.getStartTime();
+        if (startTime > 0) {
+            final String deviceId = settings.getDeviceId();
 
-        Single<Integer> phoneStates = db.getLatestPhoneStateTime(deviceId)
-                .flatMap(time -> StateReader.readPhoneStates(deviceId, time))
-                .flatMap(db::insertPhoneStates);
-        Single<Integer> moduleStates = db.getLatestModuleStateTime(deviceId)
-                .flatMap(time -> StateReader.readModuleStates(deviceId, time))
-                .flatMap(db::insertModuleStates);
-        compositeDisposable.add(Single.zip(phoneStates, moduleStates, this::sum)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onSuccess, this::onError));
+            Single<Integer> phoneStates = db.getLatestPhoneStateTime(deviceId)
+                    .map(time -> Math.max(startTime, time))
+                    .flatMap(time -> StateReader.readPhoneStates(deviceId, time))
+                    .flatMap(db::insertPhoneStates);
+            Single<Integer> moduleStates = db.getLatestModuleStateTime(deviceId)
+                    .map(time -> Math.max(startTime, time))
+                    .flatMap(time -> StateReader.readModuleStates(deviceId, time))
+                    .flatMap(db::insertModuleStates);
+
+            compositeDisposable.add(Single.zip(phoneStates, moduleStates, this::sum)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(this::onSuccess, this::onError));
+        } else {
+            new StartTimeDialog().show(getSupportFragmentManager(), null);
+        }
     }
 
     private Integer sum(Integer i1, Integer i2) {
