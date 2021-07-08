@@ -11,7 +11,7 @@ import com.klnvch.greenhousecommon.models.PhoneState;
 
 import java.util.List;
 
-public class NetworkUsageStateFragment extends ItemStateFragment implements PhoneStateInterface{
+public class NetworkUsageStateFragment extends ItemStateFragment implements PhoneStateInterface {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -26,7 +26,20 @@ public class NetworkUsageStateFragment extends ItemStateFragment implements Phon
             setAlert();
         } else {
             PhoneState latest = states.get(0);
-            setMessage("" + latest.getRxAppMobile());
+
+            long rxDeviceMobile = latest.getRxDeviceMobile() / 1024;
+            long txDeviceMobile = latest.getTxDeviceMobile() / 1024;
+            long rxDeviceWiFi = latest.getRxDeviceWifi() / 1024;
+            long txDeviceWiFi = latest.getTxDeviceWifi() / 1024;
+            long rxAppMobile = latest.getRxAppMobile() / 1024;
+            long txAppMobile = latest.getTxAppMobile() / 1024;
+            long rxAppWiFi = latest.getRxAppWifi() / 1024;
+            long txAppWiFi = latest.getTxAppWifi() / 1024;
+
+            setMessage("Device mobile: " + rxDeviceMobile + "/" + txDeviceMobile + " KB\n"
+                    + "Device Wi-fi: " + rxDeviceWiFi + "/" + txDeviceWiFi + " KB\n"
+                    + "App mobile: " + rxAppMobile + "/" + txAppMobile + " KB\n"
+                    + "App Wi-fi: " + rxAppWiFi + "/" + txAppWiFi + " KB");
             setNormal();
         }
     }

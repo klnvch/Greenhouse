@@ -20,9 +20,16 @@ import com.klnvch.greenhousecommon.databinding.FragmentItemStateBinding;
 import com.klnvch.greenhousecommon.di.Injectable;
 import com.klnvch.greenhousecommon.di.ViewModelFactory;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import javax.inject.Inject;
 
 public abstract class ItemStateFragment extends Fragment implements Injectable {
+    private static final String TIME_PATTERN = "dd/MM HH:mm";
+    private SimpleDateFormat sdf = null;
+
     @Inject
     protected ViewModelFactory viewModelFactory;
     private FragmentItemStateBinding binding;
@@ -34,6 +41,7 @@ public abstract class ItemStateFragment extends Fragment implements Injectable {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentItemStateBinding.inflate(inflater, container, true);
+        sdf = new SimpleDateFormat(TIME_PATTERN, Locale.getDefault());
         return binding.getRoot();
     }
 
@@ -98,6 +106,10 @@ public abstract class ItemStateFragment extends Fragment implements Injectable {
 
     protected String getDescription() {
         return null;
+    }
+
+    protected String formatTime(long time) {
+        return sdf.format(new Date(time));
     }
 
 }

@@ -13,6 +13,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_baseline_router_24"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="ContentDescription" />
@@ -25,12 +26,11 @@
             android:layout_marginRight="8dp"
             android:ellipsize="end"
             android:gravity="center_vertical"
-            android:lines="2"
-            app:layout_constraintBottom_toBottomOf="@+id/image"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/image"
-            app:layout_constraintTop_toTopOf="@+id/image"
-            tools:text="Message\nMessage" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Message\nMessage\nMessage\nMessage" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

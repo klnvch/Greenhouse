@@ -9,21 +9,15 @@ import androidx.annotation.Nullable;
 import com.klnvch.greenhousecommon.R;
 import com.klnvch.greenhousecommon.models.PhoneState;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class StateTimeAndDeviceIdFragment extends ItemStateFragment implements PhoneStateInterface {
-    private static final String TIME_PATTERN = "dd/MM HH:mm";
     private static final long ALERT_TIME_DIFFERENCE = 30 * 60 * 1000;  // 30 minutes
-    private SimpleDateFormat sdf = null;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setImage(R.drawable.ic_baseline_router_24);
-        sdf = new SimpleDateFormat(TIME_PATTERN, Locale.getDefault());
     }
 
     @Override
@@ -37,7 +31,7 @@ public class StateTimeAndDeviceIdFragment extends ItemStateFragment implements P
             long time = latest.getTime();
             long currentTime = System.currentTimeMillis();
 
-            String timeStr = sdf.format(new Date(time));
+            String timeStr = formatTime(time);
             String msg = timeStr + "\t(" + deviceId + ")";
             setMessage(msg);
 
