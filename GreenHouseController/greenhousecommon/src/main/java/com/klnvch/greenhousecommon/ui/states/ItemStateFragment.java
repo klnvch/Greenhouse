@@ -40,7 +40,7 @@ public abstract class ItemStateFragment extends Fragment implements Injectable {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        binding = FragmentItemStateBinding.inflate(inflater, container, true);
+        binding = FragmentItemStateBinding.inflate(inflater, container, false);
         sdf = new SimpleDateFormat(TIME_PATTERN, Locale.getDefault());
         return binding.getRoot();
     }

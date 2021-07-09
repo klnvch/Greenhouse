@@ -11,6 +11,7 @@ import com.klnvch.greenhousecommon.ui.states.ModuleWaterLevelFragment;
 import com.klnvch.greenhousecommon.ui.states.NetworkUsageStateFragment;
 import com.klnvch.greenhousecommon.ui.states.SignalStateFragment;
 import com.klnvch.greenhousecommon.ui.states.StateTimeAndDeviceIdFragment;
+import com.klnvch.greenhousecommon.ui.states.WaterSensorStateFragment;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -37,6 +38,9 @@ public abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract ModuleWaterLevelFragment contributeModuleWaterLevelFragment();
+
+    @ContributesAndroidInjector
+    abstract WaterSensorStateFragment contributeWaterSensorStateFragment();
 
     @ContributesAndroidInjector
     abstract ModuleOutsideWeatherFragment contributeModuleOutsideWeatherFragment();

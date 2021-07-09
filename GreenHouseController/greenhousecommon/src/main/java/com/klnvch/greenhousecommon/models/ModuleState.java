@@ -19,6 +19,12 @@ public class ModuleState {
     private Float temperature;
     private Float humidity;
     private int lightLevel;
+    private int ws1S;
+    private int ws1N;
+    private int ws2S;
+    private int ws2N;
+    private int ws3S;
+    private int ws3N;
 
     public ModuleState() {
     }
@@ -110,5 +116,53 @@ public class ModuleState {
 
     public void setLightLevel(int lightLevel) {
         this.lightLevel = lightLevel;
+    }
+
+    public int getWs1S() {
+        return ws1S;
+    }
+
+    public void setWs1S(int ws1S) {
+        this.ws1S = ws1S;
+    }
+
+    public int getWs1N() {
+        return ws1N;
+    }
+
+    public void setWs1N(int ws1N) {
+        this.ws1N = ws1N;
+    }
+
+    public int getWs2S() {
+        return ws2S;
+    }
+
+    public void setWs2S(int ws2S) {
+        this.ws2S = ws2S;
+    }
+
+    public int getWs2N() {
+        return ws2N;
+    }
+
+    public void setWs2N(int ws2N) {
+        this.ws2N = ws2N;
+    }
+
+    public int getWs3S() {
+        return ws3S;
+    }
+
+    public void setWs3S(int ws3S) {
+        this.ws3S = ws3S;
+    }
+
+    public int getWs3N() {
+        return ws3N;
+    }
+
+    public void setWs3N(int ws3N) {
+        this.ws3N = ws3N;
     }
 }

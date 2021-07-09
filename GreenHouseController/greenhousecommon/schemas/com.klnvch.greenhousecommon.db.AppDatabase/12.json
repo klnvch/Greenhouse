@@ -1,0 +1,275 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 12,
+    "identityHash": "433baec31f021eb916937f154996b46c",
+    "entities": [
+      {
+        "tableName": "phoneState",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`deviceId` TEXT NOT NULL, `time` INTEGER NOT NULL, `isCharging` INTEGER NOT NULL, `batteryLevel` INTEGER NOT NULL, `networkStrength` INTEGER NOT NULL, `bluetoothState` INTEGER NOT NULL, `bluetoothError` TEXT, `rxDeviceMobile` INTEGER NOT NULL, `txDeviceMobile` INTEGER NOT NULL, `rxDeviceWifi` INTEGER NOT NULL, `txDeviceWifi` INTEGER NOT NULL, `rxAppMobile` INTEGER NOT NULL, `txAppMobile` INTEGER NOT NULL, `rxAppWifi` INTEGER NOT NULL, `txAppWifi` INTEGER NOT NULL, PRIMARY KEY(`deviceId`, `time`))",
+        "fields": [
+          {
+            "fieldPath": "deviceId",
+            "columnName": "deviceId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "time",
+            "columnName": "time",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isCharging",
+            "columnName": "isCharging",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "batteryLevel",
+            "columnName": "batteryLevel",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "networkStrength",
+            "columnName": "networkStrength",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bluetoothState",
+            "columnName": "bluetoothState",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bluetoothError",
+            "columnName": "bluetoothError",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "rxDeviceMobile",
+            "columnName": "rxDeviceMobile",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "txDeviceMobile",
+            "columnName": "txDeviceMobile",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rxDeviceWifi",
+            "columnName": "rxDeviceWifi",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "txDeviceWifi",
+            "columnName": "txDeviceWifi",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rxAppMobile",
+            "columnName": "rxAppMobile",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "txAppMobile",
+            "columnName": "txAppMobile",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rxAppWifi",
+            "columnName": "rxAppWifi",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "txAppWifi",
+            "columnName": "txAppWifi",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "deviceId",
+            "time"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "moduleState",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`deviceId` TEXT NOT NULL, `time` INTEGER NOT NULL, `mainModuleTime` INTEGER NOT NULL, `waterModuleSuccessCount` INTEGER NOT NULL, `waterModuleFailCount` INTEGER NOT NULL, `waterModuleLastAccess` INTEGER NOT NULL, `climateModuleLastAccess` INTEGER NOT NULL, `waterLevel` INTEGER NOT NULL, `temperature` REAL, `humidity` REAL, `lightLevel` INTEGER NOT NULL, `ws1S` INTEGER NOT NULL, `ws1N` INTEGER NOT NULL, `ws2S` INTEGER NOT NULL, `ws2N` INTEGER NOT NULL, `ws3S` INTEGER NOT NULL, `ws3N` INTEGER NOT NULL, PRIMARY KEY(`deviceId`, `time`))",
+        "fields": [
+          {
+            "fieldPath": "deviceId",
+            "columnName": "deviceId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "time",
+            "columnName": "time",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mainModuleTime",
+            "columnName": "mainModuleTime",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "waterModuleSuccessCount",
+            "columnName": "waterModuleSuccessCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "waterModuleFailCount",
+            "columnName": "waterModuleFailCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "waterModuleLastAccess",
+            "columnName": "waterModuleLastAccess",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "climateModuleLastAccess",
+            "columnName": "climateModuleLastAccess",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "waterLevel",
+            "columnName": "waterLevel",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "temperature",
+            "columnName": "temperature",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "humidity",
+            "columnName": "humidity",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lightLevel",
+            "columnName": "lightLevel",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ws1S",
+            "columnName": "ws1S",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ws1N",
+            "columnName": "ws1N",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ws2S",
+            "columnName": "ws2S",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ws2N",
+            "columnName": "ws2N",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ws3S",
+            "columnName": "ws3S",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ws3N",
+            "columnName": "ws3N",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "deviceId",
+            "time"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "actions",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`deviceId` TEXT NOT NULL, `time` INTEGER NOT NULL, `command` TEXT NOT NULL, `state` INTEGER NOT NULL, PRIMARY KEY(`deviceId`, `time`))",
+        "fields": [
+          {
+            "fieldPath": "deviceId",
+            "columnName": "deviceId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "time",
+            "columnName": "time",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "command",
+            "columnName": "command",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "state",
+            "columnName": "state",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "deviceId",
+            "time"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '433baec31f021eb916937f154996b46c')"
+    ]
+  }
+}

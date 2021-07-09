@@ -6,6 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.migration.Migration;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.klnvch.greenhousecommon.models.Action;
 import com.klnvch.greenhousecommon.models.ModuleState;
@@ -16,16 +18,35 @@ import java.util.List;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 
-@Database(entities = {PhoneState.class, ModuleState.class, Action.class}, version = 11, exportSchema = false)
+@Database(
+        version = 12,
+        entities = {
+                PhoneState.class,
+                ModuleState.class,
+                Action.class
+        }
+)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase instance = null;
+
+    static final Migration MIGRATION_11_12 = new Migration(11, 12) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE moduleState ADD COLUMN ws1S INTEGER");
+            database.execSQL("ALTER TABLE moduleState ADD COLUMN ws1N INTEGER");
+            database.execSQL("ALTER TABLE moduleState ADD COLUMN ws2S INTEGER");
+            database.execSQL("ALTER TABLE moduleState ADD COLUMN ws2N INTEGER");
+            database.execSQL("ALTER TABLE moduleState ADD COLUMN ws3S INTEGER");
+            database.execSQL("ALTER TABLE moduleState ADD COLUMN ws3N INTEGER");
+        }
+    };
 
     @NonNull
     public synchronized static AppDatabase getInstance(@NonNull Context context) {
         if (instance == null) {
             instance = Room.databaseBuilder(context.getApplicationContext(),
                     AppDatabase.class, "db_common")
-                    .fallbackToDestructiveMigration()
+                    .addMigrations(MIGRATION_11_12)
                     .build();
         }
         return instance;
