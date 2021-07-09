@@ -16,9 +16,30 @@ android {
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        signingConfigs {
+            debug {
+                def signingFile = file("../signing.debug.properties")
+                def signingProperties = new Properties()
+
+                if (signingFile.exists()) {
+                    signingProperties.load(signingFile.newInputStream())
+
+                    storeFile file(signingProperties["keystore.file"])
+                    storePassword signingProperties["keystore.password"]
+                    keyAlias signingProperties["key.alias"]
+                    keyPassword signingProperties["key.password"]
+                }
+
+                return void
+            }
+        }
     }
 
     buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
