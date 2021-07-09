@@ -22,7 +22,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.klnvch.greenhousecommon.databinding.FragmentPhoneChartBinding;
+import com.klnvch.greenhousecommon.databinding.FragmentChartBinding;
 import com.klnvch.greenhousecommon.di.Injectable;
 import com.klnvch.greenhousecommon.di.ViewModelFactory;
 
@@ -35,16 +35,18 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
-public class PhoneChartFragment extends Fragment implements Injectable {
+public class ChartFragment extends Fragment implements Injectable {
     @Inject
     protected ViewModelFactory viewModelFactory;
-    private FragmentPhoneChartBinding binding;
+    private FragmentChartBinding binding;
     private ChartViewModel viewModel;
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentPhoneChartBinding.inflate(inflater, container, true);
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        binding = FragmentChartBinding.inflate(inflater, container, true);
         return binding.getRoot();
     }
 
@@ -107,12 +109,17 @@ public class PhoneChartFragment extends Fragment implements Injectable {
         rightAxis.setEnabled(false);
 
         LineDataSet batterySet = createDataSet(viewState.getBatteryLevel(), "Battery level", Color.RED);
-
         LineDataSet networkSet = createDataSet(viewState.getNetworkStrength(), "Network strength", Color.BLUE);
+        LineDataSet temperatureSet = createDataSet(viewState.getTemperature(), "Temperature", Color.GREEN);
+        LineDataSet humiditySet = createDataSet(viewState.getHumidity(), "Humidity", Color.GRAY);
+        LineDataSet lightSet = createDataSet(viewState.getLightLevel(), "Light", Color.MAGENTA);
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(batterySet);
         dataSets.add(networkSet);
+        dataSets.add(temperatureSet);
+        dataSets.add(humiditySet);
+        dataSets.add(lightSet);
 
         LineData data = new LineData(dataSets);
         binding.chartView.setData(data);
@@ -121,9 +128,9 @@ public class PhoneChartFragment extends Fragment implements Injectable {
         legend.setEnabled(true);
     }
 
-    private LineDataSet createDataSet(List<Pair<Long, Integer>> map, String label, int color) {
+    private LineDataSet createDataSet(List<Pair<Long, Float>> map, String label, int color) {
         List<Entry> values = new ArrayList<>();
-        for (Pair<Long, Integer> entry : map) {
+        for (Pair<Long, Float> entry : map) {
             values.add(new Entry(entry.first, entry.second));
         }
 

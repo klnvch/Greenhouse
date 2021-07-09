@@ -10,6 +10,7 @@ import com.klnvch.greenhousecommon.db.AppSettings;
 
 import javax.inject.Inject;
 
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
@@ -22,9 +23,12 @@ public class ChartViewModel extends ViewModel {
     @Inject
     public ChartViewModel(@NonNull AppDatabase db, @NonNull AppSettings settings) {
         final String deviceId = settings.getDeviceId();
-        disposable.add(db.phoneStateDao()
-                .getStatesAscending(deviceId)
-                .map(ChartViewState::new)
+        final long startTime = System.currentTimeMillis() - 7 * 24 * 60 * 60 * 1000;
+
+        disposable.add(Single
+                .zip(db.phoneStateDao().getStatesAscending(deviceId, startTime),
+                        db.moduleStateDao().getStatesAscending(deviceId, startTime),
+                        ChartViewState::new)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(viewState::postValue, Timber::e));

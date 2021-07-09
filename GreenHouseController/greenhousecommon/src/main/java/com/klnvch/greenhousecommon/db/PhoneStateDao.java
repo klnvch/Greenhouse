@@ -24,8 +24,8 @@ public interface PhoneStateDao {
     @Query("SELECT * FROM phoneState WHERE deviceId=:arg0 ORDER BY time DESC LIMIT 1000")
     Flowable<List<PhoneState>> getLatestStates(String arg0);
 
-    @Query("SELECT * FROM phoneState WHERE deviceId=:arg0 ORDER BY time ASC LIMIT 1000")
-    Single<List<PhoneState>> getStatesAscending(String arg0);
+    @Query("SELECT * FROM phoneState WHERE deviceId=:arg0 AND time > :arg1 ORDER BY time ASC")
+    Single<List<PhoneState>> getStatesAscending(String arg0, long arg1);
 
     @Query("SELECT * FROM phoneState WHERE deviceId=:arg0 ORDER BY time DESC LIMIT 1")
     Single<List<PhoneState>> getLatestState(String arg0);
