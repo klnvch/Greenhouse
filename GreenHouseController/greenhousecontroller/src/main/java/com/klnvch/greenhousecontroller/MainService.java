@@ -46,11 +46,13 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.PublishSubject;
 import timber.log.Timber;
 
 public class MainService extends Service implements OnMessageListener {
     private static final String KEY_DEVICE_ADDRESS = "KEY_DEVICE_ADDRESS";
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private final PublishSubject<ModuleState> moduleStateSubject = PublishSubject.create();
     @Inject
     protected com.klnvch.greenhousecommon.db.AppDatabase newDb;
     @Inject
@@ -108,6 +110,12 @@ public class MainService extends Service implements OnMessageListener {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> getPhoneState(), Timber::e));
+
+        compositeDisposable.add(moduleStateSubject
+                .debounce(10, TimeUnit.MINUTES)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::saveModuleState, Timber::e));
     }
 
     @Override
@@ -182,8 +190,7 @@ public class MainService extends Service implements OnMessageListener {
         try {
             ModuleState moduleState = new Gson().fromJson(msg, ModuleState.class);
             moduleState.setTime(System.currentTimeMillis());
-            newDb.moduleStateDao().insert(moduleState).subscribeOn(Schedulers.io()).subscribe();
-            StateWriter.save(moduleState);
+            moduleStateSubject.onNext(moduleState);
             return;
         } catch (Exception e) {
             Timber.d("onMessage: %s", e.getMessage());
@@ -223,6 +230,11 @@ public class MainService extends Service implements OnMessageListener {
                         .subscribe();
             }
         }
+    }
+
+    private void saveModuleState(ModuleState moduleState) {
+        newDb.moduleStateDao().insert(moduleState).subscribeOn(Schedulers.io()).subscribe();
+        StateWriter.save(moduleState);
     }
 
     @Override
