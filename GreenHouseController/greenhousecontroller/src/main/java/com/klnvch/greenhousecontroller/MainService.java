@@ -46,6 +46,7 @@ import timber.log.Timber;
 
 public class MainService extends Service implements OnMessageListener {
     private static final String KEY_DEVICE_ADDRESS = "KEY_DEVICE_ADDRESS";
+    private static final int UPLOAD_TIMEOUT_MINUTES = 10;
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private final PublishSubject<ModuleState> moduleStateSubject = PublishSubject.create();
     @Inject
@@ -89,13 +90,13 @@ public class MainService extends Service implements OnMessageListener {
 
         CustomTimberTree.plant();
 
-        compositeDisposable.add(Observable.interval(1, 5, TimeUnit.MINUTES)
+        compositeDisposable.add(Observable.interval(1, UPLOAD_TIMEOUT_MINUTES, TimeUnit.MINUTES)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> getPhoneState(), Timber::e));
 
         compositeDisposable.add(moduleStateSubject
-                .debounce(10, TimeUnit.MINUTES)
+                .throttleLatest(UPLOAD_TIMEOUT_MINUTES, TimeUnit.MINUTES)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::saveModuleState, Timber::e));
