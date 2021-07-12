@@ -17,7 +17,7 @@ public class BluetoothStateFragment extends ItemStateFragment implements PhoneSt
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setMessage(null);
+        clearMessage();
     }
 
     @Override

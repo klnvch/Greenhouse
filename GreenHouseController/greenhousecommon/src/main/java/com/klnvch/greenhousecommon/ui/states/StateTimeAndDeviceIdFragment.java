@@ -12,7 +12,6 @@ import com.klnvch.greenhousecommon.models.PhoneState;
 import java.util.List;
 
 public class StateTimeAndDeviceIdFragment extends ItemStateFragment implements PhoneStateInterface {
-    private static final long ALERT_TIME_DIFFERENCE = 30 * 60 * 1000;  // 30 minutes
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

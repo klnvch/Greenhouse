@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ import javax.inject.Inject;
 
 public abstract class ItemStateFragment extends Fragment implements Injectable {
     private static final String TIME_PATTERN = "dd/MM HH:mm";
+    protected static final long ALERT_TIME_DIFFERENCE = 30 * 60 * 1000;  // 30 minutes
     private SimpleDateFormat sdf = null;
 
     @Inject
@@ -75,6 +77,16 @@ public abstract class ItemStateFragment extends Fragment implements Injectable {
 
     protected void setDataMissingMessage() {
         binding.message.setText(R.string.state_message_data_missing);
+    }
+
+    protected void setMessage(@Nullable Spanned message) {
+        binding.message.setText(message);
+        binding.invalidateAll();
+    }
+
+    protected void clearMessage() {
+        binding.message.setText(null);
+        binding.invalidateAll();
     }
 
     protected void setMessage(@Nullable String message) {
