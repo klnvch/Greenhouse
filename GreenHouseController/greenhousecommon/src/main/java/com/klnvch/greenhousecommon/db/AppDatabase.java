@@ -64,10 +64,26 @@ public abstract class AppDatabase extends RoomDatabase {
                 .subscribeOn(Schedulers.io());
     }
 
+    public void insert(PhoneState phoneState) {
+        phoneStateDao()
+                .insert(phoneState)
+                .subscribeOn(Schedulers.io())
+                .onErrorComplete()
+                .subscribe();
+    }
+
     public Single<Integer> insertModuleStates(@NonNull List<ModuleState> states) {
         return moduleStateDao().insert(states)
                 .toSingleDefault(states.size())
                 .subscribeOn(Schedulers.io());
+    }
+
+    public void insert(ModuleState moduleState) {
+        moduleStateDao()
+                .insert(moduleState)
+                .subscribeOn(Schedulers.io())
+                .onErrorComplete()
+                .subscribe();
     }
 
     public Single<Long> getLatestPhoneStateTime(String deviceId) {

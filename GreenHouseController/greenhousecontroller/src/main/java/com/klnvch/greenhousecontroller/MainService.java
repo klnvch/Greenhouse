@@ -20,6 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 import com.google.gson.Gson;
+import com.klnvch.greenhousecommon.db.AppDatabase;
 import com.klnvch.greenhousecommon.db.AppSettings;
 import com.klnvch.greenhousecommon.models.Action;
 import com.klnvch.greenhousecommon.models.BluetoothState;
@@ -50,7 +51,7 @@ public class MainService extends Service implements OnMessageListener {
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private final PublishSubject<ModuleState> moduleStateSubject = PublishSubject.create();
     @Inject
-    protected com.klnvch.greenhousecommon.db.AppDatabase newDb;
+    protected AppDatabase db;
     @Inject
     protected AppSettings settings;
     private BluetoothConnectThread connectThread;
@@ -189,7 +190,7 @@ public class MainService extends Service implements OnMessageListener {
                         int result = Integer.parseInt(answer[0]);
                         int state = result == 1 ? Action.SUCCESS : Action.FAIL;
                         long time = Long.parseLong(answer[1]);
-                        newDb.actionDao().updateState(deviceId, time, state)
+                        db.actionDao().updateState(deviceId, time, state)
                                 .subscribeOn(Schedulers.io())
                                 .onErrorComplete()
                                 .subscribe();
@@ -203,7 +204,7 @@ public class MainService extends Service implements OnMessageListener {
     }
 
     private void saveModuleState(ModuleState moduleState) {
-        newDb.moduleStateDao().insert(moduleState).subscribeOn(Schedulers.io()).subscribe();
+        db.insert(moduleState);
         StateWriter.save(moduleState);
     }
 
@@ -246,7 +247,7 @@ public class MainService extends Service implements OnMessageListener {
         }
 
         // save
-        newDb.phoneStateDao().insert(phoneState).subscribeOn(Schedulers.io()).subscribe();
         StateWriter.save(phoneState);
+        db.insert(phoneState);
     }
 }

@@ -25,7 +25,7 @@ public class StateWriter {
         save(state, moduleStateHelper);
     }
 
-    public synchronized static void save(@NonNull Object state, StateHelper helper) {
+    private synchronized static void save(@NonNull Object state, StateHelper helper) {
         Map<String, Object> data = helper.toMap(state);
 
         FirebaseFirestore.getInstance()
