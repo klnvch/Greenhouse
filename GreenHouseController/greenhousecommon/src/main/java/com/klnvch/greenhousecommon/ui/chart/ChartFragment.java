@@ -4,34 +4,35 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.klnvch.greenhousecommon.R;
 import com.klnvch.greenhousecommon.databinding.FragmentChartBinding;
 import com.klnvch.greenhousecommon.di.Injectable;
 import com.klnvch.greenhousecommon.di.ViewModelFactory;
 
-import java.text.SimpleDateFormat;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -41,12 +42,24 @@ public class ChartFragment extends Fragment implements Injectable {
     private FragmentChartBinding binding;
     private ChartViewModel viewModel;
 
+    @Override
+    public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_chart, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        binding = FragmentChartBinding.inflate(inflater, container, true);
+        binding = FragmentChartBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
@@ -57,13 +70,28 @@ public class ChartFragment extends Fragment implements Injectable {
         viewModel.getViewState().observe(getViewLifecycleOwner(), this::onStateChanged);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull @NotNull MenuItem item) {
+        if (item.getItemId() == R.id.item_time_interval) {
+            new AlertDialog.Builder(requireContext())
+                    .setTitle(R.string.title_time_intervals_selector)
+                    .setItems(R.array.time_intervals, (dialog, which) -> viewModel.setTimeInterval(which))
+                    .show();
+            return true;
+        } else if (item.getItemId() == R.id.item_data) {
+            return true;
+        } else
+            return super.onOptionsItemSelected(item);
+    }
+
     private void onStateChanged(ChartViewState viewState) {
+        binding.chartView.clear();
+
         // no description text
         binding.chartView.getDescription().setEnabled(false);
 
         // enable touch gestures
         binding.chartView.setTouchEnabled(true);
-
         binding.chartView.setDragDecelerationFrictionCoef(0.9f);
 
         // enable scaling and dragging
@@ -84,16 +112,8 @@ public class ChartFragment extends Fragment implements Injectable {
         xAxis.setDrawGridLines(true);
         xAxis.setTextColor(Color.BLACK);
         xAxis.setCenterAxisLabels(true);
-        xAxis.setGranularity(1f); // one hou// r
-        xAxis.setValueFormatter(new IndexAxisValueFormatter() {
-            private final SimpleDateFormat mFormat = new SimpleDateFormat("dd/MM HH:mm", Locale.getDefault());
-
-            @Override
-            public String getAxisLabel(float value, AxisBase axis) {
-                long millis = TimeUnit.MINUTES.toMillis((long) value);
-                return mFormat.format(new Date(millis));
-            }
-        });
+        xAxis.setGranularity(1f); // one hour
+        xAxis.setValueFormatter(new CustomValueFormatter());
 
         YAxis leftAxis = binding.chartView.getAxisLeft();
         leftAxis.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
@@ -108,18 +128,11 @@ public class ChartFragment extends Fragment implements Injectable {
         YAxis rightAxis = binding.chartView.getAxisRight();
         rightAxis.setEnabled(false);
 
-        LineDataSet batterySet = createDataSet(viewState.getBatteryLevel(), "Battery level", Color.RED);
-        LineDataSet networkSet = createDataSet(viewState.getNetworkStrength(), "Network strength", Color.BLUE);
-        LineDataSet temperatureSet = createDataSet(viewState.getTemperature(), "Temperature", Color.GREEN);
-        LineDataSet humiditySet = createDataSet(viewState.getHumidity(), "Humidity", Color.GRAY);
-        LineDataSet lightSet = createDataSet(viewState.getLightLevel(), "Light", Color.MAGENTA);
-
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-        dataSets.add(batterySet);
-        dataSets.add(networkSet);
-        dataSets.add(temperatureSet);
-        dataSets.add(humiditySet);
-        dataSets.add(lightSet);
+        for (ChartLine line : viewState.getData()) {
+            LineDataSet set = createDataSet(line.getData(), line.getName(), line.getColor());
+            dataSets.add(set);
+        }
 
         LineData data = new LineData(dataSets);
         binding.chartView.setData(data);
@@ -137,14 +150,16 @@ public class ChartFragment extends Fragment implements Injectable {
         LineDataSet set = new LineDataSet(values, label);
         set.setAxisDependency(YAxis.AxisDependency.LEFT);
         set.setColor(color);
-        set.setValueTextColor(ColorTemplate.getHoloBlue());
-        set.setLineWidth(4);
-        set.setDrawCircles(false);
+        set.setValueTextColor(color);
+        set.setLineWidth(2);
+        set.setDrawCircles(true);
+        set.setCircleRadius(2);
         set.setDrawValues(false);
         set.setFillAlpha(65);
-        set.setFillColor(ColorTemplate.getHoloBlue());
-        set.setHighLightColor(Color.rgb(244, 117, 117));
+        set.setFillColor(color);
+        set.setHighLightColor(color);
         set.setDrawCircleHole(false);
+        set.setCircleColor(color);
         return set;
     }
 }

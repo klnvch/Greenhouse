@@ -18,4 +18,15 @@
     <string name="button_send">Send</string>
     <string name="button_repeat">Repeat</string>
     <string name="hint_command">Command</string>
+
+    <string name="menu_time_interval">Time interval</string>
+    <string name="menu_data">Data</string>
+
+    <string name="title_time_intervals_selector">Choose time interval</string>
+    <array name="time_intervals">
+        <item>Hour</item>
+        <item>Day</item>
+        <item>Week</item>
+        <item>Month</item>
+    </array>
 </resources>

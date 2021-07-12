@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/item_time_interval"
+        android:icon="@drawable/ic_baseline_access_time_24"
+        android:title="@string/menu_time_interval"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/item_data"
+        android:icon="@drawable/ic_baseline_data_usage_24"
+        android:title="@string/menu_data"
+        app:showAsAction="ifRoom" />
+</menu>
