@@ -18,7 +18,5 @@ public class StartActivity extends AppCompatActivity {
         ActivityStartBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_start);
         binding.buttonController.setOnClickListener(
                 v -> startActivity(new Intent(this, MainActivity.class)));
-        binding.buttonViewer.setOnClickListener(
-                v -> startActivity(new Intent(this, ViewerActivity.class)));
     }
 }

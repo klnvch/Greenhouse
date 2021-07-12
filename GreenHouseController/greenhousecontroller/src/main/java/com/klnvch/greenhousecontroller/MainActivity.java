@@ -16,7 +16,6 @@ import com.klnvch.greenhousecommon.ui.action.ActionActivity;
 import com.klnvch.greenhousecommon.ui.settings.DeviceIdDialog;
 import com.klnvch.greenhousecommon.ui.states.StateActivity;
 import com.klnvch.greenhousecontroller.databinding.ActivityMainBinding;
-import com.klnvch.greenhousecontroller.logs.LogsActivity;
 
 import javax.inject.Inject;
 
@@ -46,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 v -> startActivity(new Intent(this, ActionActivity.class)));
         binding.deviceAddressInput.setText(deviceAddress);
         binding.buttonExit.setOnClickListener(this);
-        binding.buttonLogs.setOnClickListener(this);
         binding.buttonInfo.setOnClickListener(this);
         binding.deviceAddressSubmitButton.setOnClickListener(this);
         binding.commandGetData.setOnClickListener(this);
@@ -71,9 +69,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             finish();
                         })
                         .show();
-                break;
-            case R.id.buttonLogs:
-                startActivity(new Intent(this, LogsActivity.class));
                 break;
             case R.id.buttonInfo:
                 startActivity(new Intent(this, InfoActivity.class));

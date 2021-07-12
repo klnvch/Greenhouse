@@ -31,11 +31,6 @@ import com.klnvch.greenhousecontroller.bluetooth.BluetoothRestartCounter;
 import com.klnvch.greenhousecontroller.bluetooth.OnMessageListener;
 import com.klnvch.greenhousecontroller.firestore.StateWriter;
 import com.klnvch.greenhousecontroller.logs.CustomTimberTree;
-import com.klnvch.greenhousecontroller.models.AppDatabase;
-import com.klnvch.greenhousecontroller.models.Data;
-import com.klnvch.greenhousecontroller.models.Info;
-import com.klnvch.greenhousecontroller.models.PhoneData;
-import com.klnvch.greenhousecontroller.utils.FireStoreUtils;
 
 import java.util.concurrent.TimeUnit;
 
@@ -60,7 +55,6 @@ public class MainService extends Service implements OnMessageListener {
     private BluetoothConnectThread connectThread;
     private String deviceAddress;
     private Handler threadHandler;
-    private AppDatabase db;
     private BluetoothRestartCounter restartCounter = null;
     private BluetoothException bluetoothException = null;
     private PhoneStatusManager phoneStatusManager;
@@ -93,18 +87,7 @@ public class MainService extends Service implements OnMessageListener {
 
         restartCounter = BluetoothRestartCounter.getInstance();
 
-        db = AppDatabase.getInstance(this);
-        CustomTimberTree.plant(this);
-
-        compositeDisposable.add(Observable.interval(1, 10, TimeUnit.MINUTES)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(aLong -> {
-                    PhoneData phoneData = PhoneData.create();
-                    db.insert(phoneData);
-                    String deviceId = settings.getDeviceId();
-                    FireStoreUtils.saveToFireStore(deviceId, phoneData);
-                }, throwable -> Timber.e("Phone data error: %s", throwable.getMessage())));
+        CustomTimberTree.plant();
 
         compositeDisposable.add(Observable.interval(1, 5, TimeUnit.MINUTES)
                 .subscribeOn(Schedulers.io())
@@ -197,14 +180,7 @@ public class MainService extends Service implements OnMessageListener {
         }
         if (!TextUtils.isEmpty(msg)) {
             String deviceId = settings.getDeviceId();
-            if (msg.startsWith("Data: ")) {
-                Data data = new Data(msg);
-                FireStoreUtils.saveToFireStore(deviceId, data);
-                db.dataDao().insertAll(data)
-                        .subscribeOn(Schedulers.io())
-                        .onErrorComplete()
-                        .subscribe();
-            } else if (msg.startsWith("Command: ")) {
+            if (msg.startsWith("Command: ")) {
                 msg = msg.replace("Command: ", "");
                 String[] answer = msg.split(",");
                 if (answer.length == 2) {
@@ -221,13 +197,6 @@ public class MainService extends Service implements OnMessageListener {
                     }
                 }
 
-            } else {
-                Info info = new Info(msg);
-                FireStoreUtils.saveToFireStore(deviceId, info);
-                db.infoDao().insertAll(info)
-                        .subscribeOn(Schedulers.io())
-                        .onErrorComplete()
-                        .subscribe();
             }
         }
     }
