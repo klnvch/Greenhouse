@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.View
 import com.klnvch.greenhousecommon.R
 import com.klnvch.greenhousecommon.models.ModuleState
+import com.klnvch.greenhousecommon.ui.states.listeners.ModuleStateInterface
 
-open class WaterSensorStateFragment : ItemStateFragment(), ModuleStateInterface {
+open class WaterSensorStateFragment : ItemStateFragment(),
+    ModuleStateInterface {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

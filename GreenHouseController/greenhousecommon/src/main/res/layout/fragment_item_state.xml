@@ -26,10 +26,25 @@
             android:layout_marginRight="8dp"
             android:ellipsize="end"
             android:gravity="center_vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/image"
             app:layout_constraintTop_toTopOf="parent"
+            tools:text="Message\nMessage\nMessage\nMessage" />
+
+        <TextView
+            android:id="@+id/message2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/image"
+            app:layout_constraintTop_toBottomOf="@+id/message"
             tools:text="Message\nMessage\nMessage\nMessage" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

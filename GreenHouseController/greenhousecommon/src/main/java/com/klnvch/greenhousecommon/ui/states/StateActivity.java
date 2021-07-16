@@ -31,7 +31,7 @@ public class StateActivity extends AppCompatActivity implements OnActionListener
     }
 
     @Override
-    public void onPhoneStemItemClicked() {
+    public void onPhoneStateItemClicked() {
         startActivity(new Intent(this, ChartActivity.class));
     }
 

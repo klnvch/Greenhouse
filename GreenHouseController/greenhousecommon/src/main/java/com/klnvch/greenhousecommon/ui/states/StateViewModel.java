@@ -27,6 +27,8 @@ public class StateViewModel extends ViewModel {
                 .combineLatest(
                         db.phoneStateDao().getLatestStates(deviceId, startTime),
                         db.moduleStateDao().getLatestStates(deviceId, startTime),
+                        db.phoneStateDao().getLastBatteryNotFullState(deviceId),
+                        db.phoneStateDao().getLastBluetoothFailState(deviceId),
                         ViewState::new)
                 .subscribeOn(Schedulers.io())
                 .subscribe(viewState::postValue, Timber::e));

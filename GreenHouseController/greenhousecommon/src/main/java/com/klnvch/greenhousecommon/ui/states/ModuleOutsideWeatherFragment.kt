@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.View
 import com.klnvch.greenhousecommon.R
 import com.klnvch.greenhousecommon.models.ModuleState
+import com.klnvch.greenhousecommon.ui.states.listeners.ModuleStateInterface
 
-class ModuleOutsideWeatherFragment : ItemStateFragment(), ModuleStateInterface {
+class ModuleOutsideWeatherFragment : ItemStateFragment(),
+    ModuleStateInterface {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setImage(R.drawable.ic_baseline_wb_sunny_24)

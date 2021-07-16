@@ -2,7 +2,6 @@ package com.klnvch.greenhousecommon.ui.states;
 
 import android.app.AlertDialog;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Spanned;
 import android.view.LayoutInflater;
@@ -20,6 +19,10 @@ import com.klnvch.greenhousecommon.R;
 import com.klnvch.greenhousecommon.databinding.FragmentItemStateBinding;
 import com.klnvch.greenhousecommon.di.Injectable;
 import com.klnvch.greenhousecommon.di.ViewModelFactory;
+import com.klnvch.greenhousecommon.ui.states.listeners.BatteryUptimeInterface;
+import com.klnvch.greenhousecommon.ui.states.listeners.BluetoothUptimeInterface;
+import com.klnvch.greenhousecommon.ui.states.listeners.ModuleStateInterface;
+import com.klnvch.greenhousecommon.ui.states.listeners.PhoneStateInterface;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -69,6 +72,12 @@ public abstract class ItemStateFragment extends Fragment implements Injectable {
         if (this instanceof ModuleStateInterface) {
             ((ModuleStateInterface) this).update(viewState.getModuleStates());
         }
+        if (this instanceof BatteryUptimeInterface) {
+            ((BatteryUptimeInterface) this).onBatteryUptimeChanged(viewState.getBatteryUptime());
+        }
+        if (this instanceof BluetoothUptimeInterface) {
+            ((BluetoothUptimeInterface) this).onBluetoothUptimeUpdated(viewState.getBluetoothUptime());
+        }
     }
 
     protected void setImage(@DrawableRes int drawableRes) {
@@ -86,11 +95,24 @@ public abstract class ItemStateFragment extends Fragment implements Injectable {
 
     protected void clearMessage() {
         binding.message.setText(null);
+        binding.message2.setText(null);
+        binding.message2.setVisibility(View.GONE);
         binding.invalidateAll();
     }
 
     protected void setMessage(@Nullable String message) {
         binding.message.setText(message);
+        binding.invalidateAll();
+    }
+
+    protected void setMessage2(@Nullable String message) {
+        if (message == null) {
+            binding.message2.setText(null);
+            binding.message2.setVisibility(View.GONE);
+        } else {
+            binding.message2.setText(message);
+            binding.message2.setVisibility(View.VISIBLE);
+        }
         binding.invalidateAll();
     }
 
@@ -110,10 +132,6 @@ public abstract class ItemStateFragment extends Fragment implements Injectable {
      */
     protected void setNormal() {
         binding.image.setColorFilter(null);
-    }
-
-    protected void setMonospace() {
-        binding.message.setTypeface(Typeface.MONOSPACE);
     }
 
     protected String getDescription() {

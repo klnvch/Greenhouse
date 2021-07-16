@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 
 import com.klnvch.greenhousecommon.R;
 import com.klnvch.greenhousecommon.models.ModuleState;
+import com.klnvch.greenhousecommon.ui.states.listeners.ModuleStateInterface;
 
 import java.util.List;
 import java.util.Locale;

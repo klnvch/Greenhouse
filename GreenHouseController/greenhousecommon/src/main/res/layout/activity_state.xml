@@ -18,7 +18,7 @@
                 android:layout_marginLeft="64dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:onClick="@{v->listener.onPhoneStemItemClicked()}"
+                android:onClick="@{v->listener.onPhoneStateItemClicked()}"
                 app:layout_constraintBottom_toBottomOf="@id/networkUsage"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

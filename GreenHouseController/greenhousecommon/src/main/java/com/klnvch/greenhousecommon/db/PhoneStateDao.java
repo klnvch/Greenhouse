@@ -5,6 +5,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
+import com.klnvch.greenhousecommon.models.BluetoothState;
 import com.klnvch.greenhousecommon.models.PhoneState;
 
 import java.util.List;
@@ -29,4 +30,10 @@ public interface PhoneStateDao {
 
     @Query("SELECT * FROM phoneState WHERE deviceId=:arg0 ORDER BY time DESC LIMIT 1")
     Single<List<PhoneState>> getLatestState(String arg0);
+
+    @Query("SELECT * FROM phoneState WHERE deviceId=:arg0 AND batteryLevel < 100 ORDER BY time DESC LIMIT 1")
+    Flowable<List<PhoneState>> getLastBatteryNotFullState(String arg0);
+
+    @Query("SELECT * FROM phoneState WHERE deviceId=:arg0 AND bluetoothState != " + BluetoothState.CONNECTED + " ORDER BY time DESC LIMIT 1")
+    Flowable<List<PhoneState>> getLastBluetoothFailState(String arg0);
 }
