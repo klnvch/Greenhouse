@@ -3,157 +3,163 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="64dp"
-            android:layout_marginLeft="64dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:onClick="@{v->listener.onPhoneStemItemClicked()}"
-            app:layout_constraintBottom_toBottomOf="@id/networkUsage"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/timeAndDeviceId" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="64dp"
-            android:layout_marginLeft="64dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:onClick="@{v->listener.onModuleStateItemClicked()}"
-            app:layout_constraintBottom_toBottomOf="@id/moduleWaterSensors"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/moduleTime" />
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="64dp"
+                android:layout_marginLeft="64dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="@{v->listener.onPhoneStemItemClicked()}"
+                app:layout_constraintBottom_toBottomOf="@id/networkUsage"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/timeAndDeviceId" />
 
-        <View
-            android:id="@+id/divider_1"
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:layout_margin="4dp"
-            android:background="@android:color/darker_gray"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/networkUsage" />
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="64dp"
+                android:layout_marginLeft="64dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="@{v->listener.onModuleStateItemClicked()}"
+                app:layout_constraintBottom_toBottomOf="@id/moduleWaterSensors"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/moduleTime" />
 
-        <View
-            android:id="@+id/divider_2"
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:layout_margin="4dp"
-            android:background="@android:color/darker_gray"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/moduleWaterLevel" />
+            <View
+                android:id="@+id/divider_1"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_margin="4dp"
+                android:background="@android:color/darker_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/networkUsage" />
 
-        <View
-            android:id="@+id/divider_3"
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:layout_margin="4dp"
-            android:background="@android:color/darker_gray"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/moduleWaterSensors" />
+            <View
+                android:id="@+id/divider_2"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_margin="4dp"
+                android:background="@android:color/darker_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/moduleWaterLevel" />
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/timeAndDeviceId"
-            android:name="com.klnvch.greenhousecommon.ui.states.StateTimeAndDeviceIdFragment"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout_height="16dp" />
+            <View
+                android:id="@+id/divider_3"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_margin="4dp"
+                android:background="@android:color/darker_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/moduleWaterSensors" />
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/batteryState"
-            android:name="com.klnvch.greenhousecommon.ui.states.BatteryStateFragment"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/timeAndDeviceId"
-            tools:layout_height="16dp" />
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/timeAndDeviceId"
+                android:name="com.klnvch.greenhousecommon.ui.states.StateTimeAndDeviceIdFragment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_height="16dp" />
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/bluetoothState"
-            android:name="com.klnvch.greenhousecommon.ui.states.BluetoothStateFragment"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/batteryState"
-            tools:layout_height="16dp" />
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/batteryState"
+                android:name="com.klnvch.greenhousecommon.ui.states.BatteryStateFragment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/timeAndDeviceId"
+                tools:layout_height="16dp" />
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/networkState"
-            android:name="com.klnvch.greenhousecommon.ui.states.SignalStateFragment"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/bluetoothState"
-            tools:layout_height="16dp" />
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/bluetoothState"
+                android:name="com.klnvch.greenhousecommon.ui.states.BluetoothStateFragment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/batteryState"
+                tools:layout_height="16dp" />
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/networkUsage"
-            android:name="com.klnvch.greenhousecommon.ui.states.NetworkUsageStateFragment"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/networkState"
-            tools:layout_height="16dp" />
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/networkState"
+                android:name="com.klnvch.greenhousecommon.ui.states.SignalStateFragment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/bluetoothState"
+                tools:layout_height="16dp" />
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/moduleTime"
-            android:name="com.klnvch.greenhousecommon.ui.states.ModuleTimeFragment"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/divider_1"
-            tools:layout_height="16dp" />
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/networkUsage"
+                android:name="com.klnvch.greenhousecommon.ui.states.NetworkUsageStateFragment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/networkState"
+                tools:layout_height="16dp" />
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/moduleOutsideWeather"
-            android:name="com.klnvch.greenhousecommon.ui.states.ModuleOutsideWeatherFragment"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/moduleTime"
-            tools:layout_height="16dp" />
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/moduleTime"
+                android:name="com.klnvch.greenhousecommon.ui.states.ModuleTimeFragment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/divider_1"
+                tools:layout_height="16dp" />
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/moduleWaterLevel"
-            android:name="com.klnvch.greenhousecommon.ui.states.ModuleWaterLevelFragment"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/moduleOutsideWeather"
-            tools:layout_height="16dp" />
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/moduleOutsideWeather"
+                android:name="com.klnvch.greenhousecommon.ui.states.ModuleOutsideWeatherFragment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/moduleTime"
+                tools:layout_height="16dp" />
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/moduleWaterSensors"
-            android:name="com.klnvch.greenhousecommon.ui.states.WaterSensorStateFragment"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/divider_2"
-            tools:layout_height="16dp" />
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/moduleWaterLevel"
+                android:name="com.klnvch.greenhousecommon.ui.states.ModuleWaterLevelFragment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/moduleOutsideWeather"
+                tools:layout_height="16dp" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/moduleWaterSensors"
+                android:name="com.klnvch.greenhousecommon.ui.states.WaterSensorStateFragment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/divider_2"
+                tools:layout_height="16dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
     <data>
 

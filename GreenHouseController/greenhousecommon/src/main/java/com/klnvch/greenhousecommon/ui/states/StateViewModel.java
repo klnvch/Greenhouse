@@ -22,10 +22,11 @@ public class StateViewModel extends ViewModel {
     @Inject
     public StateViewModel(@NonNull AppDatabase db, @NonNull AppSettings settings) {
         final String deviceId = settings.getDeviceId();
+        final long startTime = System.currentTimeMillis() - AppSettings.DAY;
         disposable.add(Flowable
                 .combineLatest(
-                        db.phoneStateDao().getLatestStates(deviceId),
-                        db.moduleStateDao().getLatestStates(deviceId),
+                        db.phoneStateDao().getLatestStates(deviceId, startTime),
+                        db.moduleStateDao().getLatestStates(deviceId, startTime),
                         ViewState::new)
                 .subscribeOn(Schedulers.io())
                 .subscribe(viewState::postValue, Timber::e));

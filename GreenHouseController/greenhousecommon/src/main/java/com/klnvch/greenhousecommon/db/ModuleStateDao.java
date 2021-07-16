@@ -21,8 +21,8 @@ public interface ModuleStateDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Completable insert(List<ModuleState> states);
 
-    @Query("SELECT * FROM moduleState WHERE deviceId=:arg0 ORDER BY time DESC LIMIT 1000")
-    Flowable<List<ModuleState>> getLatestStates(String arg0);
+    @Query("SELECT * FROM moduleState WHERE deviceId=:arg0  AND time > :arg1 ORDER BY time DESC")
+    Flowable<List<ModuleState>> getLatestStates(String arg0, long arg1);
 
     @Query("SELECT * FROM moduleState WHERE deviceId=:arg0 AND time > :arg1 ORDER BY time ASC")
     Single<List<ModuleState>> getStatesAscending(String arg0, long arg1);

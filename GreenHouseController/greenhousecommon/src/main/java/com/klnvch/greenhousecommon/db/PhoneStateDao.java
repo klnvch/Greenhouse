@@ -21,8 +21,8 @@ public interface PhoneStateDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Completable insert(List<PhoneState> states);
 
-    @Query("SELECT * FROM phoneState WHERE deviceId=:arg0 ORDER BY time DESC LIMIT 1000")
-    Flowable<List<PhoneState>> getLatestStates(String arg0);
+    @Query("SELECT * FROM phoneState WHERE deviceId=:arg0 AND time > :arg1 ORDER BY time DESC")
+    Flowable<List<PhoneState>> getLatestStates(String arg0, long arg1);
 
     @Query("SELECT * FROM phoneState WHERE deviceId=:arg0 AND time > :arg1 ORDER BY time ASC")
     Single<List<PhoneState>> getStatesAscending(String arg0, long arg1);
