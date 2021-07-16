@@ -29,22 +29,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.StartActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.StartActivity" />
-        </activity>
-        <activity android:name=".ui.ViewerActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.StartActivity" />
         </activity>
         <activity android:name=".SectorActivity" />
         <activity android:name=".InfoActivity">
@@ -53,7 +43,6 @@
                 android:value=".MainActivity" />
         </activity>
         <activity android:name=".CommandDetailsActivity" />
-        <activity android:name=".logs.LogsActivity" />
         <activity android:name="com.klnvch.greenhousecommon.ui.states.StateActivity" />
 
         <activity android:name="com.klnvch.greenhousecommon.ui.chart.ChartActivity">

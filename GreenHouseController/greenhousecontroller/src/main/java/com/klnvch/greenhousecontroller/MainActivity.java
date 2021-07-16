@@ -28,25 +28,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
 
     private ActivityMainBinding binding;
-    private AppSettings settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        settings = AppSettings.getInstance(this);
-        String deviceAddress = settings.getDeviceAddress();
-        MainService.start(this, deviceAddress);
+        startService(new Intent(this, MainService.class));
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.buttonState.setOnClickListener(
                 v -> startActivity(new Intent(this, StateActivity.class)));
         binding.buttonActions.setOnClickListener(
                 v -> startActivity(new Intent(this, ActionActivity.class)));
-        binding.deviceAddressInput.setText(deviceAddress);
         binding.buttonExit.setOnClickListener(this);
         binding.buttonInfo.setOnClickListener(this);
-        binding.deviceAddressSubmitButton.setOnClickListener(this);
         binding.commandGetData.setOnClickListener(this);
         binding.commandSetTime.setOnClickListener(this);
         binding.commandGetGlobalLimits.setOnClickListener(this);
@@ -72,11 +67,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.buttonInfo:
                 startActivity(new Intent(this, InfoActivity.class));
-                break;
-            case R.id.device_address_submit_button:
-                String deviceAddress = binding.deviceAddressInput.getText().toString().trim();
-                settings.setDeviceAddress(deviceAddress);
-                MainService.start(this, deviceAddress);
                 break;
             case R.id.command_get_data:
                 Command.getData();

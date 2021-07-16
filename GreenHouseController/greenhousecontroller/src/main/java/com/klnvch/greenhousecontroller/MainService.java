@@ -46,8 +46,8 @@ import io.reactivex.subjects.PublishSubject;
 import timber.log.Timber;
 
 public class MainService extends Service implements OnMessageListener {
-    private static final String KEY_DEVICE_ADDRESS = "KEY_DEVICE_ADDRESS";
-    private static final int UPLOAD_TIMEOUT_MINUTES = 10;
+    private static final int PHONE_DATA_UPLOAD_TIMEOUT_MINUTES = 10;
+    private static final int MODULE_DATA_UPLOAD_TIMEOUT_MINUTES = 5;
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private final PublishSubject<ModuleState> moduleStateSubject = PublishSubject.create();
     @Inject
@@ -55,16 +55,10 @@ public class MainService extends Service implements OnMessageListener {
     @Inject
     protected AppSettings settings;
     private BluetoothConnectThread connectThread;
-    private String deviceAddress;
     private Handler threadHandler;
     private BluetoothRestartCounter restartCounter = null;
     private BluetoothException bluetoothException = null;
     private PhoneStatusManager phoneStatusManager;
-
-    static void start(Context context, String deviceAddress) {
-        context.startService(new Intent(context, MainService.class)
-                .putExtra(KEY_DEVICE_ADDRESS, deviceAddress));
-    }
 
     @Override
     public void onCreate() {
@@ -91,13 +85,14 @@ public class MainService extends Service implements OnMessageListener {
 
         CustomTimberTree.plant();
 
-        compositeDisposable.add(Observable.interval(1, UPLOAD_TIMEOUT_MINUTES, TimeUnit.MINUTES)
+        compositeDisposable.add(Observable
+                .interval(PHONE_DATA_UPLOAD_TIMEOUT_MINUTES, TimeUnit.MINUTES)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> getPhoneState(), Timber::e));
 
         compositeDisposable.add(moduleStateSubject
-                .throttleLatest(UPLOAD_TIMEOUT_MINUTES, TimeUnit.MINUTES)
+                .throttleLatest(MODULE_DATA_UPLOAD_TIMEOUT_MINUTES, TimeUnit.MINUTES)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::saveModuleState, Timber::e));
@@ -105,9 +100,6 @@ public class MainService extends Service implements OnMessageListener {
 
     @Override
     public int onStartCommand(@NonNull Intent intent, int flags, int startId) {
-        if (intent != null) {
-            deviceAddress = intent.getStringExtra(KEY_DEVICE_ADDRESS);
-        }
         restartCounter.reset();
         startBluetooth();
         return START_STICKY;
@@ -165,7 +157,7 @@ public class MainService extends Service implements OnMessageListener {
             connectThread.cancel();
             connectThread = null;
         }
-        connectThread = new BluetoothConnectThread(threadHandler, deviceAddress);
+        connectThread = new BluetoothConnectThread(threadHandler, settings.getDeviceAddress());
         connectThread.start();
     }
 

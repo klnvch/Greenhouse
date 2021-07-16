@@ -12,7 +12,11 @@ class AppSettings(context: Context) {
     }
 
     fun setDeviceId(deviceId: String?) {
-        sharedPreferences.edit().putString(KEY_DEVICE_ID, deviceId).apply();
+        sharedPreferences.edit().putString(KEY_DEVICE_ID, deviceId).apply()
+    }
+
+    fun getDeviceAddress(): String {
+        return sharedPreferences.getString(KEY_DEVICE_ADDRESS, DEFAULT_ADDRESS) ?: DEFAULT_ADDRESS
     }
 
     fun getStartTime(): Long {
@@ -34,9 +38,11 @@ class AppSettings(context: Context) {
     companion object {
         private const val NAME = "settings"
         private const val KEY_DEVICE_ID = "deviceId"
+        private const val KEY_DEVICE_ADDRESS = "deviceAddress"
         private const val DEFAULT_DEVICE_ID = "test"
-        private const val KEY_START_TIME = "startTime";
-        private const val KEY_CHART_TIME_INTERVAL = "chartTimeInterval";
+        private const val DEFAULT_ADDRESS = "98:D3:33:F5:A3:24"
+        private const val KEY_START_TIME = "startTime"
+        private const val KEY_CHART_TIME_INTERVAL = "chartTimeInterval"
 
         const val HOUR = (60 * 60 * 1000).toLong()
         const val DAY = 24 * HOUR
