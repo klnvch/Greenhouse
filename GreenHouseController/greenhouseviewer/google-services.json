@@ -44,6 +44,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "281029075579-eueffp9s27uonlq15am74t8p584hmaef.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.klnvch.greenhouseviewer",
+            "certificate_hash": "cbb0b36d44b6baea79786ba3047c14aa63c4e6c7"
+          }
+        },
+        {
           "client_id": "281029075579-lqng0pek4tvrfhpbn0dha970gov8sekd.apps.googleusercontent.com",
           "client_type": 3
         }

@@ -10,7 +10,7 @@ class ActionWriter {
     companion object {
         fun write(action: Action) {
             val mapper = ObjectMapper()
-            val data = mapper.convertValue(action, object : TypeReference<Map<String, Any?>>() {})
+            val data = mapper.convertValue(action, object : TypeReference<Map<String, Any>>() {})
 
             FirebaseFirestore.getInstance()
                 .collection("settings")
