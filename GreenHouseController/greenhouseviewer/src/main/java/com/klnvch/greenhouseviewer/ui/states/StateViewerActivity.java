@@ -63,6 +63,13 @@ public class StateViewerActivity extends StateActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        setRefreshing(true);
+        refresh();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_state, menu);
@@ -71,10 +78,7 @@ public class StateViewerActivity extends StateActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_refresh) {
-            refresh();
-            return true;
-        } else if (item.getItemId() == R.id.action_device_id) {
+        if (item.getItemId() == R.id.action_device_id) {
             new DeviceIdDialog().show(getSupportFragmentManager(), null);
             return true;
         } else if (item.getItemId() == R.id.action_actions) {
@@ -114,11 +118,13 @@ public class StateViewerActivity extends StateActivity {
     }
 
     private void onSuccess(Integer size) {
+        setRefreshing(false);
         Toast.makeText(this, "Success: " + size + " items loaded.", Toast.LENGTH_LONG)
                 .show();
     }
 
     private void onError(Throwable e) {
+        setRefreshing(false);
         Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
     }
 
@@ -138,5 +144,10 @@ public class StateViewerActivity extends StateActivity {
                         .show();
             }
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        refresh();
     }
 }
