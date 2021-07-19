@@ -53,11 +53,11 @@ open class WaterSensorStateFragment : ItemStateFragment(),
 
             setMessage(
                 "1N: $ws1N (Min: $ws1NMin, Max: $ws1NMax, Avg: $ws1NAvg)\n" +
-                        "1N: $ws2N (Min: $ws2NMin, Max: $ws2NMax, Avg: $ws2NAvg)\n" +
-                        "1N: $ws3N (Min: $ws3NMin, Max: $ws3NMax, Avg: $ws3NAvg)\n" +
-                        "1N: $ws1S (Min: $ws1SMin, Max: $ws1SMax, Avg: $ws1SAvg)\n" +
-                        "1N: $ws2S (Min: $ws2SMin, Max: $ws2SMax, Avg: $ws2SAvg)\n" +
-                        "1N: $ws3S (Min: $ws3SMin, Max: $ws3SMax, Avg: $ws3SAvg)"
+                        "2N: $ws2N (Min: $ws2NMin, Max: $ws2NMax, Avg: $ws2NAvg)\n" +
+                        "3N: $ws3N (Min: $ws3NMin, Max: $ws3NMax, Avg: $ws3NAvg)\n" +
+                        "1S: $ws1S (Min: $ws1SMin, Max: $ws1SMax, Avg: $ws1SAvg)\n" +
+                        "2S: $ws2S (Min: $ws2SMin, Max: $ws2SMax, Avg: $ws2SAvg)\n" +
+                        "3S: $ws3S (Min: $ws3SMin, Max: $ws3SMax, Avg: $ws3SAvg)"
             )
             setNormal()
         }
