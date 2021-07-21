@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 import com.klnvch.greenhousecommon.db.AppDatabase;
 import com.klnvch.greenhousecommon.db.AppSettings;
@@ -59,6 +60,7 @@ public class MainService extends Service implements OnMessageListener {
     private BluetoothRestartCounter restartCounter = null;
     private BluetoothException bluetoothException = null;
     private PhoneStatusManager phoneStatusManager;
+    private StateWriter stateWriter;
 
     @Override
     public void onCreate() {
@@ -82,6 +84,8 @@ public class MainService extends Service implements OnMessageListener {
         phoneStatusManager = PhoneStatusManager.init(this.getApplicationContext());
 
         restartCounter = BluetoothRestartCounter.getInstance();
+
+        stateWriter = new StateWriter(FirebaseFirestore.getInstance());
 
         CustomTimberTree.plant();
 
@@ -197,7 +201,7 @@ public class MainService extends Service implements OnMessageListener {
 
     private void saveModuleState(ModuleState moduleState) {
         db.insert(moduleState);
-        StateWriter.save(moduleState);
+        stateWriter.save(moduleState);
     }
 
     @Override
@@ -239,7 +243,7 @@ public class MainService extends Service implements OnMessageListener {
         }
 
         // save
-        StateWriter.save(phoneState);
+        stateWriter.save(phoneState);
         db.insert(phoneState);
     }
 }
