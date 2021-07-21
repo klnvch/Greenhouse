@@ -61,14 +61,10 @@ public class StateViewerActivity extends StateActivity {
                     .setAvailableProviders(providers)
                     .build();
             signInLauncher.launch(signInIntent);
+        } else {
+            setRefreshing(true);
+            refresh();
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        setRefreshing(true);
-        refresh();
     }
 
     @Override
