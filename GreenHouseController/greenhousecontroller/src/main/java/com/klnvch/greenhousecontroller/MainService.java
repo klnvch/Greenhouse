@@ -90,7 +90,7 @@ public class MainService extends Service implements OnMessageListener {
         CustomTimberTree.plant();
 
         compositeDisposable.add(Observable
-                .interval(PHONE_DATA_UPLOAD_TIMEOUT_MINUTES, TimeUnit.MINUTES)
+                .interval(0,PHONE_DATA_UPLOAD_TIMEOUT_MINUTES, TimeUnit.MINUTES)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> getPhoneState(), Timber::e));

@@ -84,6 +84,7 @@ public class BluetoothConnectThread extends Thread {
                         handler.obtainMessage(1, msg).sendToTarget();
                     }
                 } catch (IOException readException) {
+                    closeSocket();
                     onError(new BluetoothException(BluetoothState.READ_ERROR, readException));
                     break;
                 }
